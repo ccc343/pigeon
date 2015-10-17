@@ -17,6 +17,6 @@ app.post('/subscribe', function (req, res) {
   });
 });
 
-var server = app.listen(5000, function() {
+var server = app.listen(process.env.PORT || 5000, function() {
   console.log('Listening on port %d.', server.address().port);
 });
