@@ -24,7 +24,7 @@ Alternatively, you can build changes to views manually with
 
     $ browserify views/index.js -t babelify -o build/bundle.js
 
-Local development should be done with a local Postgres database. Make sure you have installed Postgres, then run
+Local development should be done with a local Postgres database. Make sure you have installed Postgres, then run the following commands in the root directory of the repo.
 
     $ createdb pigeon
     $ psql pigeon < ./schema.sql
