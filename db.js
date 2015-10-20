@@ -1,9 +1,7 @@
 var pg = require('pg');
 
-var dbErrors = {
-  NOT_NULL_VIOLATION: 23502,
-  UNIQUE_VIOLATION: 23505
-};
+exports.NOT_NULL_VIOLATION = 23502;
+exports.UNIQUE_VIOLATION = 23505;
 
 // Determine the database connection settings from the
 // environment variables.
@@ -17,20 +15,22 @@ if (!exports.databaseURL) {
   }
 }
 
-exports.test = function() {
+// Handle a databse query with the given query string and
+// parameters. <callback> should be a function that takes
+// error and result as parameters.
+exports.query = function(text, params, callback) {
   pg.connect(exports.databaseURL, function(err, client, done) {
     if (err) {
       return console.error('error fetching client from pool', err);
     }
 
-    console.log('Connected to postgres! Querying all tags');
-    client.query('SELECT * FROM tags', function(err, result) {
+    client.query(text, params, function(err, result) {
+      // release the client back to the pool
       done();
-
       if(err) {
-        return console.error('error running query', err);
+        return callback(err);
       }
-      console.log(result.rows);
+      callback(null, result);
     });
   });
 }

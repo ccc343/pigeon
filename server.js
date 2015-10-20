@@ -9,7 +9,13 @@ app.use('/build', express.static(__dirname + '/build'));
 
 // API end points
 app.get('/', function (req, res) {
-  db.test();
+  db.query('SELECT * FROM organizations', null, function (err, result) {
+    if (err) {
+      return console.log(err.code);
+    }
+
+    console.log(result.rows);
+  });
   res.render('application.garnet');
 });
 
