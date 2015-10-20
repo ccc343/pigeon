@@ -18923,7 +18923,7 @@ var Index = (function (_React$Component) {
       return _react2['default'].createElement(
         'div',
         null,
-        'I realllly like pie!'
+        'I really like pie!'
       );
     }
   }]);
