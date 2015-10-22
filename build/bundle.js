@@ -18923,7 +18923,12 @@ var Index = (function (_React$Component) {
       return _react2['default'].createElement(
         'div',
         null,
-        'I really like pie!'
+        _react2['default'].createElement('img', { src: 'public/logo.png' }),
+        _react2['default'].createElement(
+          'h1',
+          { className: 'text-red' },
+          'Pigeon'
+        )
       );
     }
   }]);

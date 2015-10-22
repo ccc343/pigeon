@@ -1,0 +1,23 @@
+// ============================================================================
+// Pigeon
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Configuration
+// ----------------------------------------------------------------------------
+
+@import url(https://fonts.googleapis.com/css?family=Quicksand);
+
+$red: #d45f68;
+$light-grey: #646872;
+$dark-grey: #444444;
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: $dark-grey;
+  text-transform: lowercase;
+}
+
+.text-red {color: $red}
+.text-light-grey {color: $light-grey}
+.text-dark-grey {color: $dark-grey}

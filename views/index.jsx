@@ -9,7 +9,10 @@ class Index extends React.Component {
 
   render() {
     return (
-      <div>I really like pie!</div>
+      <div>
+        <img src="public/logo.png" />
+        <h1 className="text-red">Pigeon</h1>
+      </div>
     );
   }
 }

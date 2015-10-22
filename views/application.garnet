@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="Mailing lists for organizations.">
     <title>Pigeon</title>
+    <link rel="stylesheet" href="build/style.css">
   </head>
 
   <body>

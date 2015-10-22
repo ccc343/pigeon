@@ -1,0 +1,16 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand);
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: #444444;
+  text-transform: lowercase; }
+
+.text-red {
+  color: #d45f68; }
+
+.text-light-grey {
+  color: #646872; }
+
+.text-dark-grey {
+  color: #444444; }
+
+/*# sourceMappingURL=style.css.map */

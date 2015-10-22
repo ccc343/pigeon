@@ -6,5 +6,6 @@ npm-debug.log*
 # Dependency directory
 node_modules
 
-# Development scripts
-scripts
+# Build artifacts
+.sass-cache
+*.map

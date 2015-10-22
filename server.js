@@ -6,16 +6,10 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/build', express.static(__dirname + '/build'));
+app.use('/public', express.static(__dirname + '/public'));
 
 // API end points
 app.get('/', function (req, res) {
-  db.query('SELECT * FROM organizations', null, function (err, result) {
-    if (err) {
-      return console.log(err.code);
-    }
-
-    console.log(result.rows);
-  });
   res.render('application.garnet');
 });
 
