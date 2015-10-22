@@ -1,12 +1,14 @@
 CREATE TABLE organizations (
   organization_id   serial PRIMARY KEY,
   domain            varchar(256) NOT NULL UNIQUE,
-  name              varchar(64) NOT NULL
+  name              varchar(64) NOT NULL,
+  description       text
 );
 
 CREATE TABLE tags (
   tag_id            serial PRIMARY KEY,
-  name              varchar(64) NOT NULL
+  name              varchar(64) NOT NULL,
+  description       text
 );
 
 CREATE TABLE emails (
