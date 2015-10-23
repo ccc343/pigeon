@@ -11,7 +11,7 @@ if (!exports.databaseURL) {
     console.error('Set the DATABASE_URL environment variable for production.');
     process.exit(1);
   } else {
-    exports.databaseURL = 'postgres://localhost/pigeon'
+    exports.databaseURL = 'postgres://postgres:password@localhost/pigeon'
   }
 }
 
