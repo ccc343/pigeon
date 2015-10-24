@@ -1,0 +1,175 @@
+// Responsive grid framework courtesy of Stephan Boyer
+// (see http://www.stephanboyer.com/post/41/fluid-responsive-grid-layouts-in-css)
+
+@import 'constants';
+
+@mixin clearfix {
+  // IE6/7 doesn't support :after, which is used below.
+  // So we create a new block formatting context in IE6/7
+  // by triggering IE's hasLayout mechanism via this hack:
+  zoom: 1;
+
+  &:after, &:before {
+    content: ' '; // The space fixes an Opera bug that happens when contenteditable is present anywhere.
+    display: table; // Creates a new block formatting context to contain margins.
+    font-size: 0; // Prevent the space from showing up.
+    visibility: hidden; // Prevent the space from showing up.
+  }
+
+  &:after {
+    clear: both; // The meat and potatoes.
+  }
+}
+
+@mixin box-sizing($value) {
+  -webkit-box-sizing: $value;
+  -moz-box-sizing: $value;
+  box-sizing: $value;
+}
+
+// ----------------------
+// Responsive Grid Layout
+// ----------------------
+
+// Columns must be put in an element with the "row" class.
+.row {
+  @include clearfix;
+}
+
+// Inside a ".row", add ".spanX" elements to fill the grid, where X is the number of columns to span.
+// Add ".offsetX" to ".spanX" elements to skip X columns of empty space.
+@for $i from 1 through $num-columns {
+  .span#{$i} {
+    @include clearfix;
+    float: left;
+  }
+}
+
+@for $i from 1 through $num-columns {
+  .row > .span#{$i} {
+    margin-left: $column-gutter-width;
+    width: (100% + $column-gutter-width) * ($i / $num-columns) - $column-gutter-width;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+@for $i from 1 through $num-columns {
+  .row > .offset#{$i} {
+    margin-left: $column-gutter-width + (100% + $column-gutter-width) * ($i / $num-columns);
+
+    &:first-child {
+      margin-left: (100% + $column-gutter-width) * ($i / $num-columns);
+    }
+  }
+}
+
+@for $i from 1 through $num-columns {
+  @for $j from 1 through ($i - 1) {
+    .span#{$i} > .span#{$j} {
+      $scale-factor: 100% / ((100% + $column-gutter-width) * ($i / $num-columns) - $column-gutter-width);
+      margin-left: $column-gutter-width * $scale-factor;
+      width: ((100% + $column-gutter-width) * ($j / $num-columns) - $column-gutter-width) * $scale-factor;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@for $i from 1 through $num-columns {
+  @for $j from 1 through ($i - 1) {
+    .span#{$i} > .offset#{$j} {
+      $scale-factor: 100% / ((100% + $column-gutter-width) * ($i / $num-columns) - $column-gutter-width);
+      margin-left: ($column-gutter-width + (100% + $column-gutter-width) * ($j / $num-columns)) * $scale-factor;
+
+      &:first-child {
+        margin-left: (100% + $column-gutter-width) * ($j / $num-columns) * $scale-factor;
+      }
+    }
+  }
+}
+
+// Stack the grid on small displays.
+@media (max-width: ($stack-width - 1)) {
+  @for $i from 1 through $num-columns {
+    .span#{$i} {
+      margin-bottom: inherit;
+      margin-top: inherit;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  @for $i from 1 through $num-columns {
+    .row > .span#{$i} {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  @for $i from 1 through $num-columns {
+    .row > .offset#{$i} {
+      margin-left: 0;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @for $i from 1 through $num-columns {
+    @for $j from 1 through ($i - 1) {
+      .span#{$i} > .span#{$j} {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  @for $i from 1 through $num-columns {
+    @for $j from 1 through ($i - 1) {
+      .span#{$i} > .offset#{$j} {
+        margin-left: 0;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+// -----------------
+// Responsive Styles
+// -----------------
+
+// Phones
+@media (max-width: ($min-width-tablet - 1)) {
+  .phone-hidden, .tablet-visible, .desktop-visible {
+    display: none;
+  }
+}
+
+// Tablets
+@media (min-width: $min-width-tablet) and (max-width: ($min-width-desktop - 1)) {
+  .phone-visible, .tablet-hidden, .desktop-visible {
+    display: none;
+  }
+}
+
+// Desktops
+@media (min-width: $min-width-desktop) {
+  .phone-visible, .tablet-visible, .desktop-hidden {
+    display: none;
+  }
+}

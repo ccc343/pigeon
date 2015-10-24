@@ -1,23 +1,67 @@
 // ============================================================================
-// Pigeon
+// Pigeons Be Stylin'
 // ============================================================================
 
-// ----------------------------------------------------------------------------
-// Configuration
-// ----------------------------------------------------------------------------
+@import 'constants';
+@import 'grid';
+@import 'subheader';
 
-@import url(https://fonts.googleapis.com/css?family=Quicksand);
-
-$red: #d45f68;
-$light-grey: #646872;
-$dark-grey: #444444;
+// ----------------------------------------------------------------------------
+// Global
+// ----------------------------------------------------------------------------
 
 body {
   font-family: 'Quicksand', sans-serif;
   color: $dark-grey;
   text-transform: lowercase;
+  font-size: $font-size;
+  margin: 0;
 }
+
+img {
+  max-width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+// ----------------------------------------------------------------------------
+// Typography
+// ----------------------------------------------------------------------------
 
 .text-red {color: $red}
 .text-light-grey {color: $light-grey}
 .text-dark-grey {color: $dark-grey}
+.text-white {color: $white}
+
+.text-center {text-align: center}
+
+h1 {
+  font-size: $font-size * 3;
+  display: inline-block;
+}
+
+.link {
+  cursor: pointer;
+}
+
+// ----------------------------------------------------------------------------
+// Backgrounds
+// ----------------------------------------------------------------------------
+
+.bg-red {background-color: $red}
+.bg-light-grey {background-color: $light-grey}
+.bg-dark-grey {background-color: $dark-grey}
+
+// ----------------------------------------------------------------------------
+// Header
+// ----------------------------------------------------------------------------
+
+#logo {
+  margin: 0 30px;
+  width: 40px;
+  vertical-align: middle;
+  position: relative;
+  bottom: 10px;
+}
