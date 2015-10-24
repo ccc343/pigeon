@@ -21,7 +21,7 @@ To start the server, run `npm start` and navigate to [localhost:5000](http://loc
 To build changes to views automatically, run
 
     $ watchify views/index.js --extension=.jsx -t babelify -o build/bundle.js
-    $
+    $ sass --watch styles/style.scss:build/style.css
 
 Alternatively, you can build changes to views manually with
 
