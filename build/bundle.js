@@ -19037,7 +19037,7 @@ var Header = (function (_React$Component) {
         { className: 'row' },
         _react2['default'].createElement(
           'div',
-          { className: 'span3 link', onClick: this.onClick },
+          { className: 'span6', onClick: this.onClick },
           _react2['default'].createElement('img', { src: '/logo.png', alt: 'logo', id: 'logo' }),
           _react2['default'].createElement(
             'h1',

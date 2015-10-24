@@ -1914,7 +1914,7 @@ h1 {
 .bg-dark-grey {
   background-color: #444444; }
 
-header #logo {
+#logo {
   margin: 0 30px;
   width: 40px;
   vertical-align: middle;

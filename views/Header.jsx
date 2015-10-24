@@ -14,7 +14,7 @@ class Header extends React.Component {
   render() {
     return (
       <header className="row">
-        <div className="span3 link" onClick={this.onClick}>
+        <div className="span6" onClick={this.onClick}>
           <img src="/logo.png" alt="logo" id="logo" />
           <h1 className="text-red" ><b>Pigeon</b></h1>
         </div>
