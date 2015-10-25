@@ -11,7 +11,7 @@ app.use('/', express.static(__dirname + '/public'));
 
 // API end points
 app.get('*', function (req, res) {
-  res.render('application.garnet', { path: req.path });
+  res.render('application.garnet');
 });
 
 // Adding an organization
@@ -21,8 +21,8 @@ app.get('/addOrg/:domain/:name/:description', function (req, res) {
   console.log("Domain is ", req.params.domain);
   console.log("Description is ", req.params.description);
   var params = [req.params.domain, req.params.name, req.params.description];
-  db.query('INSERT INTO organizations (domain, name, description) VALUES ($1, $2, $3)', 
-  	params, 
+  db.query('INSERT INTO organizations (domain, name, description) VALUES ($1, $2, $3)',
+  	params,
   	function(err, res) {
   		if (err) {
   			console.log("ERROR");

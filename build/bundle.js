@@ -21256,11 +21256,7 @@ var RouteStore = (function () {
     _classCallCheck(this, RouteStore);
 
     this.bindActions(_routeActions2['default']);
-
-    // The entry point path is detected by the server
-    // and placed in a global variable <path>. This is
-    // admittedly pretty ugly.
-    this.path = ENTRY_PATH;
+    this.path = window.location.pathname;
   }
 
   _createClass(RouteStore, [{
