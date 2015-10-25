@@ -20753,7 +20753,7 @@ var Link = (function (_React$Component) {
     value: function render() {
       return _react2['default'].createElement(
         'div',
-        { onClick: this.onClick },
+        { className: this.props.className, onClick: this.onClick },
         this.props.children
       );
     }
@@ -20763,7 +20763,8 @@ var Link = (function (_React$Component) {
 })(_react2['default'].Component);
 
 Link.propTypes = {
-  to: _react2['default'].PropTypes.string.isRequired
+  to: _react2['default'].PropTypes.string.isRequired,
+  className: _react2['default'].PropTypes.string
 };
 
 exports['default'] = Link;
@@ -21082,29 +21083,27 @@ var SubHeader = (function (_React$Component) {
           _react2['default'].createElement(_Search2['default'], null)
         ),
         _react2['default'].createElement(
-          'div',
-          { className: (0, _classnames2['default'])('span3', 'tab', { 'selected': this.props.path === "/tags" }) },
+          _Link2['default'],
+          {
+            className: (0, _classnames2['default'])('span3', 'tab', { 'selected': this.props.path === "/tags" }),
+            to: '/tags'
+          },
           _react2['default'].createElement(
-            _Link2['default'],
-            { to: '/tags' },
-            _react2['default'].createElement(
-              'h3',
-              null,
-              'Your tags'
-            )
+            'h3',
+            null,
+            'Your tags'
           )
         ),
         _react2['default'].createElement(
-          'div',
-          { className: (0, _classnames2['default'])('span3', 'tab', { 'selected': this.props.path === "/organization" }) },
+          _Link2['default'],
+          {
+            className: (0, _classnames2['default'])('span3', 'tab', { 'selected': this.props.path === "/organization" }),
+            to: '/organization'
+          },
           _react2['default'].createElement(
-            _Link2['default'],
-            { to: '/organization' },
-            _react2['default'].createElement(
-              'h3',
-              null,
-              'Your organization'
-            )
+            'h3',
+            null,
+            'Your organization'
           )
         )
       );

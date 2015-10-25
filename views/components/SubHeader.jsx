@@ -24,17 +24,19 @@ class SubHeader extends React.Component {
           <Search />
         </div>
 
-          <div className={cx('span3', 'tab', {'selected':this.props.path === "/tags"})}>
-            <Link to="/tags">
-              <h3>Your tags</h3>
-            </Link>
-          </div>
+        <Link
+          className={cx('span3', 'tab', {'selected':this.props.path === "/tags"})}
+          to="/tags"
+        >
+          <h3>Your tags</h3>
+        </Link>
 
-          <div className={cx('span3', 'tab', {'selected':this.props.path === "/organization"})}>
-            <Link to="/organization">
-              <h3>Your organization</h3>
-            </Link>
-          </div>
+        <Link
+          className={cx('span3', 'tab', {'selected':this.props.path === "/organization"})}
+          to="/organization"
+        >
+          <h3>Your organization</h3>
+        </Link>
       </div>
     );
   }

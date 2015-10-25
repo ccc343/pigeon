@@ -14,7 +14,7 @@ class Link extends React.Component {
 
   render() {
     return (
-      <div onClick={this.onClick}>
+      <div className={this.props.className} onClick={this.onClick}>
         {this.props.children}
       </div>
     );
@@ -22,7 +22,8 @@ class Link extends React.Component {
 }
 
 Link.propTypes = {
-  to: React.PropTypes.string.isRequired
+  to: React.PropTypes.string.isRequired,
+  className: React.PropTypes.string
 };
 
 export default Link;
