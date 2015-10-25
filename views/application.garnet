@@ -12,7 +12,7 @@
 
   <body>
     <div id="react-root"></div>
-    <script>var path = '<%= locals.path %>'</script>
+    <script>var ENTRY_PATH = '<%= locals.path %>'</script>
     <script src="/bundle.js"></script>
   </body>
 </html>

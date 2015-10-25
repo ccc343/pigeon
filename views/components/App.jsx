@@ -7,8 +7,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header go={this.props.go} />
-        <SubHeader go={this.props.go} path={this.props.path} />
+        <Header />
+        <SubHeader />
         {this.props.children}
       </div>
     );
