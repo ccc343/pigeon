@@ -5,7 +5,6 @@ import Link from './Link';
 import cx from 'classnames';
 
 import connectToStores from 'alt/utils/connectToStores';
-import actions from '../routes/routeActions';
 import store from '../routes/routeStore';
 
 class SubHeader extends React.Component {
@@ -16,15 +15,6 @@ class SubHeader extends React.Component {
 
   static getPropsFromStores() {
     return store.getState();
-  }
-
-  constructor(props) {
-    super(props);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(path) {
-    actions.go(path);
   }
 
   render() {

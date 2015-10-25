@@ -21057,10 +21057,6 @@ var _altUtilsConnectToStores = require('alt/utils/connectToStores');
 
 var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
 
-var _routesRouteActions = require('../routes/routeActions');
-
-var _routesRouteActions2 = _interopRequireDefault(_routesRouteActions);
-
 var _routesRouteStore = require('../routes/routeStore');
 
 var _routesRouteStore2 = _interopRequireDefault(_routesRouteStore);
@@ -21068,31 +21064,13 @@ var _routesRouteStore2 = _interopRequireDefault(_routesRouteStore);
 var SubHeader = (function (_React$Component) {
   _inherits(SubHeader, _React$Component);
 
-  _createClass(SubHeader, null, [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_routesRouteStore2['default']];
-    }
-  }, {
-    key: 'getPropsFromStores',
-    value: function getPropsFromStores() {
-      return _routesRouteStore2['default'].getState();
-    }
-  }]);
-
-  function SubHeader(props) {
+  function SubHeader() {
     _classCallCheck(this, SubHeader);
 
-    _get(Object.getPrototypeOf(SubHeader.prototype), 'constructor', this).call(this, props);
-    this.onClick = this.onClick.bind(this);
+    _get(Object.getPrototypeOf(SubHeader.prototype), 'constructor', this).apply(this, arguments);
   }
 
   _createClass(SubHeader, [{
-    key: 'onClick',
-    value: function onClick(path) {
-      _routesRouteActions2['default'].go(path);
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
@@ -21131,6 +21109,16 @@ var SubHeader = (function (_React$Component) {
         )
       );
     }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_routesRouteStore2['default']];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return _routesRouteStore2['default'].getState();
+    }
   }]);
 
   return SubHeader;
@@ -21139,7 +21127,7 @@ var SubHeader = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(SubHeader);
 module.exports = exports['default'];
 
-},{"../routes/routeActions":182,"../routes/routeStore":183,"./Link":173,"./Search":177,"alt/utils/connectToStores":12,"classnames":14,"react":170}],179:[function(require,module,exports){
+},{"../routes/routeStore":183,"./Link":173,"./Search":177,"alt/utils/connectToStores":12,"classnames":14,"react":170}],179:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
