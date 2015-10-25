@@ -4,6 +4,7 @@
 
 @import 'constants';
 @import 'grid';
+@import 'header';
 @import 'subheader';
 
 // ----------------------------------------------------------------------------
@@ -42,10 +43,6 @@ h1 {
   display: inline-block;
 }
 
-.link {
-  cursor: pointer;
-}
-
 // ----------------------------------------------------------------------------
 // Backgrounds
 // ----------------------------------------------------------------------------
@@ -53,15 +50,3 @@ h1 {
 .bg-red {background-color: $red}
 .bg-light-grey {background-color: $light-grey}
 .bg-dark-grey {background-color: $dark-grey}
-
-// ----------------------------------------------------------------------------
-// Header
-// ----------------------------------------------------------------------------
-
-#logo {
-  margin: 0 30px;
-  width: 40px;
-  vertical-align: middle;
-  position: relative;
-  bottom: 10px;
-}

@@ -1845,6 +1845,15 @@
 @media (min-width: 980px) {
   .phone-visible, .tablet-visible, .desktop-hidden {
     display: none; } }
+header div {
+  cursor: pointer; }
+header #logo {
+  margin: 0 30px;
+  width: 40px;
+  vertical-align: middle;
+  position: relative;
+  bottom: 10px; }
+
 .subheader {
   background-color: #444444; }
   .subheader .tab {
@@ -1902,9 +1911,6 @@ h1 {
   font-size: 48px;
   display: inline-block; }
 
-.link {
-  cursor: pointer; }
-
 .bg-red {
   background-color: #d45f68; }
 
@@ -1913,12 +1919,5 @@ h1 {
 
 .bg-dark-grey {
   background-color: #444444; }
-
-#logo {
-  margin: 0 30px;
-  width: 40px;
-  vertical-align: middle;
-  position: relative;
-  bottom: 10px; }
 
 /*# sourceMappingURL=style.css.map */
