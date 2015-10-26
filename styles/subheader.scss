@@ -12,26 +12,9 @@
     }
   }
 
-  input {
-    font-family: 'Quicksand', sans-serif;
-    font-size: $font-size * 1.17;
-    font-weight: bold;
-    margin: 1em 0;
-    padding: 0;
-    border: none;
-    width: 80%;
-    color: $white;
-    outline: none;
-  }
-
   i {
     display: inline-block;
     width: 10%;
     margin: 0 auto;
-    color: $white;
-  }
-
-  a > i {
-    cursor: pointer;
   }
 }
