@@ -15,12 +15,8 @@ app.get('*', function (req, res) {
 });
 
 // Adding an organization
-app.get('/addOrg/:domain/:name/:description', function (req, res) {
-  console.log("Adding organization...");
-  console.log("Name is ", req.params.name);
-  console.log("Domain is ", req.params.domain);
-  console.log("Description is ", req.params.description);
-  var params = [req.params.domain, req.params.name, req.params.description];
+app.post('/add-organization', function (req, res) {
+  var params = [req.body.domain, req.body.name, req.body.description];
   db.query('INSERT INTO organizations (domain, name, description) VALUES ($1, $2, $3)',
   	params,
   	function(err, res) {
@@ -29,7 +25,7 @@ app.get('/addOrg/:domain/:name/:description', function (req, res) {
   		} else {
   			console.log("SUCCESS");
   		}
-  	})
+  	});
 });
 
 var server = app.listen(process.env.PORT || 5000, function() {
