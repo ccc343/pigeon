@@ -33,13 +33,12 @@ app.post('/add-organization', function (req, res) {
 app.post('/add-user-to-org', function (req, res) {
   console.log("Adding user to organization...");
   var params1 = [req.body.email];
-  var params2 = [req.body.email, req.body.orgName];
+  var params2 = [req.body.email, req.body.orgId];
   console.log(params2);
 
   var sqlString1 = 'INSERT INTO emails (email) VALUES ($1)';
   var sqlString2 = 'INSERT INTO organizations_emails (organization_id, email_id) VALUES ' +
-              '((SELECT organization_id FROM organizations WHERE name=($2)), ' + 
-              '(SELECT email_id FROM emails WHERE email=($1)))';
+              '(($2), (SELECT email_id FROM emails WHERE email=($1)))';
 
   db.query(sqlString1, params1, function(err, res1) {
     if (err) {
@@ -61,13 +60,12 @@ app.post('/add-user-to-org', function (req, res) {
 app.post('/add-tag-to-org', function (req, res) {
   console.log("Adding tag to organization...");
   var params1 = [req.body.tag, req.body.tagDesc];
-  var params2 = [req.body.tag, req.body.orgName];
+  var params2 = [req.body.tag, req.body.orgId];
   console.log(params2);
 
   var sqlString1 = 'INSERT INTO tags (name, description) VALUES (($1), ($2))';
   var sqlString2 = 'INSERT INTO organizations_tags (organization_id, tag_id) VALUES ' +
-              '((SELECT organization_id FROM organizations WHERE name=($2)), ' + 
-              '(SELECT tag_id FROM tags WHERE name=($1)))';
+              '(($2), (SELECT tag_id FROM tags WHERE name=($1)))';
 
   db.query(sqlString1, params1, function(err, res1) {
     if (err) {
@@ -87,8 +85,8 @@ app.post('/add-tag-to-org', function (req, res) {
 
 // Remove organization
 app.post('/remove-organization', function (req, res) {
-  var params = [req.body.name];
-  db.query('DELETE FROM organizations WHERE name=($1)',
+  var params = [req.body.orgId];
+  db.query('DELETE FROM organizations WHERE organization_id=($1)',
     params,
     function(err, res) {
       if (err) {
@@ -100,12 +98,9 @@ app.post('/remove-organization', function (req, res) {
 });
 
 // Remove user from organization
-// ISNT CASCADING...
 app.post('/remove-user-from-org', function (req, res) {
-  var params = [req.body.email, req.body.orgName];
-  var sqlString = 'DELETE FROM organizations_emails ' + 
-                  'WHERE email_id=(SELECT email_id FROM emails WHERE email=($1)) ' +
-                  'AND organization_id=(SELECT organization_id FROM organizations WHERE name=($2))';
+  var params = [req.body.emailId];
+  var sqlString = 'DELETE FROM emails WHERE email_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -116,12 +111,9 @@ app.post('/remove-user-from-org', function (req, res) {
 });
 
 // Remove tag from organization
-// ISNT CASCADING...
 app.post('/remove-tag-from-org', function (req, res) {
-  var params = [req.body.tag, req.body.orgName];
-  var sqlString = 'DELETE FROM organizations_tags ' + 
-                  'WHERE tag_id=(SELECT tag_id FROM tags WHERE name=($1)) ' +
-                  'AND organization_id=(SELECT organization_id FROM organizations WHERE name=($2))';
+  var params = [req.body.tagId];
+  var sqlString = 'DELETE FROM tags WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -134,10 +126,9 @@ app.post('/remove-tag-from-org', function (req, res) {
 /* API end points - RECIPIENT-SIDE */
 // Add user to tag
 app.post('/add-user-to-tag', function (req, res) {
-  var params = [req.body.tag, req.body.email];
+  var params = [req.body.tagId, req.body.emailId];
   var sqlString = 'INSERT INTO tags_emails (tag_id, email_id)' +
-                  'VALUES ((SELECT tag_id FROM tags WHERE name=($1)), ' + 
-                  '(SELECT email_id FROM emails WHERE email=($2)))';
+                  ' VALUES (($1), ($2))';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -149,10 +140,9 @@ app.post('/add-user-to-tag', function (req, res) {
 
 // Remove user from tag
 app.post('/remove-user-from-tag', function (req, res) {
-  var params = [req.body.tag, req.body.email];
+  var params = [req.body.tagId, req.body.emailId];
   var sqlString = 'DELETE FROM tags_emails ' + 
-                  'WHERE tag_id=(SELECT tag_id FROM tags WHERE name=($1)) ' +
-                  'AND email_id=(SELECT email_id FROM emails WHERE email=($2))';
+                  'WHERE tag_id=($1) AND email_id=($2)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -165,10 +155,10 @@ app.post('/remove-user-from-tag', function (req, res) {
 /* API end points - SENDER-SIDE */
 // Get all users of a tag
 app.post('/get-all-users-tag', function (req, res) {
-  var params = [req.body.tag];
+  var params = [req.body.tagId];
   var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
                   'ON tags_emails.email_id=emails.email_id ' +
-                  'WHERE tag_id=(SELECT tag_id FROM tags WHERE name=($1))';
+                  'WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -181,9 +171,9 @@ app.post('/get-all-users-tag', function (req, res) {
 
 // Get number of users per tag
 app.post('/get-num-users-tag', function (req, res) {
-  var params = [req.body.tag];
+  var params = [req.body.tagId];
   var sqlString = 'SELECT COUNT(*) FROM tags_emails ' + 
-                  'WHERE tag_id=(SELECT tag_id FROM tags WHERE name=($1))';
+                  'WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
