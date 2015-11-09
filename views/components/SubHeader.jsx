@@ -21,7 +21,7 @@ class SubHeader extends React.Component {
     const path = this.props.path;
 
     return (
-      <div className="row subheader text-center text-white">
+      <div className={"row subheader text-center text-white " + this.props.className}>
         <div className="span6">
           <Search />
         </div>

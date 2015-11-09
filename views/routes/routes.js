@@ -1,11 +1,11 @@
-import App from '../components/App';
-import Tags from '../components/Tags';
-import Organization from '../components/Organization';
-import NoRoute from '../components/NoRoute';
+import App from '../pages/App';
+import Tags from '../pages/Tags';
+import Organization from '../pages/Organization';
 
 const routes = {
   path: '/',
   component: App,
+  redirect: '/tags',
   children: [
     {
       path: 'tags',
