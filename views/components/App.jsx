@@ -34,6 +34,7 @@ class App extends React.Component {
         </div>
 
         <div className="row text-center">
+          {/* TODO: get rid of JS error caused by this & stop login flash */}
           <LoginButton />
         </div>
       </div>

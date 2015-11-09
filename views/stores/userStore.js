@@ -11,6 +11,9 @@ class UserStore {
       email: null,
       domain: null
     }
+
+    // TODO: replace with ajax request for user's tags
+    this.tags = ['whitman', 'classof2017', 'innovation'];
   }
 
   signIn(user) {

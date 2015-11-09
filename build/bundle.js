@@ -20807,6 +20807,7 @@ var App = (function (_React$Component) {
 
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(App);
 module.exports = exports['default'];
+/* TODO: get rid of JS error caused by this & stop login flash */
 
 },{"../actions/userActions":173,"../stores/userStore":191,"./Header":177,"./LoginButton":179,"./SubHeader":185,"alt/utils/connectToStores":12,"react":171}],176:[function(require,module,exports){
 'use strict';
@@ -21498,6 +21499,18 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _altUtilsConnectToStores = require('alt/utils/connectToStores');
+
+var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
+
+var _storesUserStore = require('../stores/userStore');
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var _actionsUserActions = require('../actions/userActions');
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
 var Search = (function (_React$Component) {
   _inherits(Search, _React$Component);
 
@@ -21516,20 +21529,30 @@ var Search = (function (_React$Component) {
         _react2['default'].createElement('i', { className: 'ion-search text-white' }),
         _react2['default'].createElement(_AutocompleteTextField2['default'], {
           className: 'bg-dark-grey',
-          dictionary: ['julia', 'likes', 'pie', 'very', 'much', 'yeaaah', 'cool'],
+          dictionary: this.props.tags,
           placeholder: 'search tags and members...'
         })
       );
+    }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_storesUserStore2['default']];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return _storesUserStore2['default'].getState();
     }
   }]);
 
   return Search;
 })(_react2['default'].Component);
 
-exports['default'] = Search;
+exports['default'] = (0, _altUtilsConnectToStores2['default'])(Search);
 module.exports = exports['default'];
 
-},{"./AutocompleteTextField":176,"classnames":14,"react":171,"react-dom":15}],185:[function(require,module,exports){
+},{"../actions/userActions":173,"../stores/userStore":191,"./AutocompleteTextField":176,"alt/utils/connectToStores":12,"classnames":14,"react":171,"react-dom":15}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -21637,25 +21660,37 @@ exports['default'] = (0, _altUtilsConnectToStores2['default'])(SubHeader);
 module.exports = exports['default'];
 
 },{"../stores/routeStore":190,"./Link":178,"./Search":184,"alt/utils/connectToStores":12,"classnames":14,"react":171}],186:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _altUtilsConnectToStores = require('alt/utils/connectToStores');
+
+var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
+
+var _storesUserStore = require('../stores/userStore');
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var _actionsUserActions = require('../actions/userActions');
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
 var Tags = (function (_React$Component) {
   _inherits(Tags, _React$Component);
@@ -21663,27 +21698,49 @@ var Tags = (function (_React$Component) {
   function Tags() {
     _classCallCheck(this, Tags);
 
-    _get(Object.getPrototypeOf(Tags.prototype), "constructor", this).apply(this, arguments);
+    _get(Object.getPrototypeOf(Tags.prototype), 'constructor', this).apply(this, arguments);
   }
 
   _createClass(Tags, [{
-    key: "render",
+    key: 'render',
     value: function render() {
-      return _react2["default"].createElement(
-        "h3",
-        { className: "text-center" },
-        "These are your tags!"
+      console.log(this.props.tags);
+
+      return _react2['default'].createElement(
+        'div',
+        null,
+        _react2['default'].createElement(
+          'ul',
+          null,
+          this.props.tags.map(function (item) {
+            return _react2['default'].createElement(
+              'li',
+              { key: item },
+              item
+            );
+          })
+        )
       );
+    }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_storesUserStore2['default']];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return _storesUserStore2['default'].getState();
     }
   }]);
 
   return Tags;
-})(_react2["default"].Component);
+})(_react2['default'].Component);
 
-exports["default"] = Tags;
-module.exports = exports["default"];
+exports['default'] = (0, _altUtilsConnectToStores2['default'])(Tags);
+module.exports = exports['default'];
 
-},{"react":171}],187:[function(require,module,exports){
+},{"../actions/userActions":173,"../stores/userStore":191,"alt/utils/connectToStores":12,"react":171}],187:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -21893,6 +21950,9 @@ var UserStore = (function () {
       email: null,
       domain: null
     };
+
+    // TODO: replace with ajax request for user's tags
+    this.tags = ['whitman', 'classof2017', 'innovation'];
   }
 
   _createClass(UserStore, [{

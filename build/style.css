@@ -1930,6 +1930,16 @@ img {
 .hidden {
   visibility: hidden; }
 
+#login-btn > div {
+  margin: auto; }
+
+ul {
+  margin: 0;
+  padding: 0; }
+  ul li {
+    padding: 20px;
+    list-style: none; }
+
 .text-red {
   color: #d45f68; }
 
@@ -1989,8 +1999,5 @@ a, a:visited {
 
 .space-8 {
   margin-bottom: 80px; }
-
-#login-btn > div {
-  margin: auto; }
 
 /*# sourceMappingURL=style.css.map */

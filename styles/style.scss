@@ -28,6 +28,20 @@ img {
   visibility: hidden;
 }
 
+#login-btn > div {
+  margin: auto;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 20px;
+    list-style: none;
+  }
+}
+
 // ----------------------------------------------------------------------------
 // Typography
 // ----------------------------------------------------------------------------
@@ -66,9 +80,5 @@ a, a:visited {
 
 @for $i from 1 through 8 {
   .space-#{$i} { margin-bottom: 10px * $i; }
-}
-
-#login-btn > div {
-  margin: auto;
 }
 

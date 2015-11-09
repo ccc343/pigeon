@@ -4,7 +4,19 @@ import AutocompleteTextField from './AutocompleteTextField';
 
 import cx from 'classnames';
 
+import connectToStores from 'alt/utils/connectToStores';
+import userStore from '../stores/userStore';
+import userActions from '../actions/userActions';
+
 class Search extends React.Component {
+
+  static getStores() {
+    return [userStore];
+  }
+
+  static getPropsFromStores() {
+    return userStore.getState();
+  }
 
   render() {
     return (
@@ -12,7 +24,7 @@ class Search extends React.Component {
           <i className="ion-search text-white" />
           <AutocompleteTextField
             className="bg-dark-grey"
-            dictionary={['julia', 'likes', 'pie', 'very', 'much', 'yeaaah', 'cool']}
+            dictionary={this.props.tags}
             placeholder="search tags and members..."
           />
         </div>
@@ -20,4 +32,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+export default connectToStores(Search);
