@@ -177,12 +177,36 @@ app.post('/remove-user-from-tag', function (request, response) {
 });
 
 /* API end points - SENDER-SIDE */
-// Get all users of a tag
+// Get all users of a tag by tag ID
 app.post('/get-all-users-tag', function (request, response) {
   var params = [request.body.tagId];
   var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
                   'ON tags_emails.email_id=emails.email_id ' +
                   'WHERE tag_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
+
+// Get all users of a tag by tag_name and org_domain
+app.post('/get-all-users-tag-org', function (request, response) {
+  var params = [request.body.tag, request.body.domain];
+  var sqlString = 'SELECT emails.email FROM emails ' + 
+                  'INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id ' +
+                  'INNER JOIN tags ON tags_emails.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id ' +
+                  'WHERE organizations.domain=($2) ' +
+                  'AND tags.name=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
