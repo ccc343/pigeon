@@ -167,7 +167,7 @@ app.post('/get-all-users-tag', function (request, response) {
       var rows = res.rows;
       console.log(rows);
       response.setHeader( "Access-Control-Allow-Origin", "*" ); 
-      response.setHeader( "Access-Control-Allow-Methods", "POST" ); 
+      response.setHeader( "Access-Control-Allow-Methods", "POST, GET, OPTIONS" ); 
       response.setHeader( "Access-Control-Max-Age", "1000" );
       response.writeHead(200, { 'Content-Type': 'application/json'});
       response.end(JSON.stringify(rows));
