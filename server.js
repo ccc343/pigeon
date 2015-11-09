@@ -1,6 +1,19 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var db = require('./db');
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.sendStatus(200);
+    }
+    else {
+      next();
+    }
+};
 
 const app = express();
 
@@ -9,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/build'));
 app.use('/', express.static(__dirname + '/lib'));
 app.use('/', express.static(__dirname + '/public'));
+app.use(allowCrossDomain);
 
 app.get('*', function (req, res) {
   res.render('application.garnet');
@@ -166,9 +180,6 @@ app.post('/get-all-users-tag', function (request, response) {
       console.log("SUCCESS");
       var rows = res.rows;
       console.log(rows);
-      response.setHeader( "Access-Control-Allow-Origin", "*" ); 
-      response.setHeader( "Access-Control-Allow-Methods", "POST, GET, OPTIONS" ); 
-      response.setHeader( "Access-Control-Max-Age", "1000" );
       response.writeHead(200, { 'Content-Type': 'application/json'});
       response.end(JSON.stringify(rows));
       response.end();
