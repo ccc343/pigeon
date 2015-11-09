@@ -1,6 +1,8 @@
 import alt from '../alt';
 import actions from '../actions/userActions';
 
+import xr from 'xr';
+
 class UserStore {
 
   constructor() {
@@ -18,6 +20,9 @@ class UserStore {
 
   signIn(user) {
     Object.assign(this.currentUser, user);
+
+    // TODO: determine whether this user is registered already
+
   }
 
   signOut() {

@@ -19,7 +19,8 @@ class App extends React.Component {
   }
 
   render() {
-    const loggedIn = !!this.props.currentUser.email;
+    // const loggedIn = !!this.props.currentUser.email;
+    const loggedIn = true;
 
     const landingPage = (
       <div>

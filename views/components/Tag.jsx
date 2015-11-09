@@ -1,11 +1,10 @@
 import React from 'react';
-import Tag from './Tag';
 
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
 import userActions from '../actions/userActions';
 
-class Tags extends React.Component {
+class Tag extends React.Component {
 
   static getStores() {
     return [userStore];
@@ -17,13 +16,15 @@ class Tags extends React.Component {
 
   render() {
     return (
-      <div>
-        <ul>
-          {this.props.tags.map(item => <Tag key={item} tag={item} />)}
-        </ul>
+      <div className="tag">
+        #{this.props.tag}
+
+        <a className="btn-close">
+          <i className="ion-close-round"></i>
+        </a>
       </div>
     );
   }
 }
 
-export default connectToStores(Tags);
+export default connectToStores(Tag);

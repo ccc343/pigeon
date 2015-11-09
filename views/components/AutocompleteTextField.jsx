@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 
 import LevenshteinTrie from '../utils/levenshteinTrie';
-import {minWithIndex} from '../utils/arrayUtils';
 
 class AutocompleteTextField extends React.Component {
 
@@ -103,11 +102,16 @@ class AutocompleteTextField extends React.Component {
   // Clears the input field.
   clear() {
     const input = this.input();
-    input.value = "";
+    input.value = '';
     input.focus();
     this.setState({ value: null });
+
+    if (this.props.onChange) {
+      this.props.onChange('');
+    }
   }
 
+  // Returns a reference to the native DOM node of the input field.
   input() {
     return ReactDOM.findDOMNode(this.refs.input);
   }

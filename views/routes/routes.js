@@ -14,10 +14,6 @@ const routes = {
     {
       path: 'organization',
       component: Organization
-    },
-    {
-      path: /.*/,
-      component: NoRoute
     }
   ]
 };
