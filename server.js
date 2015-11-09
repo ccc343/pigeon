@@ -1,6 +1,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var db = require('./db');
+// allows cross domain requests (for chrome extension)
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -39,6 +40,8 @@ app.post('/add-organization', function (request, response) {
   			console.log("ERROR");
   		} else {
   			console.log("SUCCESS");
+        console.log(res);
+        response.sendStatus(200);
   		}
   	});
 });
@@ -64,6 +67,7 @@ app.post('/add-user-to-org', function (request, response) {
           console.log("Error2");
         } else {
           console.log("Success2");
+          response.sendStatus(200);
         }
       })
     }
@@ -91,6 +95,7 @@ app.post('/add-tag-to-org', function (request, response) {
           console.log("Error2");
         } else {
           console.log("Success2");
+          response.sendStatus(200);
         }
       })
     }
@@ -107,6 +112,7 @@ app.post('/remove-organization', function (request, response) {
         console.log("ERROR");
       } else {
         console.log("SUCCESS");
+        response.sendStatus(200);
       }
     });
 });
@@ -120,6 +126,7 @@ app.post('/remove-user-from-org', function (request, response) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
+      response.sendStatus(200);
     }
   });
 });
@@ -133,6 +140,7 @@ app.post('/remove-tag-from-org', function (request, response) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
+      response.sendStatus(200);
     }
   });
 });
@@ -148,6 +156,7 @@ app.post('/add-user-to-tag', function (request, response) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
+      response.sendStatus(200);
     }
   });
 });
@@ -162,6 +171,7 @@ app.post('/remove-user-from-tag', function (request, response) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
+      response.sendStatus(200);
     }
   });
 });
