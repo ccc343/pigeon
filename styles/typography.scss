@@ -1,0 +1,22 @@
+@import 'constants';
+
+.text-red {color: $red}
+.text-light-grey {color: $light-grey}
+.text-dark-grey {color: $dark-grey}
+.text-white {color: $white}
+
+.text-left {text-align: left}
+.text-center {text-align: center}
+.text-right {text-align: right}
+
+a, a:visited {
+  color: $light-grey;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  text-decoration: none;
+
+  &:hover, &:active {
+    color: $red;
+  }
+}

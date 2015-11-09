@@ -3,82 +3,10 @@
 // ============================================================================
 
 @import 'constants';
-@import 'grid';
+@import 'general';
+@import 'typography';
 @import 'header';
 @import 'subheader';
+
+@import 'grid';
 @import 'autocomplete';
-
-// ----------------------------------------------------------------------------
-// Global
-// ----------------------------------------------------------------------------
-
-body {
-  font-family: 'Quicksand', sans-serif;
-  color: $dark-grey;
-  text-transform: lowercase;
-  font-size: $font-size;
-  margin: 0;
-}
-
-img {
-  max-width: 100%;
-}
-
-.hidden {
-  visibility: hidden;
-}
-
-#login-btn > div {
-  margin: auto;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-
-  li {
-    padding: 20px;
-    list-style: none;
-  }
-}
-
-// ----------------------------------------------------------------------------
-// Typography
-// ----------------------------------------------------------------------------
-
-.text-red {color: $red}
-.text-light-grey {color: $light-grey}
-.text-dark-grey {color: $dark-grey}
-.text-white {color: $white}
-
-.text-center {text-align: center}
-.text-right {text-align: right}
-
-a, a:visited {
-  color: $dark-grey;
-  cursor: pointer;
-  transition: 0.3s;
-  font-weight: bold;
-  text-decoration: none;
-
-  &:hover, &:active {
-    color: $red;
-  }
-}
-
-// ----------------------------------------------------------------------------
-// Backgrounds
-// ----------------------------------------------------------------------------
-
-.bg-red {background-color: $red}
-.bg-light-grey {background-color: $light-grey}
-.bg-dark-grey {background-color: $dark-grey}
-
-// ----------------------------------------------------------------------------
-// Spacing
-// ----------------------------------------------------------------------------
-
-@for $i from 1 through 8 {
-  .space-#{$i} { margin-bottom: 10px * $i; }
-}
-

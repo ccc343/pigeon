@@ -1,0 +1,61 @@
+@import 'constants';
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: $dark-grey;
+  text-transform: lowercase;
+  font-size: $font-size;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 20px;
+    list-style: none;
+  }
+}
+
+.hidden {visibility: hidden}
+
+.bg-red {background-color: $red}
+.bg-light-grey {background-color: $light-grey}
+.bg-dark-grey {background-color: $dark-grey}
+
+@for $i from 1 through 8 {
+  .space-#{$i} { margin-bottom: 10px * $i; }
+}
+
+#login-btn > div {
+  margin: auto;
+}
+
+.tag {
+  background-color: $dark-grey;
+  color: $white;
+  display: inline-block;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  .btn-close {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    background-color: $red;
+
+    .btn-close:hover {
+      color: $dark-grey;
+    }
+  }
+}
