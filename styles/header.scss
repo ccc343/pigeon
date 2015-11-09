@@ -1,13 +1,32 @@
 header {
-  div {
-    cursor: pointer;
+  #logo {
+    height: 80px;
+    padding-top: 20px;
+
+    img {
+      cursor: pointer;
+      padding: 0 30px;
+      width: auto;
+      max-height: 50px;
+      vertical-align: middle;
+      position: relative;
+      bottom: 7px;
+    }
+
+    h1 {
+      cursor: pointer;
+      font-size: 2.5em;
+      display: inline;
+    }
   }
 
-  #logo {
-    margin: 0 30px;
-    width: 40px;
-    vertical-align: middle;
-    position: relative;
-    bottom: 10px;
+  .link {
+    display: inline-block;
+    height: 60px;
+    margin-top: 40px;
+
+    i {
+      margin-right: 10px;
+    }
   }
 }

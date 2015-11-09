@@ -4,7 +4,7 @@ import {renderPath} from '../routes/routeUtils';
 import routes from '../routes/routes';
 
 import connectToStores from 'alt/utils/connectToStores';
-import store from '../routes/routeStore';
+import store from '../stores/routeStore';
 
 class Router extends React.Component {
 

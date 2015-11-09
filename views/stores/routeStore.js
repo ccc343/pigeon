@@ -1,5 +1,5 @@
-import alt from './alt';
-import actions from './routeActions';
+import alt from '../alt';
+import actions from '../actions/routeActions';
 
 class RouteStore {
 

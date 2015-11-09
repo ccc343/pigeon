@@ -12,7 +12,7 @@ class Search extends React.Component {
           <i className="ion-search text-white" />
           <AutocompleteTextField
             className="bg-dark-grey"
-            dictionary={['julia', 'likes', 'pie']}
+            dictionary={['julia', 'likes', 'pie', 'very', 'much', 'yeaaah', 'cool']}
             placeholder="search tags and members..."
           />
         </div>

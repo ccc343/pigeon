@@ -5,7 +5,7 @@ import Link from './Link';
 import cx from 'classnames';
 
 import connectToStores from 'alt/utils/connectToStores';
-import store from '../routes/routeStore';
+import store from '../stores/routeStore';
 
 class SubHeader extends React.Component {
 
@@ -18,6 +18,8 @@ class SubHeader extends React.Component {
   }
 
   render() {
+    const path = this.props.path;
+
     return (
       <div className="row subheader text-center text-white">
         <div className="span6">
@@ -25,14 +27,14 @@ class SubHeader extends React.Component {
         </div>
 
         <Link
-          className={cx('span3', 'tab', {'selected':this.props.path === "/tags"})}
+          className={cx('span3', 'tab', {'selected':path === "/tags"})}
           to="/tags"
         >
           <h3>Your tags</h3>
         </Link>
 
         <Link
-          className={cx('span3', 'tab', {'selected':this.props.path === "/organization"})}
+          className={cx('span3', 'tab', {'selected':path === "/organization"})}
           to="/organization"
         >
           <h3>Your organization</h3>

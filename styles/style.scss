@@ -38,10 +38,18 @@ img {
 .text-white {color: $white}
 
 .text-center {text-align: center}
+.text-right {text-align: right}
 
-h1 {
-  font-size: $font-size * 3;
-  display: inline-block;
+a, a:visited {
+  color: $dark-grey;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  text-decoration: none;
+
+  &:hover, &:active {
+    color: $red;
+  }
 }
 
 // ----------------------------------------------------------------------------
@@ -51,3 +59,16 @@ h1 {
 .bg-red {background-color: $red}
 .bg-light-grey {background-color: $light-grey}
 .bg-dark-grey {background-color: $dark-grey}
+
+// ----------------------------------------------------------------------------
+// Spacing
+// ----------------------------------------------------------------------------
+
+@for $i from 1 through 8 {
+  .space-#{$i} { margin-bottom: 10px * $i; }
+}
+
+#login-btn > div {
+  margin: auto;
+}
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import actions from '../routes/routeActions';
+import actions from '../actions/routeActions';
 
 class Link extends React.Component {
 
