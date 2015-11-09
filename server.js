@@ -1,6 +1,19 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var db = require('./db');
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.sendStatus(200);
+    }
+    else {
+      next();
+    }
+};
 
 const app = express();
 
@@ -9,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/build'));
 app.use('/', express.static(__dirname + '/lib'));
 app.use('/', express.static(__dirname + '/public'));
+app.use(allowCrossDomain);
 
 app.get('*', function (req, res) {
   res.render('application.garnet');
@@ -16,8 +30,8 @@ app.get('*', function (req, res) {
 
 /* API end points - GENERAL */
 // Adding an organization
-app.post('/add-organization', function (req, res) {
-  var params = [req.body.domain, req.body.name, req.body.description];
+app.post('/add-organization', function (request, response) {
+  var params = [request.body.domain, request.body.name, request.body.description];
   db.query('INSERT INTO organizations (domain, name, description) VALUES ($1, $2, $3)',
   	params,
   	function(err, res) {
@@ -30,10 +44,10 @@ app.post('/add-organization', function (req, res) {
 });
 
 // Add user to organization
-app.post('/add-user-to-org', function (req, res) {
+app.post('/add-user-to-org', function (request, response) {
   console.log("Adding user to organization...");
-  var params1 = [req.body.email];
-  var params2 = [req.body.email, req.body.orgId];
+  var params1 = [request.body.email];
+  var params2 = [request.body.email, request.body.orgId];
   console.log(params2);
 
   var sqlString1 = 'INSERT INTO emails (email) VALUES ($1)';
@@ -57,10 +71,10 @@ app.post('/add-user-to-org', function (req, res) {
 });
 
 // Add tag to organization
-app.post('/add-tag-to-org', function (req, res) {
+app.post('/add-tag-to-org', function (request, response) {
   console.log("Adding tag to organization...");
-  var params1 = [req.body.tag, req.body.tagDesc];
-  var params2 = [req.body.tag, req.body.orgId];
+  var params1 = [request.body.tag, request.body.tagDesc];
+  var params2 = [request.body.tag, request.body.orgId];
   console.log(params2);
 
   var sqlString1 = 'INSERT INTO tags (name, description) VALUES (($1), ($2))';
@@ -84,8 +98,8 @@ app.post('/add-tag-to-org', function (req, res) {
 });
 
 // Remove organization
-app.post('/remove-organization', function (req, res) {
-  var params = [req.body.orgId];
+app.post('/remove-organization', function (request, response) {
+  var params = [request.body.orgId];
   db.query('DELETE FROM organizations WHERE organization_id=($1)',
     params,
     function(err, res) {
@@ -98,8 +112,8 @@ app.post('/remove-organization', function (req, res) {
 });
 
 // Remove user from organization
-app.post('/remove-user-from-org', function (req, res) {
-  var params = [req.body.emailId];
+app.post('/remove-user-from-org', function (request, response) {
+  var params = [request.body.emailId];
   var sqlString = 'DELETE FROM emails WHERE email_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
@@ -111,8 +125,8 @@ app.post('/remove-user-from-org', function (req, res) {
 });
 
 // Remove tag from organization
-app.post('/remove-tag-from-org', function (req, res) {
-  var params = [req.body.tagId];
+app.post('/remove-tag-from-org', function (request, response) {
+  var params = [request.body.tagId];
   var sqlString = 'DELETE FROM tags WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
@@ -125,8 +139,8 @@ app.post('/remove-tag-from-org', function (req, res) {
 
 /* API end points - RECIPIENT-SIDE */
 // Add user to tag
-app.post('/add-user-to-tag', function (req, res) {
-  var params = [req.body.tagId, req.body.emailId];
+app.post('/add-user-to-tag', function (request, response) {
+  var params = [request.body.tagId, request.body.emailId];
   var sqlString = 'INSERT INTO tags_emails (tag_id, email_id)' +
                   ' VALUES (($1), ($2))';
   db.query(sqlString, params, function(err, res) {
@@ -139,8 +153,8 @@ app.post('/add-user-to-tag', function (req, res) {
 });
 
 // Remove user from tag
-app.post('/remove-user-from-tag', function (req, res) {
-  var params = [req.body.tagId, req.body.emailId];
+app.post('/remove-user-from-tag', function (request, response) {
+  var params = [request.body.tagId, request.body.emailId];
   var sqlString = 'DELETE FROM tags_emails ' + 
                   'WHERE tag_id=($1) AND email_id=($2)';
   db.query(sqlString, params, function(err, res) {
@@ -154,8 +168,8 @@ app.post('/remove-user-from-tag', function (req, res) {
 
 /* API end points - SENDER-SIDE */
 // Get all users of a tag
-app.post('/get-all-users-tag', function (req, res) {
-  var params = [req.body.tagId];
+app.post('/get-all-users-tag', function (request, response) {
+  var params = [request.body.tagId];
   var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
                   'ON tags_emails.email_id=emails.email_id ' +
                   'WHERE tag_id=($1)';
@@ -164,14 +178,18 @@ app.post('/get-all-users-tag', function (req, res) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
-      console.log(res);
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
     }
   });
 });
 
 // Get number of users per tag
-app.post('/get-num-users-tag', function (req, res) {
-  var params = [req.body.tagId];
+app.post('/get-num-users-tag', function (request, response) {
+  var params = [request.body.tagId];
   var sqlString = 'SELECT COUNT(*) FROM tags_emails ' + 
                   'WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
@@ -179,23 +197,26 @@ app.post('/get-num-users-tag', function (req, res) {
       console.log("ERROR");
     } else {
       console.log("SUCCESS");
-      console.log(res);
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
     }
   });
 });
 
 // var request = require('request');
 // request.post({
-//   url: 'http://localhost:5000/add-user-to-tag',
+//   url: 'http://localhost:5000/get-num-users-tag',
 //   headers: {
 //     'Content-Type': 'application/json'
 //   },
 //   body: JSON.stringify({
-//     tag: '2016',
-//     user: 'student1@harvard.edu'
+//     tagId: '2'
 //   })
 // }, function(error, response, body){
-//   console.log(body);
+//   //console.log(body);
 // });
 
 var server = app.listen(process.env.PORT || 5000, function() {
