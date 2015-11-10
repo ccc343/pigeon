@@ -12,13 +12,12 @@ INSERT INTO organizations_emails (organization_id, email_id)
 VALUES ((SELECT organization_id FROM organizations WHERE name=org_name),
 		(SELECT email_id FROM emails WHERE email=user_email));
 
-# add_tag_to_organization(tag_name, org_name)
-INSERT INTO tags (name)
-VALUES (tag_name);
-
-INSERT INTO organizations_tags (organization_id, tag_id)
-VALUES ((SELECT organization_id FROM organizations WHERE name=org_name),
-		(SELECT tag_id FROM tags WHERE name=tag_name));
+# add_tag_to_organization(tag_name, org_id)
+with rows as (
+INSERT INTO tags (name) VALUES (tag_name) RETURNING tag_id
+)
+INSERT INTO organizations_tags (organization_id, tag_id) 
+VALUES (org_id, (SELECT tag_id FROM rows));
 
 # remove_organization(org_name)
 DELETE FROM organizations

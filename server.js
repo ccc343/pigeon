@@ -77,27 +77,18 @@ app.post('/add-user-to-org', function (request, response) {
 // Add tag to organization
 app.post('/add-tag-to-org', function (request, response) {
   console.log("Adding tag to organization...");
-  var params1 = [request.body.tag, request.body.tagDesc];
-  var params2 = [request.body.tag, request.body.orgId];
-  console.log(params2);
+  var params = [request.body.tag, request.body.tagDesc, request.body.orgId];
 
-  var sqlString1 = 'INSERT INTO tags (name, description) VALUES (($1), ($2))';
-  var sqlString2 = 'INSERT INTO organizations_tags (organization_id, tag_id) VALUES ' +
-              '(($2), (SELECT tag_id FROM tags WHERE name=($1)))';
+  var sqlString = 'with row as (INSERT INTO tags (name, description) VALUES (($1), ($2)) RETURNING tag_id) ' +
+                    'INSERT INTO organizations_tags (organization_id, tag_id) VALUES ' +
+                    '(($3), (SELECT tag_id FROM row))';
 
-  db.query(sqlString1, params1, function(err, res1) {
+  db.query(sqlString, params, function(err, res1) {
     if (err) {
-      console.log("Error1");
+      console.log("Error");
     } else {
-      console.log("Success1");
-      db.query(sqlString2, params2, function(err, res2) {
-        if (err) {
-          console.log("Error2");
-        } else {
-          console.log("Success2");
-          response.sendStatus(200);
-        }
-      })
+      console.log("Success");
+      response.sendStatus(200);
     }
   })
 });
