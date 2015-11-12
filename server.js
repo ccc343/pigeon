@@ -46,6 +46,7 @@ app.post('/add-organization', function (request, response) {
   	function(err, res) {
   		if (err) {
   			console.log("ERROR");
+        response.sendStatus(500);
   		} else {
   			console.log("SUCCESS");
         console.log(res);
@@ -68,11 +69,13 @@ app.post('/add-user-to-org', function (request, response) {
   db.query(sqlString1, params1, function(err, res1) {
     if (err) {
       console.log("Error1");
+      response.sendStatus(500);
     } else {
       console.log("Success1");
       db.query(sqlString2, params2, function(err, res2) {
         if (err) {
           console.log("Error2");
+          response.sendStatus(500);
         } else {
           console.log("Success2");
           response.sendStatus(200);
@@ -94,6 +97,7 @@ app.post('/add-tag-to-org', function (request, response) {
   db.query(sqlString, params, function(err, res1) {
     if (err) {
       console.log("Error");
+      response.sendStatus(500);
     } else {
       console.log("Success");
       response.sendStatus(200);
@@ -109,6 +113,7 @@ app.post('/remove-organization', function (request, response) {
     function(err, res) {
       if (err) {
         console.log("ERROR");
+        response.sendStatus(500);
       } else {
         console.log("SUCCESS");
         response.sendStatus(200);
@@ -123,6 +128,7 @@ app.post('/remove-user-from-org', function (request, response) {
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
+      response.sendStatus(500);
     } else {
       console.log("SUCCESS");
       response.sendStatus(200);
@@ -137,6 +143,7 @@ app.post('/remove-tag-from-org', function (request, response) {
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
+      response.sendStatus(500);
     } else {
       console.log("SUCCESS");
       response.sendStatus(200);
@@ -156,6 +163,7 @@ app.post('/get-all-users-tag', function (request, response) {
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
+      response.sendStatus(500);
     } else {
       console.log("SUCCESS");
       var rows = res.rows;
@@ -180,6 +188,7 @@ app.post('/get-all-users-tag-org', function (request, response) {
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
+      response.sendStatus(500);
     } else {
       console.log("SUCCESS");
       var rows = res.rows;
@@ -199,6 +208,7 @@ app.post('/get-num-users-tag', function (request, response) {
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
+      response.sendStatus(500);
     } else {
       console.log("SUCCESS");
       var rows = res.rows;
