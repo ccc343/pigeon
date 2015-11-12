@@ -15,5 +15,10 @@
     <div id="react-root"></div>
     <!-- <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded"></script> -->
     <script src="/bundle.js"></script>
+    <script>
+      if("webkitTextFillColor" in document.body.style) {
+        document.body.classList.add("text-fill-color-support");
+      }
+    </script>
   </body>
 </html>

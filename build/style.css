@@ -136,6 +136,14 @@ label {
   color: #646872;
   font-size: 12.8px; }
 
+.text-fill-color-support .material-caret {
+  color: #d45f68;
+  -webkit-text-fill-color: #444444; }
+
+.material-caret::-webkit-input-placeholder {
+  color: #eeeeee;
+  -webkit-text-fill-color: initial; }
+
 header #logo {
   height: 80px;
   padding-top: 20px; }

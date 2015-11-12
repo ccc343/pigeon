@@ -55,3 +55,13 @@ label {
   color: $grey;
   font-size: $font-size * 0.8;
 }
+
+.text-fill-color-support .material-caret {
+  color: $red;
+  -webkit-text-fill-color: $dark-grey;
+}
+
+.material-caret::-webkit-input-placeholder {
+  color: $light-grey;
+  -webkit-text-fill-color: initial;
+}

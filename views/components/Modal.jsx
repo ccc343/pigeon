@@ -91,7 +91,7 @@ class Modal extends React.Component {
             {error}
             <label>Name</label>
             <input
-              className="space-3"
+              className="space-3 material-caret"
               type="text"
               name="tag-name"
               ref="nameInput"
@@ -101,7 +101,7 @@ class Modal extends React.Component {
 
             <label>Description</label>
             <textarea
-              className="space-2"
+              className="space-2 material-caret"
               name="tag-description"
               ref="descriptionInput"
               rows="1"
