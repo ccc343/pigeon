@@ -21214,6 +21214,7 @@ var Modal = (function (_React$Component) {
     key: 'onKeydown',
     value: function onKeydown(e) {
       if (e.keyCode === 13) {
+        e.preventDefault();
         this.onSubmit();
       }
     }
@@ -21233,6 +21234,11 @@ var Modal = (function (_React$Component) {
       if (this.validate(nameInput)) {
         _actionsUserActions2['default'].createTag(nameInput.value, descriptionInput.value);
         _actionsModalActions2['default'].close();
+
+        // Clear out input and any validation errors.
+        this.setState({ error: '' });
+        nameInput.value = '';
+        descriptionInput.value = '';
       }
     }
   }, {

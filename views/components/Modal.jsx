@@ -33,6 +33,7 @@ class Modal extends React.Component {
 
   onKeydown(e) {
     if (e.keyCode === 13) {
+        e.preventDefault();
         this.onSubmit();
     }
   }
@@ -50,6 +51,11 @@ class Modal extends React.Component {
     if (this.validate(nameInput)) {
       userActions.createTag(nameInput.value, descriptionInput.value);
       modalActions.close();
+
+      // Clear out input and any validation errors.
+      this.setState({ error: '' });
+      nameInput.value = '';
+      descriptionInput.value = '';
     }
   }
 
