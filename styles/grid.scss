@@ -1,8 +1,6 @@
 // Responsive grid framework courtesy of Stephan Boyer
 // (see http://www.stephanboyer.com/post/41/fluid-responsive-grid-layouts-in-css)
 
-@import 'constants';
-
 @mixin clearfix {
   // IE6/7 doesn't support :after, which is used below.
   // So we create a new block formatting context in IE6/7

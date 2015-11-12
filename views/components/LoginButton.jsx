@@ -6,15 +6,11 @@ class LoginButton extends React.Component {
 
   onSuccess(googleUser) {
     const user = googleUser.getBasicProfile();
-    const email = user.getEmail();
 
     userActions.signIn({
       name: user.getName(),
-      email: email,
-      domain: email.split('@')[1]
+      email: user.getEmail()
     });
-
-    // Make an ajax request to get the bootstrap data
   }
 
   componentDidMount() {

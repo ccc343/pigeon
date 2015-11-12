@@ -1,6 +1,9 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var db = require('./db');
+
+var users = require('./routes/user');
+
 // allows cross domain requests (for chrome extension)
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -20,10 +23,15 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use('/', express.static(__dirname + '/build'));
 app.use('/', express.static(__dirname + '/lib'));
 app.use('/', express.static(__dirname + '/public'));
+
 app.use(allowCrossDomain);
+
+require('./routes/routes').config(app);
+require('./routes/user').config(app);
 
 app.get('*', function (req, res) {
   res.render('application.garnet');
@@ -146,35 +154,6 @@ app.post('/remove-tag-from-org', function (request, response) {
 });
 
 /* API end points - RECIPIENT-SIDE */
-// Add user to tag
-app.post('/add-user-to-tag', function (request, response) {
-  var params = [request.body.tagId, request.body.emailId];
-  var sqlString = 'INSERT INTO tags_emails (tag_id, email_id)' +
-                  ' VALUES (($1), ($2))';
-  db.query(sqlString, params, function(err, res) {
-    if (err) {
-      console.log("ERROR");
-    } else {
-      console.log("SUCCESS");
-      response.sendStatus(200);
-    }
-  });
-});
-
-// Remove user from tag
-app.post('/remove-user-from-tag', function (request, response) {
-  var params = [request.body.tagId, request.body.emailId];
-  var sqlString = 'DELETE FROM tags_emails ' + 
-                  'WHERE tag_id=($1) AND email_id=($2)';
-  db.query(sqlString, params, function(err, res) {
-    if (err) {
-      console.log("ERROR");
-    } else {
-      console.log("SUCCESS");
-      response.sendStatus(200);
-    }
-  });
-});
 
 /* API end points - SENDER-SIDE */
 // Get all users of a tag
@@ -200,7 +179,7 @@ app.post('/get-all-users-tag', function (request, response) {
 // Get number of users per tag
 app.post('/get-num-users-tag', function (request, response) {
   var params = [request.body.tagId];
-  var sqlString = 'SELECT COUNT(*) FROM tags_emails ' + 
+  var sqlString = 'SELECT COUNT(*) FROM tags_emails ' +
                   'WHERE tag_id=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {

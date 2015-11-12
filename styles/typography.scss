@@ -1,7 +1,5 @@
-@import 'constants';
-
 .text-red {color: $red}
-.text-light-grey {color: $light-grey}
+.text-grey {color: $grey}
 .text-dark-grey {color: $dark-grey}
 .text-white {color: $white}
 
@@ -10,7 +8,7 @@
 .text-right {text-align: right}
 
 a, a:visited {
-  color: $light-grey;
+  color: $grey;
   cursor: pointer;
   transition: 0.3s;
   font-weight: bold;
@@ -19,4 +17,40 @@ a, a:visited {
   &:hover, &:active {
     color: $red;
   }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    list-style: none;
+  }
+}
+
+input, textarea {
+  font-family: 'Quicksand', sans-serif;
+  font-size: $font-size;
+  display: inline-block;
+  margin: 5px 0;
+  width: 100%;
+  padding: 0;
+  outline: none;
+  border: none;
+  border-bottom: $grey 1px solid;
+
+  &:focus {
+    border-bottom: $red 2px solid;
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+label {
+  display: block;
+  color: $grey;
+  font-size: $font-size * 0.8;
 }

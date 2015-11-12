@@ -1,0 +1,28 @@
+$button-floating-size: 55.5px;
+$icon-font-size: 1rem;
+
+.btn-floating {
+  @extend .animate-on-hover;
+
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  display: inline-block;
+  width: $button-floating-size;
+  height: $button-floating-size;
+  border-radius: 50%;
+  cursor: pointer;
+
+  i {
+    color: $white;
+    display: inline-block;
+    width: inherit;
+    text-align: center;
+    font-size: $icon-font-size;
+    line-height: $button-floating-size;
+  }
+
+  &:before {
+    border-radius: 0;
+  }
+}

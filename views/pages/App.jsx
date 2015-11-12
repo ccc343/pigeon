@@ -1,32 +1,27 @@
 import React from 'react';
+
 import Header from '../components/Header';
 import SubHeader from '../components/SubHeader';
-import Home from '../pages/Home';
-
-import cx from 'classnames';
-
-import connectToStores from 'alt/utils/connectToStores';
-import userStore from '../stores/userStore';
+import Tags from '../pages/Tags';
 
 class App extends React.Component {
 
-  static getStores() {
-    return [userStore];
-  }
-
-  static getPropsFromStores() {
-    return userStore.getState();
+  constructor(props) {
+    super(props);
+    this.state = {
+      tab: 'tags'
+    };
   }
 
   render() {
     return (
       <div>
-        <Header loggedIn={!!this.props.currentUser} />
-        <SubHeader className={cx({hidden: !this.props.currentUser})} />
-        {this.props.children || <Home />}
+        <Header />
+        <SubHeader />
+        {this.state.tab === 'tags' ? <Tags /> : <Organization />}
       </div>
     );
   }
 }
 
-export default connectToStores(App);
+export default App;

@@ -1,28 +1,32 @@
 import alt from '../alt';
 import actions from '../actions/userActions';
 
-import xr from 'xr';
-
 class UserStore {
 
   constructor() {
     this.bindActions(actions);
-    this.currentUser = null;
 
-    // TODO: replace with ajax request for user's tags
-    this.tags = ['whitman', 'classof2017', 'innovation'];
+    this.name = null;
+    this.email = null;
+    this.organizationId = null;
+    this.tags = {};
+
+    this.name = "Julia Wang";
+    this.email = "juliahw@princeton.edu";
+    this.organizationId = 1;
   }
 
-  signIn(user) {
-    this.currentUser = user;
-
-    // TODO: determine whether this user is registered already
+  setTags(tags) {
+    this.tags = tags;
   }
 
-  signOut() {
-    this.currentUser = null;
+  handleSubscribe(tagId) {
+    this.tags[tagId].subscribed = true;
   }
 
+  handleUnsubscribe(tagId) {
+    this.tags[tagId].subscribed = false;
+  }
 }
 
 export default alt.createStore(UserStore);

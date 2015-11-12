@@ -2,11 +2,18 @@
 // Pigeons Be Stylin'
 // ============================================================================
 
+// Global styles
 @import 'constants';
 @import 'general';
 @import 'typography';
+
+// Component styles
 @import 'header';
 @import 'subheader';
+@import 'tag';
 
-@import 'grid';
+// Standalone styles
 @import 'autocomplete';
+@import 'fab';
+@import 'grid';
+@import 'modal';

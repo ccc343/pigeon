@@ -1,21 +1,29 @@
 import React from 'react';
-import Link from './Link';
 import LogoutButton from './LogoutButton';
+
+import connectToStores from 'alt/utils/connectToStores';
+import userStore from '../stores/userStore';
 
 class Header extends React.Component {
 
+  static getStores() {
+    return [userStore];
+  }
+
+  static getPropsFromStores() {
+    return userStore.getState();
+  }
+
   render() {
-    const headerLinks = this.props.loggedIn ? (
+    const headerLinks = this.props.email ? (
       <LogoutButton />
     ) : null;
 
     return (
       <header className="row">
         <div className="span6" id="logo">
-          <Link to="/">
-            <img src="/logo.png" alt="logo" />
-            <h1 className="text-red"><b>Pigeon</b></h1>
-          </Link>
+          <img src="/logo.png" alt="logo" />
+          <h1 className="text-red"><b>Pigeon</b></h1>
         </div>
 
         <div className="span2 offset4 text-center">
@@ -26,4 +34,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default connectToStores(Header);

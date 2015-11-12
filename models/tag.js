@@ -1,11 +1,26 @@
-// Tag
+'use strict';
 
-// getId()
-// getName()
-// getDescription()
-// getUsers()
+var db = require('../db');
 
-// addUser(userId)
-// removeUser(userId)
+class Tag {
 
-// delete()
+  constructor(name, description) {
+
+  }
+
+}
+
+Tag.create = function(name, description, next) {
+  const sql = 'INSERT INTO tags (name, description) VALUES (($1), ($2)) \
+              RETURNING tag_id';
+  const params = [name, description];
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+
+    next(null, result.rows[0].tag_id);
+  });
+}
+
+module.exports = Tag;

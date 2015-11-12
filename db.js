@@ -11,7 +11,7 @@ if (!exports.databaseURL) {
     console.error('Set the DATABASE_URL environment variable for production.');
     process.exit(1);
   } else {
-    exports.databaseURL = 'postgres://postgres:password@localhost/pigeon'
+    exports.databaseURL = 'postgres://Julia:password@localhost/pigeon'
   }
 }
 
@@ -28,6 +28,7 @@ exports.query = function(text, params, callback) {
       // release the client back to the pool
       done();
       if(err) {
+        console.error(err);
         return callback(err);
       }
       callback(null, result);

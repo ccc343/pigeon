@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import AutocompleteTextField from './AutocompleteTextField';
 
 import cx from 'classnames';
@@ -19,15 +18,17 @@ class Search extends React.Component {
   }
 
   render() {
+    const tags = this.props.tags;
+
     return (
-        <div className="text-light-grey">
-          <i className="ion-search text-white" />
-          <AutocompleteTextField
-            className="bg-dark-grey"
-            dictionary={this.props.tags}
-            placeholder="search tags and members..."
-          />
-        </div>
+      <div className="text-light-grey">
+        <i className="ion-search text-white" />
+        <AutocompleteTextField
+          className="bg-dark-grey"
+          dictionary={ Object.keys(tags).map(id => tags[id]) }
+          placeholder="search tags and members..."
+        />
+      </div>
     );
   }
 }

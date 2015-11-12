@@ -1,30 +1,34 @@
 import React from 'react';
-
-import connectToStores from 'alt/utils/connectToStores';
-import userStore from '../stores/userStore';
-import userActions from '../actions/userActions';
+import cx from 'classnames';
 
 class Tag extends React.Component {
 
-  static getStores() {
-    return [userStore];
+  constructor(props) {
+    super(props);
+
+    this.onClick = this.onClick.bind(this);
   }
 
-  static getPropsFromStores() {
-    return userStore.getState();
+  onClick() {
+    this.props.show(this.props.id);
   }
 
   render() {
     return (
-      <div className="tag">
-        #{this.props.tag}
-
-        <a className="btn-close">
-          <i className="ion-close-round"></i>
-        </a>
-      </div>
+      <li
+        className={cx('tag', { selected: this.props.tag.subscribed })}
+        onClick={this.onClick}
+      >
+        #{this.props.tag.name}
+      </li>
     );
   }
 }
 
-export default connectToStores(Tag);
+Tag.propTypes = {
+  id: React.PropTypes.string.isRequired,
+  tag: React.PropTypes.object.isRequired,
+  show: React.PropTypes.func.isRequired
+};
+
+export default Tag;
