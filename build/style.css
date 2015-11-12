@@ -78,6 +78,9 @@ body {
 .text-red {
   color: #d45f68; }
 
+.text-light-grey {
+  color: #eeeeee; }
+
 .text-grey {
   color: #646872; }
 
@@ -190,7 +193,8 @@ header .link {
   -ms-transform: translate(0, 10);
   transform: translate(0, 10); }
   .tag-details h3 {
-    margin: 0; }
+    display: inline-block;
+    margin: 0 20px 0 0; }
 
 .autocomplete-container {
   display: inline-block;

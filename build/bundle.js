@@ -20680,7 +20680,7 @@ var actions = _alt2['default'].createActions((function () {
   function UserActions() {
     _classCallCheck(this, UserActions);
 
-    this.generateActions('setTags', 'handleSubscribe', 'handleUnsubscribe');
+    this.generateActions('setTags', 'updateTag', 'handleSubscribe', 'handleUnsubscribe');
 
     this.updateTags();
   }
@@ -20708,6 +20708,7 @@ var actions = _alt2['default'].createActions((function () {
     value: function subscribe(tagId) {
       _xr2['default'].post('/api/subscribe', { tagId: parseInt(tagId) }).then(function (res) {
         actions.handleSubscribe(tagId);
+        actions.getTagUsers(tagId);
       });
     }
   }, {
@@ -20715,6 +20716,7 @@ var actions = _alt2['default'].createActions((function () {
     value: function unsubscribe(tagId) {
       _xr2['default'].post('/api/unsubscribe', { tagId: parseInt(tagId) }).then(function (res) {
         actions.handleUnsubscribe(tagId);
+        actions.getTagUsers(tagId);
       });
     }
   }, {
@@ -20722,6 +20724,13 @@ var actions = _alt2['default'].createActions((function () {
     value: function createTag(name, description) {
       _xr2['default'].post('/api/tags/new', { name: name, description: description }).then(function (res) {
         actions.updateTags();
+      });
+    }
+  }, {
+    key: 'getTagUsers',
+    value: function getTagUsers(tagId) {
+      _xr2['default'].post('/api/get_tag_users', { tagId: parseInt(tagId) }).then(function (res) {
+        actions.updateTag({ id: tagId, tag: { users: res.users } });
       });
     }
   }]);
@@ -21631,6 +21640,20 @@ var TagDetails = (function (_React$Component) {
         );
       }
 
+      var userCount = undefined;
+      if (this.props.tag.users) {
+        userCount = _react2['default'].createElement(
+          'span',
+          { className: 'text-grey' },
+          _react2['default'].createElement('i', { className: 'ion-person' }),
+          _react2['default'].createElement(
+            'b',
+            null,
+            this.props.tag.users.length
+          )
+        );
+      }
+
       return _react2['default'].createElement(
         'div',
         { className: 'tag-details bg-light-grey' },
@@ -21645,6 +21668,7 @@ var TagDetails = (function (_React$Component) {
           '#',
           this.props.tag.name
         ),
+        userCount,
         _react2['default'].createElement(
           'p',
           { className: 'space-2' },
@@ -21829,14 +21853,21 @@ var Tags = (function (_React$Component) {
   }, {
     key: 'showTag',
     value: function showTag(tagId) {
+      var _this = this;
+
       var tag = this.props.tags[tagId];
       tag.id = tagId;
-      this.setState({ tagDetails: tag });
+      this.setState({ tagDetails: tag }, function () {
+        _actionsUserActions2['default'].getTagUsers(tagId, function (users) {
+          tag.users = users;
+          _this.setState({ tagDetails: tag });
+        });
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var tags = this.props.tags;
       var details = this.state.tagDetails ? _react2['default'].createElement(_componentsTagDetails2['default'], { tag: this.state.tagDetails, hide: this.hideTag }) : null;
@@ -21849,7 +21880,7 @@ var Tags = (function (_React$Component) {
           'ul',
           null,
           Object.keys(tags).map(function (id) {
-            return _react2['default'].createElement(_componentsTag2['default'], { key: id, id: id, tag: tags[id], show: _this.showTag });
+            return _react2['default'].createElement(_componentsTag2['default'], { key: id, id: id, tag: tags[id], show: _this2.showTag });
           })
         ),
         _react2['default'].createElement(
@@ -21957,6 +21988,11 @@ var UserStore = (function () {
     key: 'setTags',
     value: function setTags(tags) {
       this.tags = tags;
+    }
+  }, {
+    key: 'updateTag',
+    value: function updateTag(params) {
+      Object.assign(this.tags[params.id], params.tag);
     }
   }, {
     key: 'handleSubscribe',

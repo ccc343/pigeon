@@ -7,6 +7,21 @@ var currentOrg = new Organization('princeton.edu', null, null);
 
 exports.config = function(app) {
 
+  app.post('/api/get_tag_users', function(req, res) {
+    const tag = new Tag(req.body.tagId, (err, result) => {
+      if (err) {
+        return res.sendStatus(500);
+      }
+
+      tag.getUsers((err, result) => {
+        res.json({
+          error: err,
+          users: result
+        });
+      });
+    });
+  });
+
   // Returns all tags in the organization.
   app.get('/api/tags/all', function(req, res) {
     currentOrg.getAllTags((err, result) => {

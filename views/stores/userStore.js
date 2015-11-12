@@ -20,6 +20,10 @@ class UserStore {
     this.tags = tags;
   }
 
+  updateTag(params) {
+    Object.assign(this.tags[params.id], params.tag);
+  }
+
   handleSubscribe(tagId) {
     this.tags[tagId].subscribed = true;
   }

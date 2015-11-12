@@ -85,7 +85,7 @@ exports.config = function(app) {
 
     const sql = 'SELECT tags.tag_id FROM tags INNER JOIN \
                 (SELECT tag_id FROM tags_emails WHERE email_id=($1)) AS tr \
-                ON (tags.tag_id = tr.tag_id)';
+                ON (tags.tag_id=tr.tag_id)';
     const params = [currentUser.id];
     db.query(sql, params, (err, result) => {
         if (err) {

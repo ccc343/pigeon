@@ -33,7 +33,12 @@ class Tags extends React.Component {
   showTag(tagId) {
     let tag = this.props.tags[tagId];
     tag.id = tagId;
-    this.setState({ tagDetails: tag });
+    this.setState({ tagDetails: tag }, () => {
+      userActions.getTagUsers(tagId, (users) => {
+        tag.users = users;
+        this.setState({ tagDetails: tag });
+      });
+    });
   }
 
   render() {
