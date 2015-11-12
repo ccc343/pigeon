@@ -13,7 +13,7 @@
 
   <body>
     <div id="react-root"></div>
-    <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded"></script>
+    <!-- <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded"></script> -->
     <script src="/bundle.js"></script>
   </body>
 </html>
