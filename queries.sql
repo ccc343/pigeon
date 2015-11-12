@@ -12,13 +12,12 @@ INSERT INTO organizations_emails (organization_id, email_id)
 VALUES ((SELECT organization_id FROM organizations WHERE name=org_name),
 		(SELECT email_id FROM emails WHERE email=user_email));
 
-# add_tag_to_organization(tag_name, org_name)
-INSERT INTO tags (name)
-VALUES (tag_name);
-
-INSERT INTO organizations_tags (organization_id, tag_id)
-VALUES ((SELECT organization_id FROM organizations WHERE name=org_name),
-		(SELECT tag_id FROM tags WHERE name=tag_name));
+# add_tag_to_organization(tag_name, org_id)
+with rows as (
+INSERT INTO tags (name) VALUES (tag_name) RETURNING tag_id
+)
+INSERT INTO organizations_tags (organization_id, tag_id) 
+VALUES (org_id, (SELECT tag_id FROM rows));
 
 # remove_organization(org_name)
 DELETE FROM organizations
@@ -49,14 +48,24 @@ AND email_id=(SELECT email_id FROM emails WHERE email=user_email);
 
 ## SENDER-SIDE
 
-# get_all_users_of_tag(tag_name)
+# get_all_users_of_tag(tag_id)
 SELECT emails.email 
 FROM tags_emails
 INNER JOIN emails
 ON tags_emails.email_id=emails.email_id
-WHERE tag_id = (SELECT tag_id FROM tags WHERE name=tag_name);
+WHERE tag_id = tag_id;
 
-# get_num_users_of_tag(tag_name)
+# get_all_users_of_tag_org(tag_name, org_domain)
+SELECT emails.email
+FROM emails
+INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id
+INNER JOIN tags ON tags_emails.tag_id=tags.tag_id
+INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id
+INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id
+WHERE organizations.domain='princeton.edu'
+AND tags.name='2016';
+
+# get_num_users_of_tag(tag_id)
 SELECT COUNT(*) 
 FROM tags_emails 
-WHERE tag_id = (SELECT tag_id FROM tags WHERE name=tag_name);
+WHERE tag_id = tag_id;

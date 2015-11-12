@@ -85,27 +85,18 @@ app.post('/add-user-to-org', function (request, response) {
 // Add tag to organization
 app.post('/add-tag-to-org', function (request, response) {
   console.log("Adding tag to organization...");
-  var params1 = [request.body.tag, request.body.tagDesc];
-  var params2 = [request.body.tag, request.body.orgId];
-  console.log(params2);
+  var params = [request.body.tag, request.body.tagDesc, request.body.orgId];
 
-  var sqlString1 = 'INSERT INTO tags (name, description) VALUES (($1), ($2))';
-  var sqlString2 = 'INSERT INTO organizations_tags (organization_id, tag_id) VALUES ' +
-              '(($2), (SELECT tag_id FROM tags WHERE name=($1)))';
+  var sqlString = 'with row as (INSERT INTO tags (name, description) VALUES (($1), ($2)) RETURNING tag_id) ' +
+                    'INSERT INTO organizations_tags (organization_id, tag_id) VALUES ' +
+                    '(($3), (SELECT tag_id FROM row))';
 
-  db.query(sqlString1, params1, function(err, res1) {
+  db.query(sqlString, params, function(err, res1) {
     if (err) {
-      console.log("Error1");
+      console.log("Error");
     } else {
-      console.log("Success1");
-      db.query(sqlString2, params2, function(err, res2) {
-        if (err) {
-          console.log("Error2");
-        } else {
-          console.log("Success2");
-          response.sendStatus(200);
-        }
-      })
+      console.log("Success");
+      response.sendStatus(200);
     }
   })
 });
@@ -156,12 +147,36 @@ app.post('/remove-tag-from-org', function (request, response) {
 /* API end points - RECIPIENT-SIDE */
 
 /* API end points - SENDER-SIDE */
-// Get all users of a tag
+// Get all users of a tag by tag ID
 app.post('/get-all-users-tag', function (request, response) {
   var params = [request.body.tagId];
   var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
                   'ON tags_emails.email_id=emails.email_id ' +
                   'WHERE tag_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
+
+// Get all users of a tag by tag_name and org_domain
+app.post('/get-all-users-tag-org', function (request, response) {
+  var params = [request.body.tag, request.body.domain];
+  var sqlString = 'SELECT emails.email FROM emails ' + 
+                  'INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id ' +
+                  'INNER JOIN tags ON tags_emails.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id ' +
+                  'WHERE organizations.domain=($2) ' +
+                  'AND tags.name=($1)';
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
