@@ -3,7 +3,7 @@
 var db = require('../db');
 
 var currentUser = {
-  id: 1
+  id: 2
 };
 
 exports.config = function(app) {
