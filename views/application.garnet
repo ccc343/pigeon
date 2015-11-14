@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="Mailing lists for organizations.">
-    <meta name="google-signin-client_id" content="233053649405-mp20071h1t2iv6odagel8olgqopsogcr.apps.googleusercontent.com">
     <title>Pigeon</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:400,700">
     <link rel="stylesheet" href="/css/ionicons.min.css">
@@ -13,7 +12,6 @@
 
   <body>
     <div id="react-root"></div>
-    <!-- <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded"></script> -->
     <script src="/bundle.js"></script>
     <script>
       if("webkitTextFillColor" in document.body.style) {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from '../components/Modal';
-import Tag from '../components/Tag';
-import TagDetails from '../components/TagDetails';
+import Modal from './Modal';
+import Tag from './Tag';
+import TagDetails from './TagDetails';
 
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
