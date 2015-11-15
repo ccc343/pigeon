@@ -157,13 +157,51 @@ app.post('/get-all-users-tag', function (request, response) {
 // Get all users of a tag by tag_name and org_domain
 app.post('/get-all-users-tag-org', function (request, response) {
   var params = [request.body.tag, request.body.domain];
-  var sqlString = 'SELECT emails.email FROM emails ' +
-                  'INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id ' +
-                  'INNER JOIN tags ON tags_emails.tag_id=tags.tag_id ' +
-                  'INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id ' +
-                  'INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id ' +
-                  'WHERE organizations.domain=($2) ' +
-                  'AND tags.name=($1)';
+  var sqlString = 'SELECT users.email FROM users ' + 
+                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' + 
+                  'INNER JOIN tags ON tags.id=tags_users.tag_id ' +
+                  'WHERE tags.name=($1) ' +
+                  'AND tags.organization_id=(SELECT id FROM organizations ' +
+                  'WHERE domain=($2));'
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
+
+// Get the union of all users subscribed to tags in this org_domain
+app.post('/get-union-users-tag-org', function (request, response) {
+  var params = [request.body.domain];
+  var tags = request.body.tags;
+  for (var j = 0; j < tags.length; j++) {
+    var element = tags[j];
+    params.push(element);
+  }
+  console.log(params);
+  var sqlString = 'SELECT DISTINCT users.email FROM users ' + 
+                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' + 
+                  'INNER JOIN tags ON tags.id=tags_users.tag_id ' +
+                  'WHERE tags.organization_id=(SELECT id FROM organizations ' +
+                  'WHERE domain=($1)) ' +
+                  'AND (tags.name=';
+                  
+  for (var i = 0; i < tags.length; i++) {
+    sqlString += '($' + (i+2) + ')';
+    if (i < tags.length-1) {
+      sqlString += ' OR tags.name=';
+    }
+  }
+  sqlString += ')';
+  console.log(sqlString);
   db.query(sqlString, params, function(err, res) {
     if (err) {
       console.log("ERROR");
@@ -199,24 +237,19 @@ app.post('/get-num-users-tag', function (request, response) {
   });
 });
 
-// // Get number of users per tag
-// app.post('/get-num-users-tag', function (request, response) {
-//   var params = [request.body.tagId];
-//   var sqlString = 'SELECT COUNT(*) FROM tags_emails ' +
-//                   'WHERE tag_id=($1)';
-//   db.query(sqlString, params, function(err, res) {
-//     if (err) {
-//       console.log("ERROR");
-//     } else {
-//       console.log("SUCCESS");
-//       var rows = res.rows;
-//       console.log(rows);
-//       response.writeHead(200, { 'Content-Type': 'application/json'});
-//       response.end(JSON.stringify(rows));
-//       response.end();
-//     }
-//   });
-// });
+var request = require('request');
+request.post({
+  url: 'http://localhost:5000/get-union-users-tag-org',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    domain: 'princeton.edu',
+    tags: ['whitman', 'mathey', '2016']
+  })
+}, function(error, response, body){
+  //console.log(body);
+});
 
 var server = app.listen(process.env.PORT || 5000, function() {
   console.log('Listening on port %d.', server.address().port);
