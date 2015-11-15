@@ -16,7 +16,7 @@ class Tag extends React.Component {
   render() {
     return (
       <li
-        className={cx('tag', { selected: this.props.subscribed })}
+        className={cx('tag', { selected: this.props.tag.subscribed })}
         onClick={this.onClick}
       >
         #{this.props.tag.name}

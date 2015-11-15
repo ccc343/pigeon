@@ -35,7 +35,7 @@ class Tags extends React.Component {
   }
 
   render() {
-    const tags = this.props.user.organization.tags;
+    const tags = this.props.tags;
     const details = this.state.tagDetails ? (
       <TagDetails tag={this.state.tagDetails} hide={this.hideTag} />
     ) : null;
@@ -45,7 +45,9 @@ class Tags extends React.Component {
         {details}
 
         <ul>
-          {tags.map(item => <Tag key={item.id} tag={item} show={this.showTag} />)}
+          {Object.keys(tags).map((id) => {
+            return <Tag key={id} tag={tags[id]} show={this.showTag} />;
+          })}
         </ul>
 
         <a className="btn-floating bg-red" onClick={modalActions.open}>

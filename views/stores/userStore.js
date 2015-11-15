@@ -34,6 +34,7 @@ class UserStore {
 
   handleNewTag(tag) {
     this.tags[tag.id] = {
+      id: tag.id,
       name: tag.name,
       description: tag.description
     };

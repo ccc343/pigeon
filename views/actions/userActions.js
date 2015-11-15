@@ -18,6 +18,7 @@ const actions = alt.createActions(class UserActions {
     })
       .then(res => {
         console.log(res);
+        console.log('subscribe to ' + tagId);
         actions.handleSubscribe(tagId);
       });
   }

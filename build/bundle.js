@@ -20690,6 +20690,7 @@ var actions = _alt2['default'].createActions((function () {
         tagId: parseInt(tagId)
       }).then(function (res) {
         console.log(res);
+        console.log('subscribe to ' + tagId);
         actions.handleSubscribe(tagId);
       });
     }
@@ -21635,7 +21636,7 @@ var Tag = (function (_React$Component) {
       return _react2['default'].createElement(
         'li',
         {
-          className: (0, _classnames2['default'])('tag', { selected: this.props.subscribed }),
+          className: (0, _classnames2['default'])('tag', { selected: this.props.tag.subscribed }),
           onClick: this.onClick
         },
         '#',
@@ -21869,7 +21870,7 @@ var Tags = (function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      var tags = this.props.user.organization.tags;
+      var tags = this.props.tags;
       var details = this.state.tagDetails ? _react2['default'].createElement(_TagDetails2['default'], { tag: this.state.tagDetails, hide: this.hideTag }) : null;
 
       return _react2['default'].createElement(
@@ -21879,8 +21880,8 @@ var Tags = (function (_React$Component) {
         _react2['default'].createElement(
           'ul',
           null,
-          tags.map(function (item) {
-            return _react2['default'].createElement(_Tag2['default'], { key: item.id, tag: item, show: _this.showTag });
+          Object.keys(tags).map(function (id) {
+            return _react2['default'].createElement(_Tag2['default'], { key: id, tag: tags[id], show: _this.showTag });
           })
         ),
         _react2['default'].createElement(
@@ -22399,6 +22400,7 @@ var UserStore = (function () {
     key: 'handleNewTag',
     value: function handleNewTag(tag) {
       this.tags[tag.id] = {
+        id: tag.id,
         name: tag.name,
         description: tag.description
       };
