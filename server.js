@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
-// var db = require('./db');
+var db = require('./db');
 
 // allows cross domain requests (for chrome extension)
 var allowCrossDomain = function(req, res, next) {
@@ -83,6 +83,121 @@ app.get('*', function (req, res) {
 //     }
 //   });
 // });
+
+// Remove organization
+app.post('/remove-organization', function (request, response) {
+  var params = [request.body.orgId];
+  db.query('DELETE FROM organizations WHERE organization_id=($1)',
+    params,
+    function(err, res) {
+      if (err) {
+        console.log("ERROR");
+        response.sendStatus(500);
+      } else {
+        console.log("SUCCESS");
+        response.sendStatus(200);
+      }
+    });
+});
+
+// Remove user from organization
+app.post('/remove-user-from-org', function (request, response) {
+  var params = [request.body.emailId];
+  var sqlString = 'DELETE FROM emails WHERE email_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      response.sendStatus(200);
+    }
+  });
+});
+
+// Remove tag from organization
+app.post('/remove-tag-from-org', function (request, response) {
+  var params = [request.body.tagId];
+  var sqlString = 'DELETE FROM tags WHERE tag_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      response.sendStatus(200);
+    }
+  });
+});
+
+/* API end points - RECIPIENT-SIDE */
+
+/* API end points - SENDER-SIDE */
+// Get all users of a tag by tag ID
+app.post('/get-all-users-tag', function (request, response) {
+  var params = [request.body.tagId];
+  var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
+                  'ON tags_emails.email_id=emails.email_id ' +
+                  'WHERE tag_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
+
+// Get all users of a tag by tag_name and org_domain
+app.post('/get-all-users-tag-org', function (request, response) {
+  var params = [request.body.tag, request.body.domain];
+  var sqlString = 'SELECT emails.email FROM emails ' +
+                  'INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id ' +
+                  'INNER JOIN tags ON tags_emails.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id ' +
+                  'INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id ' +
+                  'WHERE organizations.domain=($2) ' +
+                  'AND tags.name=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
+
+// Get number of users per tag
+app.post('/get-num-users-tag', function (request, response) {
+  var params = [request.body.tagId];
+  var sqlString = 'SELECT COUNT(*) FROM tags_emails ' +
+                  'WHERE tag_id=($1)';
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log("ERROR");
+      response.sendStatus(500);
+    } else {
+      console.log("SUCCESS");
+      var rows = res.rows;
+      console.log(rows);
+      response.writeHead(200, { 'Content-Type': 'application/json'});
+      response.end(JSON.stringify(rows));
+      response.end();
+    }
+  });
+});
 
 // // Get number of users per tag
 // app.post('/get-num-users-tag', function (request, response) {
