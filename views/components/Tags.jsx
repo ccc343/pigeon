@@ -30,19 +30,12 @@ class Tags extends React.Component {
     this.setState({ tagDetails: null });
   }
 
-  showTag(tagId) {
-    let tag = this.props.tags[tagId];
-    tag.id = tagId;
-    this.setState({ tagDetails: tag }, () => {
-      userActions.getTagUsers(tagId, (users) => {
-        tag.users = users;
-        this.setState({ tagDetails: tag });
-      });
-    });
+  showTag(tag) {
+    this.setState({ tagDetails: tag });
   }
 
   render() {
-    const tags = this.props.tags;
+    const tags = this.props.user.organization.tags;
     const details = this.state.tagDetails ? (
       <TagDetails tag={this.state.tagDetails} hide={this.hideTag} />
     ) : null;
@@ -52,11 +45,7 @@ class Tags extends React.Component {
         {details}
 
         <ul>
-          {Object.keys(tags).map(id => {
-            return (
-              <Tag key={id} id={id} tag={tags[id]} show={this.showTag} />
-            );
-          })}
+          {tags.map(item => <Tag key={item.id} tag={item} show={this.showTag} />)}
         </ul>
 
         <a className="btn-floating bg-red" onClick={modalActions.open}>

@@ -1,17 +1,31 @@
 var validator = require('validator');
 var apiHelpers = require('./api_helpers');
+var errors = require('./errors');
 var models = require('../models/models');
 
-function getUserData(user) {
-  return {
-    id: user.get('id'),
-    email: user.get('email')
-  };
+function setCookie(req, res, user) {
+  const data = JSON.stringify({
+    userId: user.get('id'),
+    organizationId: user.get('organization_id')
+  });
+
+  res.cookie('pigeon_auth', data, {
+    maxAge: 900000
+  });
+}
+
+function bootstrap(user, callback) {
+  user.load(['organization', 'organization.users', 'organization.tags', 'tags'])
+    .then(function(model) {
+      callback(model);
+    });
 }
 
 exports.auth = function(req, res, callback) {
-  if (req.cookies.userId) {
-    models.User.forge({ id: req.cookies.userId })
+  if (req.cookies['pigeon_auth']) {
+    const cookie = JSON.parse(req.cookies['pigeon_auth']);
+
+    models.User.where({ id: cookie.userId })
       .fetch()
       .then(function(user) {
         if (!user) {
@@ -23,12 +37,10 @@ exports.auth = function(req, res, callback) {
         callback(user);
       })
       .catch(function(err) {
-        return res.status(500).json({
-          error: err.message
-        });
+        return errors.render500(req, res, err);
       });
   } else {
-    res.clearCookie('userId');
+    res.clearCookie('pigeon_auth');
     return res.json({
       error: 'Please log in.'
     });
@@ -36,23 +48,34 @@ exports.auth = function(req, res, callback) {
 };
 
 exports.config = function(app) {
+  // Attempts to pull user data from the pigeon_auth cookie.
   app.post('/api/get_user_data', function(req, res) {
     exports.auth(req, res, function(user) {
-      return res.json({
-        error: null,
-        user: getUserData(user)
+      bootstrap(user, function(model) {
+        return res.json({
+          error: null,
+          user: model
+        });
       });
     });
   });
 
+  // Logs the user in.
+  // @param {String} email
   app.post('/api/log_in', function(req, res) {
+    if (!req.body.email) {
+      return res.json({
+        error: 'Please enter an email.'
+      });
+    }
+
     if (!validator.isEmail(req.body.email)) {
       return res.json({
         error: 'Invalid email address.'
       });
     }
 
-    models.User.forge({ email: req.body.email })
+    models.User.where({ email: req.body.email })
       .fetch()
       .then(function(user) {
         if (!user) {
@@ -61,23 +84,29 @@ exports.config = function(app) {
           });
         }
 
-        res.cookie('userId', user.get('id'), {
-          maxAge: 900000
-        });
+        bootstrap(user, function(model) {
+          setCookie(req, res, user);
 
-        return res.json({
-          error: null,
-          user: getUserData(user)
+          return res.json({
+            error: null,
+            user: model
+          });
         });
       })
       .catch(function(err) {
-        return res.status(500).json({
-          error: err.message
-        });
+        return errors.render500(req, res, err);
       });
   });
 
+  // Signs up a new user.
+  // @param {String} email
   app.post('/api/sign_up', function(req, res) {
+    if (!req.body.email) {
+      return res.json({
+        error: 'Please enter an email.'
+      });
+    }
+
     if (!validator.isEmail(req.body.email)) {
       return res.json({
         error: 'Invalid email address.'
@@ -85,7 +114,7 @@ exports.config = function(app) {
     }
 
     const domain = req.body.email.split('@')[1];
-    models.Organization.forge({ domain: domain })
+    models.Organization.where({ domain: domain })
       .fetch()
       .then(function(org) {
         if (!org) {
@@ -100,38 +129,43 @@ exports.config = function(app) {
         })
           .save()
           .then(function(user) {
-            res.cookie('userId', user.get('id'), {
-              maxAge: 900000
-            });
+            bootstrap(user, function(model) {
+              setCookie(req, res, user);
 
-            return res.json({
-              error: null,
-              user: getUserData(user)
+              return res.json({
+                error: null,
+                user: model
+              });
             });
           })
           .catch(function(err) {
             if (err.code == apiHelpers.UNIQUE_VIOLATION) {
               return res.json({
-                error: 'Looks like you’re already registered! Please login.'
+                error: 'Looks like you’re already registered! Please log in.'
               });
             }
 
-            return res.status(500).json({
-              error: err.message
-            });
+            return errors.render500(req, res, err);
           });
       })
       .catch(function(err) {
-        return res.status(500).json({
-          error: err.message
-        });
+        return errors.render500(req, res, err);
       });
   });
 
+  // Logs out the current user.
   app.post('/api/log_out', function(req, res) {
-    res.clearCookie('userId');
+    res.clearCookie('pigeon_auth');
     return res.json({
       error: null
     });
+  });
+
+  app.post('/api/subscribe', function(req, res) {
+    res.json({ error: null });
+  });
+
+  app.post('/api/unsubscribe', function(req, res) {
+    res.json({ error: null });
   });
 };

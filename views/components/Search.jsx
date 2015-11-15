@@ -18,14 +18,14 @@ class Search extends React.Component {
   }
 
   render() {
-    const tags = this.props.tags;
+    const tags = this.props.user.organization.tags;
 
     return (
       <div className="text-light-grey">
         <i className="ion-search text-white" />
         <AutocompleteTextField
           className="bg-dark-grey"
-          dictionary={ Object.keys(tags).map(id => tags[id]) }
+          dictionary={ tags.map(item => item.name) }
           placeholder="search tags and members..."
         />
       </div>

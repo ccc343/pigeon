@@ -4,36 +4,31 @@ var errors = require('./errors');
 var models = require('../models/models');
 
 exports.config = function(app) {
-  app.post('/api/new_organization', function(req, res) {
-    if (!validator.isFQDN(req.body.domain)) {
-      return res.json({
-        error: 'Invalid domain.'
-      });
-    }
 
+  app.post('/api/new_tag', function(req, res) {
     const name = validator.trim(req.body.name);
-    if (!validator.isLength(name, 1, 64)) {
+    if (!validator.isLength(name, 1, 32)) {
       return res.json({
-        error: 'Organization names cannot be longer than 64 characters.'
+        error: 'Tag names cannot be longer than 32 characters.'
       });
     }
 
-    models.Organization.forge({
-      domain: req.body.domain,
+    models.Tag.forge({
       name: name,
-      description: validator.trim(req.body.description)
+      description: validator.trim(req.body.description),
+      organization_id: 1
     })
       .save()
-      .then(function(org) {
+      .then(function(tag) {
         return res.json({
           error: null,
-          organization: org
+          tag: tag
         });
       })
       .catch(function(err) {
         if (err.code == apiHelpers.UNIQUE_VIOLATION) {
           return res.json({
-            error: 'This organization already exists.'
+            error: 'This tag already exists.'
           });
         }
         return errors.render500(req, res, err);

@@ -10,13 +10,13 @@ class Tag extends React.Component {
   }
 
   onClick() {
-    this.props.show(this.props.id);
+    this.props.show(this.props.tag);
   }
 
   render() {
     return (
       <li
-        className={cx('tag', { selected: this.props.tag.subscribed })}
+        className={cx('tag', { selected: this.props.subscribed })}
         onClick={this.onClick}
       >
         #{this.props.tag.name}
@@ -26,7 +26,6 @@ class Tag extends React.Component {
 }
 
 Tag.propTypes = {
-  id: React.PropTypes.string.isRequired,
   tag: React.PropTypes.object.isRequired,
   show: React.PropTypes.func.isRequired
 };

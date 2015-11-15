@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import authActions from '../../actions/authActions';
+import actions from '../../actions/userActions';
 
 class CreateOrg extends React.Component {
 
@@ -20,7 +20,7 @@ class CreateOrg extends React.Component {
     const description = ReactDOM.findDOMNode(this.refs.description);
 
     if (this.validate(domain, name)) {
-      authActions.createOrg(domain.value, name.value, description.value,
+      actions.createOrg(domain.value, name.value, description.value,
         (err) => {
           if (err) {
             domain.focus();

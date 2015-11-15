@@ -6,22 +6,22 @@ class UserStore {
   constructor() {
     this.bindActions(actions);
 
-    this.name = null;
-    this.email = null;
-    this.organizationId = null;
+    this.user = null;
     this.tags = {};
-
-    this.name = "Julia Wang";
-    this.email = "juliahw@princeton.edu";
-    this.organizationId = 1;
   }
 
-  setTags(tags) {
-    this.tags = tags;
-  }
+  setCurrentUser(user) {
+    this.user = {
+      email: user.email,
+      organization: user.organization,
+    };
 
-  updateTag(params) {
-    Object.assign(this.tags[params.id], params.tag);
+    this.tags = {};
+    user.organization.tags.forEach(tag => this.handleNewTag(tag));
+
+    user.tags.forEach(tag => {
+      tags[tag.id].subscribed = true;
+    });
   }
 
   handleSubscribe(tagId) {
@@ -30,6 +30,13 @@ class UserStore {
 
   handleUnsubscribe(tagId) {
     this.tags[tagId].subscribed = false;
+  }
+
+  handleNewTag(tag) {
+    this.tags[tag.id] = {
+      name: tag.name,
+      description: tag.description
+    };
   }
 }
 

@@ -9,17 +9,16 @@ import Signup from './auth/Signup';
 import CreateOrg from './auth/CreateOrg';
 
 import connectToStores from 'alt/utils/connectToStores';
-import authActions from '../actions/authActions';
-import authStore from '../stores/authStore';
+import store from '../stores/userStore';
 
 class App extends React.Component {
 
   static getStores() {
-    return [authStore];
+    return [store];
   }
 
   static getPropsFromStores() {
-    return authStore.getState();
+    return store.getState();
   }
 
   constructor(props) {
@@ -41,14 +40,14 @@ class App extends React.Component {
     return (
       <div>
         <Header
-          currentUser={this.props.currentUser}
+          user={this.props.user}
           onClickSignUp={this.display.bind(this, <Signup />)}
           onClickCreateOrg={this.display.bind(this, <CreateOrg />)}
           onClickLogin={this.display.bind(this, <Login />)}
         />
 
-        {this.props.currentUser ? <SubHeader /> : null}
-        {this.props.currentUser ? <Tags /> : this.state.display}
+        {this.props.user ? <SubHeader /> : null}
+        {this.props.user ? <Tags /> : this.state.display}
       </div>
     );
   }

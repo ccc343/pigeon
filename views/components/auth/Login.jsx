@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import authActions from '../../actions/authActions';
+import actions from '../../actions/userActions';
 
 class Login extends React.Component {
 
@@ -17,7 +17,7 @@ class Login extends React.Component {
   submit() {
     const email = ReactDOM.findDOMNode(this.refs.email);
     if (this.validate(email)) {
-      authActions.login(email.value, (err) => {
+      actions.login(email.value, (err) => {
         email.focus();
         this.setState({ error: err });
       });

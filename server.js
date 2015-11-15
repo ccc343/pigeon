@@ -33,6 +33,7 @@ app.use(allowCrossDomain);
 
 require('./routes/user').config(app);
 require('./routes/organization').config(app);
+require('./routes/tag').config(app);
 
 app.get('*', function (req, res) {
   res.render('application.garnet');

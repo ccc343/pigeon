@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import authActions from '../../actions/authActions';
+import actions from '../../actions/userActions';
 
 class Signup extends React.Component {
 
@@ -20,7 +20,7 @@ class Signup extends React.Component {
 
   login() {
     const input = this.input();
-    authActions.signup(input.value, (err) => {
+    actions.signup(input.value, (err) => {
       if (err) {
         input.focus();
       }

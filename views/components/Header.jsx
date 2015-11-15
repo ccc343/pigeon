@@ -1,11 +1,11 @@
 import React from 'react';
-import authActions from '../actions/authActions';
+import actions from '../actions/userActions';
 
 class Header extends React.Component {
 
   render() {
-    const headerLinks = this.props.currentUser ? (
-        <a className="link" onClick={authActions.logout}>
+    const headerLinks = this.props.user ? (
+        <a className="link" onClick={actions.logout}>
           Logout
         </a>
       ) : (

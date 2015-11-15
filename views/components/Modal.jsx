@@ -49,7 +49,7 @@ class Modal extends React.Component {
     const descriptionInput = ReactDOM.findDOMNode(this.refs.descriptionInput);
 
     if (this.validate(nameInput)) {
-      userActions.createTag(nameInput.value, descriptionInput.value);
+      userActions.newTag(nameInput.value, descriptionInput.value);
       modalActions.close();
 
       // Clear out input and any validation errors.

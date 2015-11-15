@@ -5,59 +5,91 @@ const actions = alt.createActions(class UserActions {
 
   constructor() {
     this.generateActions(
-      'setTags',
-      'updateTag',
       'handleSubscribe',
-      'handleUnsubscribe'
+      'handleUnsubscribe',
+      'handleNewTag',
+      'setCurrentUser'
     );
-
-    this.updateTags();
-  }
-
-  updateTags() {
-    xr.get('/api/tags/all')
-      .then(res => {
-        let tags = {};
-        res.data.forEach(tag => {
-          tags[tag.tag_id] = { name: tag.name, description: tag.description };
-        });
-
-        xr.get('/api/tags/subscribed')
-        .then(res => {
-          res.data.forEach(tagId => {
-            tags[tagId].subscribed = true;
-          });
-
-          actions.setTags(tags);
-        });
-    });
   }
 
   subscribe(tagId) {
-    xr.post('/api/subscribe', { tagId: parseInt(tagId) })
+    xr.post('/api/subscribe', {
+      tagId: parseInt(tagId)
+    })
       .then(res => {
+        console.log(res);
         actions.handleSubscribe(tagId);
-        actions.getTagUsers(tagId);
       });
   }
 
   unsubscribe(tagId) {
-    xr.post('/api/unsubscribe', { tagId: parseInt(tagId) })
+    xr.post('/api/unsubscribe', {
+      tagId: parseInt(tagId)
+    })
       .then(res => {
+        console.log(res);
         actions.handleUnsubscribe(tagId);
-        actions.getTagUsers(tagId);
       });
   }
 
-  createTag(name, description) {
-    xr.post('/api/tags/new', { name: name, description: description })
-      .then(res => { actions.updateTags(); });
+  newTag(name, description) {
+    xr.post('/api/new_tag', {
+      name: name,
+      description: description
+    })
+      .then(res => {
+        console.log(res);
+        actions.handleNewTag(res.tag);
+      });
   }
 
-  getTagUsers(tagId) {
-    xr.post('/api/get_tag_users', { tagId: parseInt(tagId) })
-      .then(res => {
-        actions.updateTag({ id: tagId, tag: { users: res.users } });
+  createOrg(domain, name, description, callback) {
+    xr.post('/api/new_organization', {
+      domain: domain,
+      name: name,
+      description: description
+    })
+      .then(function(res) {
+        console.log(res);
+        if (res.error) {
+          return callback(res.error);
+        }
+      });
+  }
+
+  signup(email, callback) {
+    xr.post('/api/sign_up', { email: email })
+      .then(function(res) {
+        console.log(res);
+        if (res.error) {
+          return callback(res.error);
+        }
+
+        actions.setCurrentUser(res.user);
+      });
+  }
+
+  login(email, callback) {
+    xr.post('/api/log_in', { email: email })
+      .then(function(res) {
+        console.log(res);
+        if (res.error) {
+          return callback(res.error);
+        }
+
+        actions.setCurrentUser(res.user);
+      });
+  }
+
+  logout(callback) {
+    xr.post('/api/log_out')
+      .then(function(res) {
+        console.log(res);
+        if (res.error) {
+          return callback(res.error);
+        }
+
+        actions.setCurrentUser(null);
       });
   }
 
