@@ -237,19 +237,19 @@ app.post('/get-num-users-tag', function (request, response) {
   });
 });
 
-var request = require('request');
-request.post({
-  url: 'http://localhost:5000/get-union-users-tag-org',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    domain: 'princeton.edu',
-    tags: ['whitman', 'mathey', '2016']
-  })
-}, function(error, response, body){
-  //console.log(body);
-});
+// var request = require('request');
+// request.post({
+//   url: 'http://localhost:5000/get-union-users-tag-org',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({
+//     domain: 'princeton.edu',
+//     tags: ['whitman', 'mathey', '2016']
+//   })
+// }, function(error, response, body){
+//   //console.log(body);
+// });
 
 var server = app.listen(process.env.PORT || 5000, function() {
   console.log('Listening on port %d.', server.address().port);
