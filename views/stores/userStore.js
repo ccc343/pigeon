@@ -11,6 +11,10 @@ class UserStore {
   }
 
   setCurrentUser(user) {
+    if (!user) {
+      return this.user = user;
+    }
+
     this.user = {
       email: user.email,
       organization: user.organization,

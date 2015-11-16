@@ -22376,6 +22376,10 @@ var UserStore = (function () {
     value: function setCurrentUser(user) {
       var _this = this;
 
+      if (!user) {
+        return this.user = user;
+      }
+
       this.user = {
         email: user.email,
         organization: user.organization
