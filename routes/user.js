@@ -165,7 +165,9 @@ exports.config = function(app) {
       models.Tag.where({
         id: req.body.id
       })
-        .fetch()
+        .fetch({
+          withRelated: 'users'
+        })
         .then(function(tag) {
           if (!tag) {
             return res.json({
@@ -173,12 +175,15 @@ exports.config = function(app) {
             });
           }
 
-          tag.users().attach(user).then(function(users) {
-            return res.json({
-              error: null,
-              tagUsers: users
+          tag.related('users').attach(user)
+            .then(function() {
+              tag.load('users').then(function(tagReloaded) {
+                return res.json({
+                  error: null,
+                  users: tagReloaded.related('users')
+                });
+              });
             });
-          });
         })
         .catch(function(err) {
           return errors.render500(req, res, err);
@@ -191,7 +196,9 @@ exports.config = function(app) {
       models.Tag.where({
         id: req.body.id
       })
-        .fetch()
+        .fetch({
+          withRelated: 'users'
+        })
         .then(function(tag) {
           if (!tag) {
             return res.json({
@@ -199,12 +206,15 @@ exports.config = function(app) {
             });
           }
 
-          tag.users().detach(user).then(function(users) {
-            return res.json({
-              error: null,
-              tagUsers: users
+          tag.related('users').detach(user)
+            .then(function() {
+              tag.load('users').then(function(tagReloaded) {
+                return res.json({
+                  error: null,
+                  users: tagReloaded.related('users')
+                });
+              });
             });
-          });
         })
         .catch(function(err) {
           return errors.render500(req, res, err);

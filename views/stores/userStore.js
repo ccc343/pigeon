@@ -27,16 +27,8 @@ class UserStore {
     });
   }
 
-  handleSubscribe(subscribed) {
-    const tag = this.tags[subscribed.id];
-    tag.subscribed = true;
-    tag.users = subscribed.users;
-  }
-
-  handleUnsubscribe(unsubscribed) {
-    const tag = this.tags[unsubscribed.id];
-    tag.subscribed = false;
-    tag.users = unsubscribed.users;
+  updateTag(updated) {
+    Object.assign(this.tags[updated.id], updated);
   }
 
   handleNewTag(tag) {

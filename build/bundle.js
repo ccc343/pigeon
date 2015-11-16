@@ -20680,7 +20680,7 @@ var actions = _alt2['default'].createActions((function () {
   function UserActions() {
     _classCallCheck(this, UserActions);
 
-    this.generateActions('handleSubscribe', 'handleUnsubscribe', 'handleNewTag', 'setCurrentUser');
+    this.generateActions('setCurrentUser', 'handleNewTag', 'updateTag');
   }
 
   _createClass(UserActions, [{
@@ -20690,9 +20690,10 @@ var actions = _alt2['default'].createActions((function () {
         id: id
       }).then(function (res) {
         console.log(res);
-        actions.handleSubscribe({
+        actions.updateTag({
           id: id,
-          users: res.tagUsers
+          subscribed: true,
+          users: res.users
         });
       });
     }
@@ -20703,9 +20704,10 @@ var actions = _alt2['default'].createActions((function () {
         id: id
       }).then(function (res) {
         console.log(res);
-        actions.handleUnsubscribe({
+        actions.updateTag({
           id: id,
-          users: res.tagUsers
+          subscribed: false,
+          users: res.users
         });
       });
     }
@@ -22394,18 +22396,9 @@ var UserStore = (function () {
       });
     }
   }, {
-    key: 'handleSubscribe',
-    value: function handleSubscribe(subscribed) {
-      var tag = this.tags[subscribed.id];
-      tag.subscribed = true;
-      tag.users = subscribed.users;
-    }
-  }, {
-    key: 'handleUnsubscribe',
-    value: function handleUnsubscribe(unsubscribed) {
-      var tag = this.tags[unsubscribed.id];
-      tag.subscribed = false;
-      tag.users = unsubscribed.users;
+    key: 'updateTag',
+    value: function updateTag(updated) {
+      Object.assign(this.tags[updated.id], updated);
     }
   }, {
     key: 'handleNewTag',

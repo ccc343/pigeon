@@ -5,10 +5,9 @@ const actions = alt.createActions(class UserActions {
 
   constructor() {
     this.generateActions(
-      'handleSubscribe',
-      'handleUnsubscribe',
+      'setCurrentUser',
       'handleNewTag',
-      'setCurrentUser'
+      'updateTag'
     );
   }
 
@@ -18,9 +17,10 @@ const actions = alt.createActions(class UserActions {
     })
       .then(res => {
         console.log(res);
-        actions.handleSubscribe({
+        actions.updateTag({
           id: id,
-          users: res.tagUsers
+          subscribed: true,
+          users: res.users
         });
       });
   }
@@ -31,9 +31,10 @@ const actions = alt.createActions(class UserActions {
     })
       .then(res => {
         console.log(res);
-        actions.handleUnsubscribe({
+        actions.updateTag({
           id: id,
-          users: res.tagUsers
+          subscribed: false,
+          users: res.users
         });
       });
   }
