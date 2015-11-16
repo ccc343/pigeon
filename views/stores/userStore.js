@@ -40,7 +40,7 @@ class UserStore {
       id: tag.id,
       name: tag.name,
       description: tag.description,
-      users: tag.users
+      users: tag.users || []
     };
   }
 }

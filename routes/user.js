@@ -5,8 +5,7 @@ var models = require('../models/models');
 
 function setCookie(req, res, user) {
   const data = JSON.stringify({
-    userId: user.get('id'),
-    organizationId: user.get('organization_id')
+    userId: user.get('id')
   });
 
   res.cookie('pigeon_auth', data, {
