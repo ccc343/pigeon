@@ -12,24 +12,29 @@ const actions = alt.createActions(class UserActions {
     );
   }
 
-  subscribe(tagId) {
+  subscribe(id) {
     xr.post('/api/subscribe', {
-      tagId: parseInt(tagId)
+      id: id
     })
       .then(res => {
         console.log(res);
-        console.log('subscribe to ' + tagId);
-        actions.handleSubscribe(tagId);
+        actions.handleSubscribe({
+          id: id,
+          users: res.tagUsers
+        });
       });
   }
 
-  unsubscribe(tagId) {
+  unsubscribe(id) {
     xr.post('/api/unsubscribe', {
-      tagId: parseInt(tagId)
+      id: id
     })
       .then(res => {
         console.log(res);
-        actions.handleUnsubscribe(tagId);
+        actions.handleUnsubscribe({
+          id: id,
+          users: res.tagUsers
+        });
       });
   }
 
@@ -59,7 +64,9 @@ const actions = alt.createActions(class UserActions {
   }
 
   signup(email, callback) {
-    xr.post('/api/sign_up', { email: email })
+    xr.post('/api/sign_up', {
+      email: email
+    })
       .then(function(res) {
         console.log(res);
         if (res.error) {
@@ -71,7 +78,9 @@ const actions = alt.createActions(class UserActions {
   }
 
   login(email, callback) {
-    xr.post('/api/log_in', { email: email })
+    xr.post('/api/log_in', {
+      email: email
+    })
       .then(function(res) {
         console.log(res);
         if (res.error) {

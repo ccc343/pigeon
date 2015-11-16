@@ -10,12 +10,12 @@ function setCookie(req, res, user) {
   });
 
   res.cookie('pigeon_auth', data, {
-    maxAge: 900000
+    maxAge: 10 * 60 * 1000
   });
 }
 
 function bootstrap(user, callback) {
-  user.load(['organization', 'organization.users', 'organization.tags', 'tags'])
+  user.load(['organization', 'organization.users', 'organization.tags', 'organization.tags.users', 'tags'])
     .then(function(model) {
       callback(model);
     });
@@ -162,10 +162,54 @@ exports.config = function(app) {
   });
 
   app.post('/api/subscribe', function(req, res) {
-    res.json({ error: null });
+    exports.auth(req, res, function(user) {
+      models.Tag.where({
+        id: req.body.id
+      })
+        .fetch()
+        .then(function(tag) {
+          if (!tag) {
+            return res.json({
+              error: 'This tag does not exist.'
+            });
+          }
+
+          tag.users().attach(user).then(function(users) {
+            return res.json({
+              error: null,
+              tagUsers: users
+            });
+          });
+        })
+        .catch(function(err) {
+          return errors.render500(req, res, err);
+        });
+    });
   });
 
   app.post('/api/unsubscribe', function(req, res) {
-    res.json({ error: null });
+    exports.auth(req, res, function(user) {
+      models.Tag.where({
+        id: req.body.id
+      })
+        .fetch()
+        .then(function(tag) {
+          if (!tag) {
+            return res.json({
+              error: 'This tag does not exist.'
+            });
+          }
+
+          tag.users().detach(user).then(function(users) {
+            return res.json({
+              error: null,
+              tagUsers: users
+            });
+          });
+        })
+        .catch(function(err) {
+          return errors.render500(req, res, err);
+        });
+    });
   });
 };

@@ -18,25 +18,29 @@ class UserStore {
 
     this.tags = {};
     user.organization.tags.forEach(tag => this.handleNewTag(tag));
-
     user.tags.forEach(tag => {
-      tags[tag.id].subscribed = true;
+      this.tags[tag.id].subscribed = true;
     });
   }
 
-  handleSubscribe(tagId) {
-    this.tags[tagId].subscribed = true;
+  handleSubscribe(subscribed) {
+    const tag = this.tags[subscribed.id];
+    tag.subscribed = true;
+    tag.users = subscribed.users;
   }
 
-  handleUnsubscribe(tagId) {
-    this.tags[tagId].subscribed = false;
+  handleUnsubscribe(unsubscribed) {
+    const tag = this.tags[unsubscribed.id];
+    tag.subscribed = false;
+    tag.users = unsubscribed.users;
   }
 
   handleNewTag(tag) {
     this.tags[tag.id] = {
       id: tag.id,
       name: tag.name,
-      description: tag.description
+      description: tag.description,
+      users: tag.users
     };
   }
 }

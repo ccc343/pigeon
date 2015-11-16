@@ -20685,23 +20685,28 @@ var actions = _alt2['default'].createActions((function () {
 
   _createClass(UserActions, [{
     key: 'subscribe',
-    value: function subscribe(tagId) {
+    value: function subscribe(id) {
       _xr2['default'].post('/api/subscribe', {
-        tagId: parseInt(tagId)
+        id: id
       }).then(function (res) {
         console.log(res);
-        console.log('subscribe to ' + tagId);
-        actions.handleSubscribe(tagId);
+        actions.handleSubscribe({
+          id: id,
+          users: res.tagUsers
+        });
       });
     }
   }, {
     key: 'unsubscribe',
-    value: function unsubscribe(tagId) {
+    value: function unsubscribe(id) {
       _xr2['default'].post('/api/unsubscribe', {
-        tagId: parseInt(tagId)
+        id: id
       }).then(function (res) {
         console.log(res);
-        actions.handleUnsubscribe(tagId);
+        actions.handleUnsubscribe({
+          id: id,
+          users: res.tagUsers
+        });
       });
     }
   }, {
@@ -20732,7 +20737,9 @@ var actions = _alt2['default'].createActions((function () {
   }, {
     key: 'signup',
     value: function signup(email, callback) {
-      _xr2['default'].post('/api/sign_up', { email: email }).then(function (res) {
+      _xr2['default'].post('/api/sign_up', {
+        email: email
+      }).then(function (res) {
         console.log(res);
         if (res.error) {
           return callback(res.error);
@@ -20744,7 +20751,9 @@ var actions = _alt2['default'].createActions((function () {
   }, {
     key: 'login',
     value: function login(email, callback) {
-      _xr2['default'].post('/api/log_in', { email: email }).then(function (res) {
+      _xr2['default'].post('/api/log_in', {
+        email: email
+      }).then(function (res) {
         console.log(res);
         if (res.error) {
           return callback(res.error);
@@ -21731,20 +21740,6 @@ var TagDetails = (function (_React$Component) {
         );
       }
 
-      var userCount = undefined;
-      if (this.props.tag.users) {
-        userCount = _react2['default'].createElement(
-          'span',
-          { className: 'text-grey' },
-          _react2['default'].createElement('i', { className: 'ion-person' }),
-          _react2['default'].createElement(
-            'b',
-            null,
-            this.props.tag.users.length
-          )
-        );
-      }
-
       return _react2['default'].createElement(
         'div',
         { className: 'tag-details bg-light-grey' },
@@ -21759,7 +21754,16 @@ var TagDetails = (function (_React$Component) {
           '#',
           this.props.tag.name
         ),
-        userCount,
+        _react2['default'].createElement(
+          'span',
+          { className: 'text-grey' },
+          _react2['default'].createElement('i', { className: 'ion-person' }),
+          _react2['default'].createElement(
+            'b',
+            null,
+            this.props.tag.users.length
+          )
+        ),
         _react2['default'].createElement(
           'p',
           { className: 'space-2' },
@@ -22381,20 +22385,23 @@ var UserStore = (function () {
       user.organization.tags.forEach(function (tag) {
         return _this.handleNewTag(tag);
       });
-
       user.tags.forEach(function (tag) {
-        tags[tag.id].subscribed = true;
+        _this.tags[tag.id].subscribed = true;
       });
     }
   }, {
     key: 'handleSubscribe',
-    value: function handleSubscribe(tagId) {
-      this.tags[tagId].subscribed = true;
+    value: function handleSubscribe(subscribed) {
+      var tag = this.tags[subscribed.id];
+      tag.subscribed = true;
+      tag.users = subscribed.users;
     }
   }, {
     key: 'handleUnsubscribe',
-    value: function handleUnsubscribe(tagId) {
-      this.tags[tagId].subscribed = false;
+    value: function handleUnsubscribe(unsubscribed) {
+      var tag = this.tags[unsubscribed.id];
+      tag.subscribed = false;
+      tag.users = unsubscribed.users;
     }
   }, {
     key: 'handleNewTag',
@@ -22402,7 +22409,8 @@ var UserStore = (function () {
       this.tags[tag.id] = {
         id: tag.id,
         name: tag.name,
-        description: tag.description
+        description: tag.description,
+        users: tag.users
       };
     }
   }]);

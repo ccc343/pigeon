@@ -40,16 +40,6 @@ class TagDetails extends React.Component {
       );
     }
 
-    let userCount;
-    if (this.props.tag.users) {
-      userCount = (
-        <span className="text-grey">
-          <i className="ion-person" />
-          <b>{this.props.tag.users.length}</b>
-        </span>
-      );
-    }
-
     return (
       <div className="tag-details bg-light-grey">
         <a className="btn-close" onClick={this.hide}>
@@ -57,7 +47,12 @@ class TagDetails extends React.Component {
         </a>
 
         <h3>#{this.props.tag.name}</h3>
-        {userCount}
+
+        <span className="text-grey">
+          <i className="ion-person" />
+          <b>{this.props.tag.users.length}</b>
+        </span>
+
         <p className="space-2">{this.props.tag.description}</p>
 
         {btn}
