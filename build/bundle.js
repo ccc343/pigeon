@@ -20680,7 +20680,7 @@ var actions = _alt2['default'].createActions((function () {
   function UserActions() {
     _classCallCheck(this, UserActions);
 
-    this.generateActions('setCurrentUser', 'handleNewTag', 'updateTag');
+    this.generateActions('setCurrentUser', 'addTag', 'updateTag');
   }
 
   _createClass(UserActions, [{
@@ -20719,7 +20719,7 @@ var actions = _alt2['default'].createActions((function () {
         description: description
       }).then(function (res) {
         console.log(res);
-        actions.handleNewTag(res.tag);
+        actions.addTag(res.tag);
       });
     }
   }, {
@@ -22389,7 +22389,7 @@ var UserStore = (function () {
 
       this.tags = {};
       user.organization.tags.forEach(function (tag) {
-        return _this.handleNewTag(tag);
+        return _this.addTag(tag);
       });
       user.tags.forEach(function (tag) {
         _this.tags[tag.id].subscribed = true;
@@ -22401,8 +22401,8 @@ var UserStore = (function () {
       Object.assign(this.tags[updated.id], updated);
     }
   }, {
-    key: 'handleNewTag',
-    value: function handleNewTag(tag) {
+    key: 'addTag',
+    value: function addTag(tag) {
       this.tags[tag.id] = {
         id: tag.id,
         name: tag.name,

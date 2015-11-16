@@ -21,7 +21,7 @@ class UserStore {
     };
 
     this.tags = {};
-    user.organization.tags.forEach(tag => this.handleNewTag(tag));
+    user.organization.tags.forEach(tag => this.addTag(tag));
     user.tags.forEach(tag => {
       this.tags[tag.id].subscribed = true;
     });
@@ -31,7 +31,7 @@ class UserStore {
     Object.assign(this.tags[updated.id], updated);
   }
 
-  handleNewTag(tag) {
+  addTag(tag) {
     this.tags[tag.id] = {
       id: tag.id,
       name: tag.name,

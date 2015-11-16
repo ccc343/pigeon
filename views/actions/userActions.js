@@ -6,7 +6,7 @@ const actions = alt.createActions(class UserActions {
   constructor() {
     this.generateActions(
       'setCurrentUser',
-      'handleNewTag',
+      'addTag',
       'updateTag'
     );
   }
@@ -46,7 +46,7 @@ const actions = alt.createActions(class UserActions {
     })
       .then(res => {
         console.log(res);
-        actions.handleNewTag(res.tag);
+        actions.addTag(res.tag);
       });
   }
 
