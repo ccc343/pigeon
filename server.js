@@ -4,6 +4,10 @@ var cookieParser = require('cookie-parser');
 
 var db = require('./db');
 
+// AlchemyAPI used for content tagging of emails
+var AlchemyAPI = require('./alchemyapi');
+var alchemyapi = new AlchemyAPI();
+
 // allows cross domain requests (for chrome extension)
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -237,6 +241,27 @@ app.post('/get-num-users-tag', function (request, response) {
   });
 });
 
+// Suggest the tags to the user
+app.post('/suggest-tags', function (request, response) {
+  var emailText = request.body.email;
+  var topics = [];
+  alchemyapi.concepts("text", emailText, {maxRetrieve: 10}, function(res) {
+    for (var i = 0; i < res['concepts'].length; i++) {
+      topics.push({
+                          "topic": res['concepts'][i]['text'], 
+                          "relevance": res['concepts'][i]['relevance']
+                        });
+    }
+    console.log(topics);
+    // parse those potential topics to find the actual tags
+    // ALGORITHM HERE
+
+    response.writeHead(200, { 'Content-Type': 'application/json'});
+    response.end(JSON.stringify(topics));
+    response.end();
+  });
+});
+
 // var request = require('request');
 // request.post({
 //   url: 'http://localhost:5000/get-union-users-tag-org',
@@ -249,6 +274,19 @@ app.post('/get-num-users-tag', function (request, response) {
 //   })
 // }, function(error, response, body){
 //   //console.log(body);
+// });
+
+// test alchemy
+// var myText = "Whoa, AlchemyAPI's Node.js SDK is really great, I can't wait to build my app!";
+// alchemyapi.concepts("text", myText, {maxRetrieve: 10}, function(response) {
+//   var potentialTags = [];
+//   for (var i = 0; i < response['concepts'].length; i++) {
+//     potentialTags.push({
+//                         "tag": response['concepts'][i]['text'], 
+//                         "relevance": response['concepts'][i]['relevance']
+//                       });
+//   }
+//   console.log(potentialTags);
 // });
 
 var server = app.listen(process.env.PORT || 5000, function() {
