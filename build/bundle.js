@@ -21315,6 +21315,7 @@ var Header = (function (_React$Component) {
       var headerLinks = undefined;
       switch ((0, _routerRouter.getPath)()) {
         case '/login':
+        case '/signup':
           headerLinks = this.links.createorg;
           break;
         case '/organization/new':
@@ -21919,7 +21920,7 @@ var Signup = (function (_React$Component) {
         { className: 'row' },
         _react2['default'].createElement(
           'div',
-          { className: 'span2 offset5' },
+          { className: 'span4 offset4' },
           _react2['default'].createElement(
             'p',
             { className: 'text-red' },

@@ -24,7 +24,7 @@ class Signup extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="span2 offset5">
+        <div className="span4 offset4">
           <p className="text-red">{this.state.error}</p>
           <label>email</label>
           <input

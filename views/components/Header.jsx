@@ -18,6 +18,7 @@ class Header extends React.Component {
     let headerLinks;
     switch (getPath()) {
       case '/login':
+      case '/signup':
         headerLinks = this.links.createorg;
         break;
       case '/organization/new':
