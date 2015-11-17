@@ -8,6 +8,7 @@ class TagDetails extends React.Component {
   constructor(props) {
     super(props);
 
+    this.hide = this.hide.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
   }

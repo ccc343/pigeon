@@ -202,6 +202,13 @@ header a {
     display: inline-block;
     margin: 0 20px 0 0; }
 
+.organization {
+  padding: 40px; }
+  .organization h1 {
+    margin: 0; }
+  .organization .statistic {
+    margin-right: 20px; }
+
 .autocomplete-container {
   display: inline-block;
   position: relative;

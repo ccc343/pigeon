@@ -2,7 +2,6 @@ import React from 'react';
 
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
-import userActions from '../actions/userActions';
 
 class Organization extends React.Component {
 
@@ -18,10 +17,21 @@ class Organization extends React.Component {
     const org = this.props.user.organization;
 
     return (
-      <div>
-        <h3>
+      <div className="organization">
+        <h1 className="text-red">
           {org.name}
-        </h3>
+        </h1>
+        <p>
+          <span className="text-grey statistic">
+            <i className="ion-person" />
+            <b>{org.users.length}</b>
+          </span>
+
+          <span className="text-grey statistic">
+            <i className="ion-pricetag" />
+            <b>{org.tags.length}</b>
+          </span>
+        </p>
         <p>
           {org.description}
         </p>

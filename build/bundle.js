@@ -21725,10 +21725,6 @@ var _storesUserStore = require('../stores/userStore');
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
-var _actionsUserActions = require('../actions/userActions');
-
-var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
-
 var Organization = (function (_React$Component) {
   _inherits(Organization, _React$Component);
 
@@ -21745,11 +21741,35 @@ var Organization = (function (_React$Component) {
 
       return _react2['default'].createElement(
         'div',
-        null,
+        { className: 'organization' },
         _react2['default'].createElement(
-          'h3',
-          null,
+          'h1',
+          { className: 'text-red' },
           org.name
+        ),
+        _react2['default'].createElement(
+          'p',
+          null,
+          _react2['default'].createElement(
+            'span',
+            { className: 'text-grey statistic' },
+            _react2['default'].createElement('i', { className: 'ion-person' }),
+            _react2['default'].createElement(
+              'b',
+              null,
+              org.users.length
+            )
+          ),
+          _react2['default'].createElement(
+            'span',
+            { className: 'text-grey statistic' },
+            _react2['default'].createElement('i', { className: 'ion-pricetag' }),
+            _react2['default'].createElement(
+              'b',
+              null,
+              org.tags.length
+            )
+          )
         ),
         _react2['default'].createElement(
           'p',
@@ -21776,7 +21796,7 @@ var Organization = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(Organization);
 module.exports = exports['default'];
 
-},{"../actions/userActions":174,"../stores/userStore":199,"alt/utils/connectToStores":12,"react":171}],183:[function(require,module,exports){
+},{"../stores/userStore":199,"alt/utils/connectToStores":12,"react":171}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22170,6 +22190,7 @@ var TagDetails = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(TagDetails.prototype), 'constructor', this).call(this, props);
 
+    this.hide = this.hide.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
   }
