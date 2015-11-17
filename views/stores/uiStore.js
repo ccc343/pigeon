@@ -7,6 +7,7 @@ class UIStore {
     this.bindActions(actions);
 
     this.modalVisible = false;
+    this.tagDetails = null;
   }
 
   openModal() {
@@ -15,6 +16,14 @@ class UIStore {
 
   closeModal() {
     this.modalVisible = false;
+  }
+
+  showTag(tag) {
+    this.tagDetails = tag;
+  }
+
+  hideTag() {
+    this.tagDetails = null;
   }
 }
 

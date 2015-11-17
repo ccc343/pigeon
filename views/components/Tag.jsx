@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import uiActions from '../actions/uiActions';
 
 class Tag extends React.Component {
 
@@ -9,7 +10,7 @@ class Tag extends React.Component {
   }
 
   onClick() {
-    this.props.show(this.props.tag);
+    uiActions.showTag(this.props.tag);
   }
 
   render() {
@@ -25,8 +26,7 @@ class Tag extends React.Component {
 }
 
 Tag.propTypes = {
-  tag: React.PropTypes.object.isRequired,
-  show: React.PropTypes.func.isRequired
+  tag: React.PropTypes.object.isRequired
 };
 
 export default Tag;

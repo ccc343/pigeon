@@ -54,9 +54,7 @@ class AutocompleteTextField extends React.Component {
     switch(e.keyCode) {
       // Enter
       case 13:
-        if (this.state.selectedIndex) {
-          this.onSelect(this.state.results[this.state.selectedIndex]);
-        }
+        this.onSelect(this.state.results[this.state.selectedIndex]);
         break;
       // Escape
       case 27:
@@ -107,8 +105,8 @@ class AutocompleteTextField extends React.Component {
     input.focus();
     this.setState({ value: null });
 
-    if (this.props.onChange) {
-      this.props.onChange('');
+    if (this.props.onClear) {
+      this.props.onClear();
     }
   }
 
@@ -164,6 +162,7 @@ AutocompleteTextField.propTypes = {
   invalid: React.PropTypes.bool,
   onChange: React.PropTypes.func,
   onSelect: React.PropTypes.func,
+  onClear: React.PropTypes.func,
   placeholder: React.PropTypes.string
 }
 

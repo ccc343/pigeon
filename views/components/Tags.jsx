@@ -4,49 +4,35 @@ import Tag from './Tag';
 import TagDetails from './TagDetails';
 
 import connectToStores from 'alt/utils/connectToStores';
-import userStore from '../stores/userStore';
 import userActions from '../actions/userActions';
+import userStore from '../stores/userStore';
 import uiActions from '../actions/uiActions';
+import uiStore from '../stores/uiStore';
 
 class Tags extends React.Component {
 
   static getStores() {
-    return [userStore];
+    return [userStore, uiStore];
   }
 
   static getPropsFromStores() {
-    return userStore.getState();
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = { tagDetails: null };
-
-    this.hideTag = this.hideTag.bind(this);
-    this.showTag = this.showTag.bind(this);
-  }
-
-  hideTag() {
-    this.setState({ tagDetails: null });
-  }
-
-  showTag(tag) {
-    this.setState({ tagDetails: tag });
+    return {
+      tagDetails: uiStore.getState().tagDetails,
+      user: userStore.getState()
+    };
   }
 
   render() {
-    const tags = this.props.tags;
-    const details = this.state.tagDetails ? (
-      <TagDetails tag={this.state.tagDetails} hide={this.hideTag} />
-    ) : null;
+    const tags = this.props.user.tags;
+    const details = this.props.tagDetails;
 
     return (
       <div>
-        {details}
+        {details ? <TagDetails tag={details} /> : null}
 
         <ul>
           {Object.keys(tags).map((id) => {
-            return <Tag key={id} tag={tags[id]} show={this.showTag} />;
+            return <Tag key={id} tag={tags[id]} />;
           })}
         </ul>
 

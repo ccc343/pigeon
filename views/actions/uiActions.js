@@ -5,7 +5,9 @@ const actions = alt.createActions(class UIActions {
   constructor() {
     this.generateActions(
       'openModal',
-      'closeModal'
+      'closeModal',
+      'showTag',
+      'hideTag'
     );
   }
 });

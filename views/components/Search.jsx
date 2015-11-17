@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
-import userActions from '../actions/userActions';
+import uiActions from '../actions/uiActions';
 
 class Search extends React.Component {
 
@@ -23,8 +23,15 @@ class Search extends React.Component {
   }
 
   onSelect(value) {
-    console.log(value);
-    this.props.onSelect(value);
+    this.props.user.organization.tags.forEach(tag => {
+      if (tag.name === value) {
+        return uiActions.showTag(tag);
+      }
+    });
+  }
+
+  onClear() {
+    uiActions.hideTag();
   }
 
   render() {
@@ -36,6 +43,7 @@ class Search extends React.Component {
           dictionary={ this.props.user.organization.tags.map(x => x.name) }
           placeholder="search all tags..."
           onSelect={this.onSelect}
+          onClear={this.onClear}
         />
       </div>
     );

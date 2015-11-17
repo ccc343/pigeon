@@ -1,19 +1,19 @@
 import React from 'react';
 import cx from 'classnames';
 import userActions from '../actions/userActions';
+import uiActions from '../actions/uiActions';
 
 class TagDetails extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.hide = this.hide.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
   }
 
   hide() {
-    this.props.hide(this.props.tag.id);
+    uiActions.hideTag(this.props.tag.id);
   }
 
   subscribe() {
@@ -60,10 +60,5 @@ class TagDetails extends React.Component {
     );
   }
 }
-
-TagDetails.propTypes = {
-  hide: React.PropTypes.func.isRequired,
-  tag: React.PropTypes.object.isRequired
-};
 
 export default TagDetails;
