@@ -20976,7 +20976,12 @@ var AutocompleteTextField = (function (_React$Component) {
       switch (e.keyCode) {
         // Enter
         case 13:
-          this.onSelect(this.state.results[this.state.selectedIndex]);
+          e.preventDefault();
+          if (this.state.selectedIndex >= 0) {
+            this.onSelect(this.state.results[this.state.selectedIndex]);
+          } else {
+            this.onSelect(this.state.value);
+          }
           break;
         // Escape
         case 27:
@@ -21767,7 +21772,7 @@ var Organization = (function (_React$Component) {
             _react2['default'].createElement(
               'b',
               null,
-              org.tags.length
+              this.props.tags.length
             )
           )
         ),
@@ -21862,11 +21867,12 @@ var Search = (function (_React$Component) {
   _createClass(Search, [{
     key: 'onSelect',
     value: function onSelect(value) {
-      this.props.user.organization.tags.forEach(function (tag) {
+      for (var id in this.props.tags) {
+        var tag = this.props.tags[id];
         if (tag.name === value) {
           return _actionsUiActions2['default'].showTag(tag);
         }
-      });
+      }
     }
   }, {
     key: 'onClear',

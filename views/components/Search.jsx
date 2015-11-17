@@ -23,11 +23,12 @@ class Search extends React.Component {
   }
 
   onSelect(value) {
-    this.props.user.organization.tags.forEach(tag => {
+    for (const id in this.props.tags) {
+      const tag = this.props.tags[id];
       if (tag.name === value) {
         return uiActions.showTag(tag);
       }
-    });
+    }
   }
 
   onClear() {

@@ -54,7 +54,12 @@ class AutocompleteTextField extends React.Component {
     switch(e.keyCode) {
       // Enter
       case 13:
-        this.onSelect(this.state.results[this.state.selectedIndex]);
+        e.preventDefault();
+        if (this.state.selectedIndex >= 0) {
+          this.onSelect(this.state.results[this.state.selectedIndex]);
+        } else {
+          this.onSelect(this.state.value);
+        }
         break;
       // Escape
       case 27:
