@@ -29,7 +29,7 @@ class Organization extends React.Component {
 
           <span className="text-grey statistic">
             <i className="ion-pricetag" />
-            <b>{this.props.tags.length}</b>
+            <b>{org.tags.length}</b>
           </span>
         </p>
         <p>
