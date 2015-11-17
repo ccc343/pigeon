@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import actions from '../../actions/userActions';
+import actions from '../actions/userActions';
 
 class Signup extends React.Component {
 
@@ -11,19 +10,13 @@ class Signup extends React.Component {
       error: null
     };
 
-    this.login = this.login.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
-  input() {
-    return ReactDOM.findDOMNode(this.refs.email);
-  }
-
-  login() {
-    const input = this.input();
-    actions.signup(input.value, (err) => {
-      if (err) {
-        input.focus();
-      }
+  submit() {
+    const email = ReactDOM.findDOMNode(this.refs.email);
+    actions.signup(email.value, (err) => {
+      email.focus();
       this.setState({ error: err });
     });
   }
@@ -41,7 +34,7 @@ class Signup extends React.Component {
             type="text"
             autoFocus
           />
-          <div className="btn btn-primary" onClick={this.login}>Sign Up</div>
+          <div className="btn btn-primary" onClick={this.submit}>Sign Up</div>
         </div>
       </div>
     );

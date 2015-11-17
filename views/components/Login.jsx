@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import actions from '../../actions/userActions';
+import {go} from '../router/router';
+import actions from '../actions/userActions';
 
 class Login extends React.Component {
 
@@ -16,28 +16,16 @@ class Login extends React.Component {
 
   submit() {
     const email = ReactDOM.findDOMNode(this.refs.email);
-    if (this.validate(email)) {
-      actions.login(email.value, (err) => {
-        email.focus();
-        this.setState({ error: err });
-      });
-    }
-  }
-
-  validate(email) {
-    if (!email.value) {
-      this.setState({ error: 'Please enter an email.' });
+    actions.login(email.value, (err) => {
       email.focus();
-      return false;
-    }
-
-    return true;
+      this.setState({ error: err });
+    });
   }
 
   render() {
     return (
       <div className="row">
-        <div className="span2 offset5">
+        <div className="span4 offset4">
           <p className="text-red">{this.state.error}</p>
           <label>Email</label>
           <input
@@ -47,7 +35,14 @@ class Login extends React.Component {
             type="text"
             autoFocus
           />
-          <div className="btn btn-primary" onClick={this.submit}>Sign In</div>
+          <div className="btn btn-primary" onClick={this.submit}>
+            Sign In
+          </div>
+          <p>
+            No account?&nbsp;
+            <span onClick={() => go('/signup')}><a>Sign up</a></span>
+            &nbsp;for free!
+          </p>
         </div>
       </div>
     );

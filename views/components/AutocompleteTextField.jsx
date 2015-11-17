@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import cx from 'classnames';
 
-import LevenshteinTrie from '../utils/levenshteinTrie';
+import {search} from '../utils/levenshtein';
 
 class AutocompleteTextField extends React.Component {
 
@@ -15,7 +15,6 @@ class AutocompleteTextField extends React.Component {
       showResults: false,
       value: null
     };
-    this.trie = new LevenshteinTrie(this.props.dictionary);
 
     // Bind event handlers.
     this.onBlur = this.onBlur.bind(this);
@@ -34,7 +33,7 @@ class AutocompleteTextField extends React.Component {
 
   // Recompute autocomplete matches.
   onChange(e) {
-    const results = this.trie.search(e.target.value);
+    const results = search(e.target.value, this.props.dictionary);
     const minIndex = results.min ? results.min.index : -1;
 
     this.setState({
@@ -55,7 +54,9 @@ class AutocompleteTextField extends React.Component {
     switch(e.keyCode) {
       // Enter
       case 13:
-        this.onSelect(this.state.results[this.state.selectedIndex] || this.state.value);
+        if (this.state.selectedIndex) {
+          this.onSelect(this.state.results[this.state.selectedIndex]);
+        }
         break;
       // Escape
       case 27:
@@ -94,8 +95,8 @@ class AutocompleteTextField extends React.Component {
     });
 
     // send callback to parent component
-    if (this.props.onChange) {
-      this.props.onChange(entry);
+    if (this.props.onSelect) {
+      this.props.onSelect(entry);
     }
   }
 
@@ -162,6 +163,7 @@ AutocompleteTextField.propTypes = {
   className: React.PropTypes.string,
   invalid: React.PropTypes.bool,
   onChange: React.PropTypes.func,
+  onSelect: React.PropTypes.func,
   placeholder: React.PropTypes.string
 }
 

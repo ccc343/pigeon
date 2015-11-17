@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import actions from '../../actions/userActions';
+import actions from '../actions/userActions';
 
 class CreateOrg extends React.Component {
 

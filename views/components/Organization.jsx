@@ -1,12 +1,33 @@
 import React from 'react';
 
+import connectToStores from 'alt/utils/connectToStores';
+import userStore from '../stores/userStore';
+import userActions from '../actions/userActions';
+
 class Organization extends React.Component {
 
+  static getStores() {
+    return [userStore];
+  }
+
+  static getPropsFromStores() {
+    return userStore.getState();
+  }
+
   render() {
+    const org = this.props.user.organization;
+
     return (
-      <h3 className="text-center">This is your organization!</h3>
+      <div>
+        <h3>
+          {org.name}
+        </h3>
+        <p>
+          {org.description}
+        </p>
+      </div>
     );
   }
 }
 
-export default Organization;
+export default connectToStores(Organization);

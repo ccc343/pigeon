@@ -1,5 +1,6 @@
-import alt from '../alt';
 import xr from 'xr';
+import alt from '../alt';
+import {go} from '../router/router';
 
 const actions = alt.createActions(class UserActions {
 
@@ -16,7 +17,6 @@ const actions = alt.createActions(class UserActions {
       id: id
     })
       .then(res => {
-        console.log(res);
         actions.updateTag({
           id: id,
           subscribed: true,
@@ -30,7 +30,6 @@ const actions = alt.createActions(class UserActions {
       id: id
     })
       .then(res => {
-        console.log(res);
         actions.updateTag({
           id: id,
           subscribed: false,
@@ -45,8 +44,8 @@ const actions = alt.createActions(class UserActions {
       description: description
     })
       .then(res => {
-        console.log(res);
         actions.addTag(res.tag);
+        actions.subscribe(res.tag.id);
       });
   }
 
@@ -57,7 +56,6 @@ const actions = alt.createActions(class UserActions {
       description: description
     })
       .then(function(res) {
-        console.log(res);
         if (res.error) {
           return callback(res.error);
         }
@@ -69,7 +67,6 @@ const actions = alt.createActions(class UserActions {
       email: email
     })
       .then(function(res) {
-        console.log(res);
         if (res.error) {
           return callback(res.error);
         }
@@ -83,24 +80,24 @@ const actions = alt.createActions(class UserActions {
       email: email
     })
       .then(function(res) {
-        console.log(res);
         if (res.error) {
           return callback(res.error);
         }
 
         actions.setCurrentUser(res.user);
+        go('/tags');
       });
   }
 
   logout(callback) {
     xr.post('/api/log_out')
       .then(function(res) {
-        console.log(res);
         if (res.error) {
           return callback(res.error);
         }
 
         actions.setCurrentUser(null);
+        go('/login');
       });
   }
 

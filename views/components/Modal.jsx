@@ -4,21 +4,21 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 
 import connectToStores from 'alt/utils/connectToStores';
-import modalStore from '../stores/modalStore';
-import userStore from '../stores/userStore';
-import modalActions from '../actions/modalActions';
+import uiActions from '../actions/uiActions';
+import uiStore from '../stores/uiStore';
 import userActions from '../actions/userActions';
+import userStore from '../stores/userStore';
 
 class Modal extends React.Component {
 
   static getStores() {
-    return [userStore, modalStore];
+    return [userStore, uiStore];
   }
 
   static getPropsFromStores() {
     return {
       user: userStore.getState(),
-      modal: modalStore.getState()
+      visible: uiStore.getState().modalVisible
     };
   }
 
@@ -40,7 +40,7 @@ class Modal extends React.Component {
 
   onClick(e) {
     if (e.target.className === 'modal') {
-      modalActions.close();
+      uiActions.closeModal();
     }
   }
 
@@ -50,7 +50,7 @@ class Modal extends React.Component {
 
     if (this.validate(nameInput)) {
       userActions.newTag(nameInput.value, descriptionInput.value);
-      modalActions.close();
+      uiActions.closeModal();
 
       // Clear out input and any validation errors.
       this.setState({ error: '' });
@@ -76,7 +76,7 @@ class Modal extends React.Component {
 
     return (
       <div
-        className={cx('modal', { hidden: !this.props.modal.visible })}
+        className={cx('modal', { hidden: !this.props.visible })}
         aria-hidden="true"
         onKeyDown={this.onKeydown}
         onClick={this.onClick}
@@ -87,7 +87,7 @@ class Modal extends React.Component {
             <a
               className="btn-close"
               aria-hidden="true"
-              onClick={modalActions.close}
+              onClick={uiActions.close}
             >
               <i className="ion-close-round" />
             </a>

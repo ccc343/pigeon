@@ -1,11 +1,11 @@
 import alt from '../alt';
 
-const actions = alt.createActions(class ModalActions {
+const actions = alt.createActions(class UIActions {
 
   constructor() {
     this.generateActions(
-      'open',
-      'close'
+      'openModal',
+      'closeModal'
     );
   }
 });

@@ -6,7 +6,7 @@ import TagDetails from './TagDetails';
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
 import userActions from '../actions/userActions';
-import modalActions from '../actions/modalActions';
+import uiActions from '../actions/uiActions';
 
 class Tags extends React.Component {
 
@@ -50,7 +50,7 @@ class Tags extends React.Component {
           })}
         </ul>
 
-        <a className="btn-floating bg-red" onClick={modalActions.open}>
+        <a className="btn-floating bg-red" onClick={uiActions.openModal}>
           <i className="ion-plus-round" />
         </a>
 

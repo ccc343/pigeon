@@ -17,16 +17,25 @@ class Search extends React.Component {
     return userStore.getState();
   }
 
-  render() {
-    const tags = this.props.user.organization.tags;
+  constructor(props) {
+    super(props);
+    this.onSelect = this.onSelect.bind(this);
+  }
 
+  onSelect(value) {
+    console.log(value);
+    this.props.onSelect(value);
+  }
+
+  render() {
     return (
       <div className="text-light-grey">
         <i className="ion-search text-white" />
         <AutocompleteTextField
           className="bg-dark-grey"
-          dictionary={ tags.map(item => item.name) }
-          placeholder="search tags and members..."
+          dictionary={ this.props.user.organization.tags.map(x => x.name) }
+          placeholder="search all tags..."
+          onSelect={this.onSelect}
         />
       </div>
     );
