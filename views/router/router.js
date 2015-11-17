@@ -5,8 +5,9 @@ window.onpopstate = function(e) {
   routeActions.go(window.location.pathname);
 };
 
-export function go(path) {
+export function go(path, callback) {
   routeActions.go(path);
+  if (callback) callback();
 }
 
 export function getPath() {

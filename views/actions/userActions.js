@@ -12,11 +12,15 @@ const actions = alt.createActions(class UserActions {
     );
   }
 
-  subscribe(id) {
+  subscribe(id, callback) {
     xr.post('/api/subscribe', {
       id: id
     })
-      .then(res => {
+      .then(function(res) {
+        if (res.error) {
+          return callback(res.error);
+        }
+
         actions.updateTag({
           id: id,
           subscribed: true,
@@ -25,11 +29,15 @@ const actions = alt.createActions(class UserActions {
       });
   }
 
-  unsubscribe(id) {
+  unsubscribe(id, callback) {
     xr.post('/api/unsubscribe', {
       id: id
     })
-      .then(res => {
+      .then(function(res) {
+        if (res.error) {
+          return callback(res.error);
+        }
+
         actions.updateTag({
           id: id,
           subscribed: false,
@@ -38,12 +46,16 @@ const actions = alt.createActions(class UserActions {
       });
   }
 
-  newTag(name, description) {
+  newTag(name, description, callback) {
     xr.post('/api/new_tag', {
       name: name,
       description: description
     })
-      .then(res => {
+      .then(function(res) {
+        if (res.error) {
+          return callback(res.error);
+        }
+
         actions.addTag(res.tag);
         actions.subscribe(res.tag.id);
       });
@@ -96,8 +108,9 @@ const actions = alt.createActions(class UserActions {
           return callback(res.error);
         }
 
-        actions.setCurrentUser(null);
-        go('/login');
+        go('/login', function() {
+          actions.setCurrentUser(null);
+        })
       });
   }
 
