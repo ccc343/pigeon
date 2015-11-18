@@ -10,7 +10,7 @@ var models = require('./models/models');
 var db = require('./db');
 
 // AlchemyAPI used for content tagging of emails
-var AlchemyAPI = require('./lib/js/alchemyapi');
+var AlchemyAPI = require('./alchemyapi');
 var alchemyapi = new AlchemyAPI();
 
 // allows cross domain requests (for chrome extension)
