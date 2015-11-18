@@ -1,5 +1,4 @@
 import React from 'react';
-
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
 

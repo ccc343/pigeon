@@ -1,8 +1,6 @@
 import React from 'react';
 import AutocompleteTextField from './AutocompleteTextField';
-
 import cx from 'classnames';
-
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
 import uiActions from '../actions/uiActions';

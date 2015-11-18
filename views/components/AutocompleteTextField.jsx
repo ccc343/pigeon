@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import cx from 'classnames';
-
 import {search} from '../utils/levenshtein';
 
 class AutocompleteTextField extends React.Component {

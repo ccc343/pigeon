@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from './Modal';
 import Tag from './Tag';
 import TagDetails from './TagDetails';
-
 import connectToStores from 'alt/utils/connectToStores';
 import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';

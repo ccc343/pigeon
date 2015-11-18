@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import cx from 'classnames';
-
 import connectToStores from 'alt/utils/connectToStores';
 import uiActions from '../actions/uiActions';
 import uiStore from '../stores/uiStore';
