@@ -21282,10 +21282,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _routerComponentsLink = require('../router/components/Link');
-
-var _routerComponentsLink2 = _interopRequireDefault(_routerComponentsLink);
-
 var _routerRouter = require('../router/router');
 
 var _actionsUserActions = require('../actions/userActions');
@@ -21306,7 +21302,7 @@ var Header = (function (_React$Component) {
         'Logout'
       ),
       createorg: _react2['default'].createElement(
-        _routerComponentsLink2['default'],
+        _routerRouter.Link,
         { to: '/organization/new' },
         _react2['default'].createElement(
           'a',
@@ -21315,7 +21311,7 @@ var Header = (function (_React$Component) {
         )
       ),
       login: _react2['default'].createElement(
-        _routerComponentsLink2['default'],
+        _routerRouter.Link,
         { to: '/login' },
         _react2['default'].createElement(
           'a',
@@ -21349,7 +21345,7 @@ var Header = (function (_React$Component) {
           'div',
           { className: 'span6', id: 'logo' },
           _react2['default'].createElement(
-            _routerComponentsLink2['default'],
+            _routerRouter.Link,
             { to: this.props.user ? '/tags' : '/login' },
             _react2['default'].createElement('img', { src: '/logo.png', alt: 'logo' }),
             _react2['default'].createElement(
@@ -21378,7 +21374,7 @@ var Header = (function (_React$Component) {
 exports['default'] = Header;
 module.exports = exports['default'];
 
-},{"../actions/userActions":174,"../router/components/Link":192,"../router/router":195,"react":171}],180:[function(require,module,exports){
+},{"../actions/userActions":174,"../router/router":195,"react":171}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22030,10 +22026,6 @@ var _Search = require('./Search');
 
 var _Search2 = _interopRequireDefault(_Search);
 
-var _routerComponentsLink = require('../router/components/Link');
-
-var _routerComponentsLink2 = _interopRequireDefault(_routerComponentsLink);
-
 var _routerRouter = require('../router/router');
 
 var SubHeader = (function (_React$Component) {
@@ -22059,7 +22051,7 @@ var SubHeader = (function (_React$Component) {
           _react2['default'].createElement(_Search2['default'], null)
         ),
         _react2['default'].createElement(
-          _routerComponentsLink2['default'],
+          _routerRouter.Link,
           { to: '/tags', className: (0, _classnames2['default'])('span3 tab', { 'selected': path === '/tags' }) },
           _react2['default'].createElement(
             'h3',
@@ -22068,7 +22060,7 @@ var SubHeader = (function (_React$Component) {
           )
         ),
         _react2['default'].createElement(
-          _routerComponentsLink2['default'],
+          _routerRouter.Link,
           { to: '/organization', className: (0, _classnames2['default'])('span3 tab', { 'selected': path === '/organization' }) },
           _react2['default'].createElement(
             'h3',
@@ -22086,7 +22078,7 @@ var SubHeader = (function (_React$Component) {
 exports['default'] = SubHeader;
 module.exports = exports['default'];
 
-},{"../router/components/Link":192,"../router/router":195,"./Search":183,"classnames":14,"react":171}],186:[function(require,module,exports){
+},{"../router/router":195,"./Search":183,"classnames":14,"react":171}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22668,8 +22660,6 @@ function renderPath(routes, path) {
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.go = go;
-exports.getPath = getPath;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -22680,6 +22670,14 @@ var _actionsRouteActions2 = _interopRequireDefault(_actionsRouteActions);
 var _storesRouteStore = require('./stores/routeStore');
 
 var _storesRouteStore2 = _interopRequireDefault(_storesRouteStore);
+
+var _componentsLink = require('./components/Link');
+
+var _componentsLink2 = _interopRequireDefault(_componentsLink);
+
+var _componentsRouter = require('./components/Router');
+
+var _componentsRouter2 = _interopRequireDefault(_componentsRouter);
 
 window.onpopstate = function (e) {
   _actionsRouteActions2['default'].go(window.location.pathname);
@@ -22694,7 +22692,12 @@ function getPath() {
   return _storesRouteStore2['default'].getState().path;
 }
 
-},{"./actions/routeActions":190,"./stores/routeStore":196}],196:[function(require,module,exports){
+exports.go = go;
+exports.getPath = getPath;
+exports.Link = _componentsLink2['default'];
+exports.Router = _componentsRouter2['default'];
+
+},{"./actions/routeActions":190,"./components/Link":192,"./components/Router":193,"./stores/routeStore":196}],196:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {

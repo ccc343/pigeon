@@ -1,8 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Search from './Search';
-import Link from '../router/components/Link';
-import {getPath} from '../router/router';
+import {getPath, Link} from '../router/router';
 
 class SubHeader extends React.Component {
 

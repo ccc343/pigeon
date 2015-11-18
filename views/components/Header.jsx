@@ -1,6 +1,5 @@
 import React from 'react';
-import Link from '../router/components/Link';
-import {getPath} from '../router/router';
+import {getPath, Link} from '../router/router';
 import actions from '../actions/userActions';
 
 class Header extends React.Component {
