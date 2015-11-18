@@ -38,6 +38,7 @@ class Login extends React.Component {
           <div className="btn btn-primary" onClick={this.submit}>
             Sign In
           </div>
+          <a href="/auth/google">Sign in with Google</a>
           <p>
             No account?&nbsp;
             <span onClick={() => go('/signup')}><a>Sign up</a></span>

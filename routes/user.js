@@ -2,6 +2,7 @@ var validator = require('validator');
 var apiHelpers = require('./api_helpers');
 var errors = require('./errors');
 var models = require('../models/models');
+var passport = require('passport');
 
 function setCookie(req, res, user) {
   const data = JSON.stringify({
@@ -21,25 +22,9 @@ function bootstrap(user, callback) {
 }
 
 exports.auth = function(req, res, callback) {
-  if (req.cookies['pigeon_auth']) {
-    const cookie = JSON.parse(req.cookies['pigeon_auth']);
-
-    models.User.where({ id: cookie.userId })
-      .fetch()
-      .then(function(user) {
-        if (!user) {
-          return res.json({
-            error: 'Please log in.'
-          });
-        }
-
-        callback(user);
-      })
-      .catch(function(err) {
-        return errors.render500(req, res, err);
-      });
+  if (req.isAuthenticated()) { 
+    callback(req.user); 
   } else {
-    res.clearCookie('pigeon_auth');
     return res.json({
       error: 'Please log in.'
     });
@@ -59,43 +44,66 @@ exports.config = function(app) {
     });
   });
 
-  // Logs the user in.
-  // @param {String} email
-  app.post('/api/log_in', function(req, res) {
-    if (!req.body.email) {
-      return res.json({
-        error: 'Please enter an email.'
-      });
-    }
+  // Logs the user in through Google
+  app.get('/auth/google', 
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-    if (!validator.isEmail(req.body.email)) {
-      return res.json({
-        error: 'Invalid email address.'
-      });
-    }
+  // After the user logs in through Google
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      var profile = req.user;
 
-    models.User.where({ email: req.body.email })
+      models.User.where({ email: profile.emails[0].value })
       .fetch()
       .then(function(user) {
         if (!user) {
-          return res.json({
-            error: 'This user does not exist.'
-          });
+          console.log('no user found');
+          res.redirect('/signup');
+        } else {
+          res.redirect('/');
         }
-
-        bootstrap(user, function(model) {
-          setCookie(req, res, user);
-
-          return res.json({
-            error: null,
-            user: model
-          });
-        });
-      })
-      .catch(function(err) {
-        return errors.render500(req, res, err);
       });
-  });
+    });
+
+
+  // Logs the user in.
+  // @param {String} email
+  // app.post('/api/log_in', function(req, res) {
+  //   if (!req.body.email) {
+  //     return res.json({
+  //       error: 'Please enter an email.'
+  //     });
+  //   }
+
+  //   if (!validator.isEmail(req.body.email)) {
+  //     return res.json({
+  //       error: 'Invalid email address.'
+  //     });
+  //   }
+
+  //   models.User.where({ email: req.body.email })
+  //     .fetch()
+  //     .then(function(user) {
+  //       if (!user) {
+  //         return res.json({
+  //           error: 'This user does not exist.'
+  //         });
+  //       }
+
+  //       bootstrap(user, function(model) {
+  //         setCookie(req, res, user);
+
+  //         return res.json({
+  //           error: null,
+  //           user: model
+  //         });
+  //       });
+  //     })
+  //     .catch(function(err) {
+  //       return errors.render500(req, res, err);
+  //     });
+  // });
 
   // Signs up a new user.
   // @param {String} email
@@ -154,7 +162,7 @@ exports.config = function(app) {
 
   // Logs out the current user.
   app.post('/api/log_out', function(req, res) {
-    res.clearCookie('pigeon_auth');
+    req.logout();
     return res.json({
       error: null
     });

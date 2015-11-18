@@ -1,11 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-
+var session = require('express-session');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GOOGLE_CLIENT_ID = "845843206204-so6m70el9a2kmc6vukhkvjll296vcpl3.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET="8jFzCXpxs-bFtvLXi_bfgSZ3";
+var models = require('./models/models');
 var db = require('./db');
 
 // AlchemyAPI used for content tagging of emails
-var AlchemyAPI = require('./alchemyapi');
+var AlchemyAPI = require('./lib/js/alchemyapi');
 var alchemyapi = new AlchemyAPI();
 
 // allows cross domain requests (for chrome extension)
@@ -23,15 +28,49 @@ var allowCrossDomain = function(req, res, next) {
     }
 };
 
+// called only during initial session authentication
+// just stores the user email in the session
+passport.serializeUser(function(user, done) {
+  done(null, user.emails[0].value);
+});
+
+// called on every request during the session
+// gets the user associated with the session email
+passport.deserializeUser(function(email, done) {
+  models.User.where({ email: email })
+    .fetch()
+    .then(function(user) {
+      done(null, user);
+    })
+});
+
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:5000/auth/google/callback'
+  },
+  function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function() {
+      done(null, profile);  
+    });
+  }
+));
+
 var app = express();
 app.use(cookieParser());
-
+app.use(session({
+  secret: 'howtogeneratethis idk needs to be hidden tho',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/', express.static(__dirname + '/build'));
 app.use('/', express.static(__dirname + '/lib'));
 app.use('/', express.static(__dirname + '/public'));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(allowCrossDomain);
 
@@ -43,50 +82,6 @@ app.get('*', function (req, res) {
   res.render('application.garnet');
 });
 
-// /* API end points - SENDER-SIDE */
-// // Get all users of a tag by tag ID
-// app.post('/get-all-users-tag', function (request, response) {
-//   var params = [request.body.tagId];
-//   var sqlString = 'SELECT emails.email FROM tags_emails INNER JOIN emails ' +
-//                   'ON tags_emails.email_id=emails.email_id ' +
-//                   'WHERE tag_id=($1)';
-//   db.query(sqlString, params, function(err, res) {
-//     if (err) {
-//       console.log("ERROR");
-//     } else {
-//       console.log("SUCCESS");
-//       var rows = res.rows;
-//       console.log(rows);
-//       response.writeHead(200, { 'Content-Type': 'application/json'});
-//       response.end(JSON.stringify(rows));
-//       response.end();
-//     }
-//   });
-// });
-
-// // Get all users of a tag by tag_name and org_domain
-// app.post('/get-all-users-tag-org', function (request, response) {
-//   var params = [request.body.tag, request.body.domain];
-//   var sqlString = 'SELECT emails.email FROM emails ' +
-//                   'INNER JOIN tags_emails ON emails.email_id=tags_emails.email_id ' +
-//                   'INNER JOIN tags ON tags_emails.tag_id=tags.tag_id ' +
-//                   'INNER JOIN organizations_tags ON organizations_tags.tag_id=tags.tag_id ' +
-//                   'INNER JOIN organizations ON organizations_tags.organization_id=organizations.organization_id ' +
-//                   'WHERE organizations.domain=($2) ' +
-//                   'AND tags.name=($1)';
-//   db.query(sqlString, params, function(err, res) {
-//     if (err) {
-//       console.log("ERROR");
-//     } else {
-//       console.log("SUCCESS");
-//       var rows = res.rows;
-//       console.log(rows);
-//       response.writeHead(200, { 'Content-Type': 'application/json'});
-//       response.end(JSON.stringify(rows));
-//       response.end();
-//     }
-//   });
-// });
 
 // Remove organization
 app.post('/remove-organization', function (request, response) {
@@ -134,7 +129,6 @@ app.post('/remove-tag-from-org', function (request, response) {
   });
 });
 
-/* API end points - RECIPIENT-SIDE */
 
 /* API end points - SENDER-SIDE */
 // Get all users of a tag by tag ID
