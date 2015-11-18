@@ -27,18 +27,9 @@ class Login extends React.Component {
       <div className="row">
         <div className="span4 offset4">
           <p className="text-red">{this.state.error}</p>
-          <label>Email</label>
-          <input
-            className="space-2 material-caret"
-            name="email"
-            ref="email"
-            type="text"
-            autoFocus
-          />
-          <div className="btn btn-primary" onClick={this.submit}>
-            Sign In
+          <div className="btn btn-primary">
+            <a href="/auth/google">Sign in with Google</a>
           </div>
-          <a href="/auth/google">Sign in with Google</a>
           <p>
             No account?&nbsp;
             <span onClick={() => go('/signup')}><a>Sign up</a></span>

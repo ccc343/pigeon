@@ -21408,26 +21408,13 @@ var Login = (function (_React$Component) {
             this.state.error
           ),
           _react2['default'].createElement(
-            'label',
-            null,
-            'Email'
-          ),
-          _react2['default'].createElement('input', {
-            className: 'space-2 material-caret',
-            name: 'email',
-            ref: 'email',
-            type: 'text',
-            autoFocus: true
-          }),
-          _react2['default'].createElement(
             'div',
-            { className: 'btn btn-primary', onClick: this.submit },
-            'Sign In'
-          ),
-          _react2['default'].createElement(
-            'a',
-            { href: '/auth/google' },
-            'Sign in with Google'
+            { className: 'btn btn-primary' },
+            _react2['default'].createElement(
+              'a',
+              { href: '/auth/google' },
+              'Sign in with Google'
+            )
           ),
           _react2['default'].createElement(
             'p',

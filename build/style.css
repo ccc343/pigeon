@@ -67,6 +67,8 @@ body {
   .btn.btn-primary {
     background-color: #d45f68;
     color: #fefefe; }
+  .btn.btn-primary a {
+    color: #fefefe; };
 
 .btn-close-wrapper {
   position: relative; }
