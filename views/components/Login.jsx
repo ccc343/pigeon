@@ -27,9 +27,9 @@ class Login extends React.Component {
       <div className="row">
         <div className="span4 offset4">
           <p className="text-red">{this.state.error}</p>
-          <div className="btn btn-primary">
-            <a href="/auth/google">Sign in with Google</a>
-          </div>
+          <a className="btn btn-primary" href="/auth/google">
+            Sign in with Google
+          </a>
           <p>
             No account?&nbsp;
             <span onClick={() => go('/signup')}><a>Sign up</a></span>
