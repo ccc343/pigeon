@@ -23,10 +23,17 @@ passport.deserializeUser(function(email, done) {
     });
 });
 
+var callbackURL;
+if (process.env.NODE_ENV === 'production') {
+  callbackURL = 'https://pigeonmail.herokuapp.com/auth/google/callback';
+} else {
+  callbackURL = 'http://localhost:5000/auth/google/callback';
+}
+
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: require('./config/google_client_secret'),
-    callbackURL: 'http://localhost:5000/auth/google/callback'
+    callbackURL: callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
