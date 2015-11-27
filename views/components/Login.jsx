@@ -1,7 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {go} from '../router/router';
-import actions from '../actions/userActions';
 
 class Login extends React.Component {
 
@@ -10,31 +7,24 @@ class Login extends React.Component {
     this.state = {
       error: null
     };
-
-    this.submit = this.submit.bind(this);
-  }
-
-  submit() {
-    const email = ReactDOM.findDOMNode(this.refs.email);
-    actions.login(email.value, (err) => {
-      email.focus();
-      this.setState({ error: err });
-    });
   }
 
   render() {
     return (
-      <div className="row">
-        <div className="span4 offset4">
-          <p className="text-red">{this.state.error}</p>
-          <a className="btn btn-primary" href="/auth/google">
-            Sign in with Google
-          </a>
-          <p>
-            No account?&nbsp;
-            <span onClick={() => go('/signup')}><a>Sign up</a></span>
-            &nbsp;for free!
-          </p>
+      <div>
+        <div className="row">
+          <div className="span4 offset4 text-center">
+            <img className="space-2" src="/posh.png" alt=""/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="span6 offset3 text-center">
+            <h2>Email should be as easy as afternoon tea.</h2>
+            <p className="text-red">{this.state.error}</p>
+            <a className="btn btn-primary" href="/auth/google">
+              Continue with Google
+            </a>
+          </div>
         </div>
       </div>
     );

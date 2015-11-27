@@ -7,6 +7,10 @@ body {
   padding-bottom: 150px;
 }
 
+img {
+  max-width: 100%;
+}
+
 .hidden {visibility: hidden}
 
 .bg-red {background-color: $red}

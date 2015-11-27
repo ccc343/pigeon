@@ -47,13 +47,22 @@ class Modal extends React.Component {
     const descriptionInput = ReactDOM.findDOMNode(this.refs.descriptionInput);
 
     if (this.validate(nameInput)) {
-      userActions.newTag(nameInput.value, descriptionInput.value);
-      uiActions.closeModal();
+      userActions.newTag(nameInput.value, descriptionInput.value, (err, id) => {
+        if (err) {
+          nameInput.focus();
+          return this.setState({ error: err });
+        }
 
-      // Clear out input and any validation errors.
-      this.setState({ error: '' });
-      nameInput.value = '';
-      descriptionInput.value = '';
+        uiActions.closeModal();
+
+        // Clear out input and any validation errors.
+        this.setState({ error: '' });
+        nameInput.value = '';
+        descriptionInput.value = '';
+
+        // Show the new tag in the sidebar.
+        uiActions.showTag(this.props.user.tags[id]);
+      });
     }
   }
 

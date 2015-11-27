@@ -7,6 +7,9 @@ class TagDetails extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      error: ''
+    };
 
     this.hide = this.hide.bind(this);
     this.subscribe = this.subscribe.bind(this);
@@ -18,11 +21,15 @@ class TagDetails extends React.Component {
   }
 
   subscribe() {
-    userActions.subscribe(this.props.tag.id);
+    userActions.subscribe(this.props.tag.id, (err) => {
+      this.setState({ error: err });
+    });
   }
 
   unsubscribe() {
-    userActions.unsubscribe(this.props.tag.id);
+    userActions.unsubscribe(this.props.tag.id, (err) => {
+      this.setState({ error: err });
+    });
   }
 
   render() {
@@ -42,20 +49,23 @@ class TagDetails extends React.Component {
     }
 
     return (
-      <div className="tag-details bg-light-grey">
-        <a className="btn-close" onClick={this.hide}>
-          <i className="ion-close-round" />
-        </a>
+      <div className="sidebar">
+        <h1 className="text-red">
+          #{this.props.tag.name}
+        </h1>
 
-        <h3>#{this.props.tag.name}</h3>
-
-        <span className="text-grey">
-          <i className="ion-person" />
-          <b>{this.props.tag.users.length}</b>
-        </span>
+        <p>
+          <span className="text-grey statistic">
+            <i className="ion-person" />
+            <b>{this.props.tag.users.length}</b>
+          </span>
+        </p>
 
         <p className="space-2">{this.props.tag.description}</p>
-
+        <p className="text-red">{this.state.error}</p>
+        <div className="btn btn-back" onClick={this.hide}>
+          <i className="ion-arrow-left-c" />
+        </div>
         {btn}
       </div>
     );

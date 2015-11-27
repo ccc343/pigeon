@@ -11,7 +11,7 @@
     padding: 0;
     border: none;
     width: 90%;
-    color: $white;
+    color: $dark-grey;
     outline: none;
   }
 
@@ -19,7 +19,7 @@
     display: inline-block;
     width: 10%;
     margin: 0 auto;
-    color: $white;
+    color: $grey;
   }
 
   a > i {
@@ -33,7 +33,7 @@
     position: absolute;
     width: 100%;
     color: $white;
-    background-color: $dark-grey;
+    background-color: $grey;
 
     &.hide {
       display: none;

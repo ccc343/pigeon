@@ -1,12 +1,15 @@
 .subheader {
-  background-color: $dark-grey;
+  border-top: 5px solid $light-grey;
+  background-color: $light-grey;
 
   .tab {
-    transition: 0.3s;
+    border-bottom: 5px solid $light-grey;
+    transition: border 0.3s ease;
     cursor: pointer;
+    color: $grey;
 
     &:hover, &.selected {
-      background-color: $red;
+      border-bottom: 5px solid $grey;
     }
   }
 

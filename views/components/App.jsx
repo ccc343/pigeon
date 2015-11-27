@@ -1,4 +1,5 @@
 import React from 'react';
+import {getPath} from '../router/router';
 import connectToStores from 'alt/utils/connectToStores';
 import Header from './Header';
 import SubHeader from './SubHeader';
@@ -19,7 +20,7 @@ class App extends React.Component {
       <div>
         <Header user={this.props.user} />
 
-        {this.props.user ? <SubHeader /> : null}
+        {getPath() !== '/login' ? <SubHeader /> : null}
 
         {this.props.children}
       </div>

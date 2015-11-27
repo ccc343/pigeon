@@ -1,5 +1,6 @@
 header {
   #logo {
+    display: inline-block;
     height: 80px;
     padding-top: 20px;
 
@@ -22,6 +23,8 @@ header {
 
   a {
     display: inline-block;
+    position: absolute;
+    right: 0;
     height: 60px;
     margin: 40px 40px 0 20px;
   }

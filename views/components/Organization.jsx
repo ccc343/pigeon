@@ -16,7 +16,7 @@ class Organization extends React.Component {
     const org = this.props.user.organization;
 
     return (
-      <div className="organization">
+      <div className="sidebar">
         <h1 className="text-red">
           {org.name}
         </h1>

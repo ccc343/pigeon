@@ -1,44 +1,37 @@
 import React from 'react';
-import {getPath, Link} from '../router/router';
+import {getPath, go, Link} from '../router/router';
 import actions from '../actions/userActions';
 
 class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    this.links = {
-      logout: <a onClick={actions.logout}>Logout</a>,
-      createorg: <Link to="/organization/new"><a>Register your organization</a></Link>,
-      login: <Link to="/login"><a>Login</a></Link>
-    };
+
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    actions.logout((err) => {
+      if (err) {
+        console.log(err);
+      }
+
+      go('/login');
+      actions.setCurrentUser(null);
+    });
   }
 
   render() {
-    let headerLinks;
-    switch (getPath()) {
-      case '/login':
-      case '/signup':
-        headerLinks = this.links.createorg;
-        break;
-      case '/organization/new':
-        headerLinks = this.links.login;
-        break;
-      default:
-        headerLinks = this.links.logout;
-    }
-
     return (
       <header className="row">
-        <div className="span6" id="logo">
+        <div id="logo">
           <Link to={this.props.user ? '/tags' : '/login'}>
             <img src="/logo.png" alt="logo" />
             <h1 className="text-red"><b>Pigeon</b></h1>
           </Link>
         </div>
 
-        <div className="span6 text-right">
-          {headerLinks}
-        </div>
+        {this.props.user ? <a onClick={this.logout}>Logout</a> : null}
       </header>
     );
   }

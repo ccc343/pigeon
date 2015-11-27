@@ -2,8 +2,6 @@ import App from './components/App';
 import Tags from './components/Tags';
 import Organization from './components/Organization';
 import Login from './components/Login';
-import Signup from './components/Signup';
-import CreateOrg from './components/CreateOrg';
 
 export const routes = {
   path: '/',
@@ -20,14 +18,6 @@ export const routes = {
     {
       path: 'login',
       component: Login
-    },
-    {
-      path: 'signup',
-      component: Signup
-    },
-    {
-      path: 'organization/new',
-      component: CreateOrg
     }
   ]
 };

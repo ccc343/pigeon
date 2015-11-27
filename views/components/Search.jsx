@@ -36,9 +36,9 @@ class Search extends React.Component {
   render() {
     return (
       <div className="text-light-grey">
-        <i className="ion-search text-white" />
+        <i className="ion-search text-grey" />
         <AutocompleteTextField
-          className="bg-dark-grey"
+          className="bg-light-grey"
           dictionary={ this.props.user.organization.tags.map(x => x.name) }
           placeholder="search all tags..."
           onSelect={this.onSelect}

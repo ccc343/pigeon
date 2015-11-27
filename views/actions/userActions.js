@@ -1,6 +1,5 @@
 import xr from 'xr';
 import alt from '../alt';
-import {go} from '../router/router';
 
 const actions = alt.createActions(class UserActions {
 
@@ -26,6 +25,7 @@ const actions = alt.createActions(class UserActions {
           subscribed: true,
           users: res.users
         });
+        callback(null, id);
       });
   }
 
@@ -43,6 +43,7 @@ const actions = alt.createActions(class UserActions {
           subscribed: false,
           users: res.users
         });
+        callback();
       });
   }
 
@@ -57,7 +58,7 @@ const actions = alt.createActions(class UserActions {
         }
 
         actions.addTag(res.tag);
-        actions.subscribe(res.tag.id);
+        actions.subscribe(res.tag.id, callback);
       });
   }
 
@@ -71,6 +72,7 @@ const actions = alt.createActions(class UserActions {
         if (res.error) {
           return callback(res.error);
         }
+        callback();
       });
   }
 
@@ -84,6 +86,7 @@ const actions = alt.createActions(class UserActions {
         }
 
         actions.setCurrentUser(res.user);
+        callback();
       });
   }
 
@@ -98,6 +101,7 @@ const actions = alt.createActions(class UserActions {
 
         actions.setCurrentUser(res.user);
         go('/tags');
+        callback();
       });
   }
 
@@ -108,9 +112,7 @@ const actions = alt.createActions(class UserActions {
           return callback(res.error);
         }
 
-        go('/login', function() {
-          actions.setCurrentUser(null);
-        })
+        callback();
       });
   }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from './Modal';
 import Tag from './Tag';
 import TagDetails from './TagDetails';
+import Organization from './Organization';
 import connectToStores from 'alt/utils/connectToStores';
 import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';
@@ -26,14 +27,20 @@ class Tags extends React.Component {
     const details = this.props.tagDetails;
 
     return (
-      <div>
-        {details ? <TagDetails tag={details} /> : null}
+      <div className="row">
+        <div className="span3">
+          <div key={details}>
+            { details ? <TagDetails tag={details} /> : <Organization /> }
+          </div>
+        </div>
 
-        <ul>
-          {Object.keys(tags).map((id) => {
-            return <Tag key={id} tag={tags[id]} />;
-          })}
-        </ul>
+        <div className="span9">
+          <ul>
+            {Object.keys(tags).map((id) => {
+              return <Tag key={id} tag={tags[id]} />;
+            })}
+          </ul>
+        </div>
 
         <a className="btn-floating bg-red" onClick={uiActions.openModal}>
           <i className="ion-plus-round" />

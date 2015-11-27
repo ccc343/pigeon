@@ -6,6 +6,9 @@ body {
   margin: 0;
   padding-bottom: 150px; }
 
+img {
+  max-width: 100%; }
+
 .hidden {
   visibility: hidden; }
 
@@ -16,7 +19,7 @@ body {
   background-color: #eeeeee; }
 
 .bg-grey {
-  background-color: #646872; }
+  background-color: #a9a9a9; }
 
 .bg-dark-grey {
   background-color: #444444; }
@@ -56,7 +59,7 @@ body {
     transform: scale(1.1, 1.1); }
 
 .btn {
-  background-color: #646872;
+  background-color: #a9a9a9;
   color: #fefefe;
   cursor: pointer;
   padding: 10px 20px;
@@ -83,7 +86,7 @@ body {
   color: #eeeeee; }
 
 .text-grey {
-  color: #646872; }
+  color: #a9a9a9; }
 
 .text-dark-grey {
   color: #444444; }
@@ -101,7 +104,7 @@ body {
   text-align: right; }
 
 a, a:visited {
-  color: #646872;
+  color: #a9a9a9;
   cursor: pointer;
   transition: 0.3s;
   font-weight: bold;
@@ -125,7 +128,7 @@ input, textarea {
   padding: 0;
   outline: none;
   border: none;
-  border-bottom: #646872 1px solid; }
+  border-bottom: #a9a9a9 1px solid; }
   input:focus, textarea:focus {
     border-bottom: #d45f68 2px solid; }
 
@@ -134,7 +137,7 @@ textarea {
 
 label {
   display: block;
-  color: #646872;
+  color: #a9a9a9;
   font-size: 12.8px; }
 
 .text-fill-color-support .material-caret {
@@ -146,6 +149,7 @@ label {
   -webkit-text-fill-color: initial; }
 
 header #logo {
+  display: inline-block;
   height: 80px;
   padding-top: 20px; }
   header #logo img {
@@ -162,53 +166,48 @@ header #logo {
     display: inline; }
 header a {
   display: inline-block;
+  position: absolute;
+  right: 0;
   height: 60px;
   margin: 40px 40px 0 20px; }
 
 .subheader {
-  background-color: #444444; }
+  border-top: 5px solid #eeeeee;
+  background-color: #eeeeee; }
   .subheader .tab {
-    transition: 0.3s;
-    cursor: pointer; }
+    border-bottom: 5px solid #eeeeee;
+    transition: border 0.3s ease;
+    cursor: pointer;
+    color: #a9a9a9; }
     .subheader .tab:hover, .subheader .tab.selected {
-      background-color: #d45f68; }
+      border-bottom: 5px solid #a9a9a9; }
   .subheader i {
     display: inline-block;
     width: 10%;
     margin: 0 auto; }
 
 .tag {
-  background-color: #646872;
+  background-color: #a9a9a9;
   color: #fefefe;
   display: inline-block;
-  padding: 20px;
-  margin-top: 30px;
-  margin-left: 30px;
+  padding: 15px;
+  margin: 40px 15px 0 20px;
   border-radius: 2px;
   cursor: pointer; }
   .tag.selected {
     background-color: #d45f68; }
 
-.tag:first-of-type {
-  margin-left: 30px; }
-
-.tag-details {
-  position: relative;
-  padding: 30px;
-  transition: 0.3s;
-  -webkit-transform: translate(0, 10);
-  -ms-transform: translate(0, 10);
-  transform: translate(0, 10); }
-  .tag-details h3 {
-    display: inline-block;
-    margin: 0 20px 0 0; }
-
-.organization {
-  padding: 40px; }
-  .organization h1 {
+.sidebar {
+  margin: 20px;
+  padding: 20px;
+  position: relative; }
+  .sidebar h1 {
     margin: 0; }
-  .organization .statistic {
+  .sidebar .statistic {
     margin-right: 20px; }
+  .sidebar .btn-back {
+    margin-right: 10px;
+    margin-bottom: 10px; }
 
 .autocomplete-container {
   display: inline-block;
@@ -222,13 +221,13 @@ header a {
     padding: 0;
     border: none;
     width: 90%;
-    color: #fefefe;
+    color: #444444;
     outline: none; }
   .autocomplete-container i {
     display: inline-block;
     width: 10%;
     margin: 0 auto;
-    color: #fefefe; }
+    color: #a9a9a9; }
   .autocomplete-container a > i {
     cursor: pointer; }
   .autocomplete-container ul {
@@ -238,7 +237,7 @@ header a {
     position: absolute;
     width: 100%;
     color: #fefefe;
-    background-color: #444444; }
+    background-color: #a9a9a9; }
     .autocomplete-container ul.hide {
       display: none; }
     .autocomplete-container ul li {
