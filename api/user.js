@@ -1,6 +1,5 @@
 var validator = require('validator');
 var apiHelpers = require('./api_helpers');
-var errors = require('./errors');
 var models = require('../models/models');
 var passport = require('passport');
 
@@ -74,11 +73,11 @@ exports.config = function(app) {
                   });
                 })
                 .catch(function(err) {
-                  return errors.render500(req, res, err);
+                  return apiHelpers.render500(req, res, err);
                 });
             })
             .catch(function(err) {
-              return errors.render500(req, res, err);
+              return apiHelpers.render500(req, res, err);
             });
         } else {
           res.redirect('/');

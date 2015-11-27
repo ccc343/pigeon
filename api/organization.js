@@ -1,6 +1,5 @@
 var validator = require('validator');
 var apiHelpers = require('./api_helpers');
-var errors = require('./errors');
 var models = require('../models/models');
 
 exports.config = function(app) {
@@ -36,7 +35,7 @@ exports.config = function(app) {
             error: 'This organization already exists.'
           });
         }
-        return errors.render500(req, res, err);
+        return apiHelpers.render500(req, res, err);
       });
   });
 };

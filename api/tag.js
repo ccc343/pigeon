@@ -1,6 +1,5 @@
 var validator = require('validator');
 var apiHelpers = require('./api_helpers');
-var errors = require('./errors');
 var models = require('../models/models');
 var auth = require('./user').auth;
 
@@ -33,11 +32,11 @@ exports.config = function(app) {
                   error: 'This tag already exists.'
                 });
               }
-              return errors.render500(req, res, err);
+              return apiHelpers.render500(req, res, err);
             });
         })
         .catch(function(err) {
-          return errors.render500(req, res, err);
+          return apiHelpers.render500(req, res, err);
         });
     });
   });
@@ -68,7 +67,7 @@ exports.config = function(app) {
             });
         })
         .catch(function(err) {
-          return errors.render500(req, res, err);
+          return apiHelpers.render500(req, res, err);
         });
     });
   });
@@ -99,7 +98,7 @@ exports.config = function(app) {
             });
         })
         .catch(function(err) {
-          return errors.render500(req, res, err);
+          return apiHelpers.render500(req, res, err);
         });
     });
   });

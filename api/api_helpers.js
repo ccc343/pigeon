@@ -1,3 +1,5 @@
+exports.UNIQUE_VIOLATION = 23505;
+
 exports.render500 = function(req, res, err) {
   console.error('['+ (new Date()).toUTCString() +'] error:');
   console.error(err.stack);
