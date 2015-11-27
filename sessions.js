@@ -35,7 +35,7 @@ passport.use(new GoogleStrategy({
 
 exports.config = function(app) {
   app.use(session({
-    secret: 'howtogeneratethis idk needs to be hidden tho',
+    secret: require('./config/session_secret'),
     resave: true,
     saveUninitialized: true
   }));
