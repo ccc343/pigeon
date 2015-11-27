@@ -11,19 +11,9 @@ function bootstrap(user, callback) {
     });
 }
 
-exports.auth = function(req, res, callback) {
-  if (req.isAuthenticated()) {
-    callback(req.user);
-  } else {
-    return res.json({
-      error: 'Please log in.'
-    });
-  }
-};
-
 exports.config = function(app) {
   app.post('/api/get_user_data', function(req, res) {
-    exports.auth(req, res, function(user) {
+    apiHelpers.auth(req, res, function(user) {
       bootstrap(user, function(model) {
         return res.json({
           error: null,
@@ -35,7 +25,8 @@ exports.config = function(app) {
 
   // Logs the user in through Google
   app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+  );
 
   // After the user logs in through Google
   app.get('/auth/google/callback',
@@ -48,7 +39,7 @@ exports.config = function(app) {
       .then(function(user) {
         // Create a new user if this user doesn't exist.
         if (!user) {
-          console.log('user does not exist');
+          console.log('no user')
           const domain = email.split('@')[1];
           models.Organization.where({ domain: domain })
             .fetch()
@@ -64,13 +55,8 @@ exports.config = function(app) {
                 organization_id: org.get('id')
               })
                 .save()
-                .then(function(user) {
-                  bootstrap(user, function(model) {
-                    return res.json({
-                      error: null,
-                      user: model
-                    });
-                  });
+                .then(function() {
+                  return res.redirect('/');
                 })
                 .catch(function(err) {
                   return apiHelpers.render500(req, res, err);
@@ -80,7 +66,7 @@ exports.config = function(app) {
               return apiHelpers.render500(req, res, err);
             });
         } else {
-          res.redirect('/');
+          return res.redirect('/');
         }
       });
     });

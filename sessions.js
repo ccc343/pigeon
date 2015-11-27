@@ -8,12 +8,14 @@ var GOOGLE_CLIENT_ID = "845843206204-so6m70el9a2kmc6vukhkvjll296vcpl3.apps.googl
 // Stores the user email in a session.
 // Called only during initial session authentication.
 passport.serializeUser(function(user, done) {
+  console.log('Serializing.');
   done(null, user.emails[0].value);
 });
 
 // Gets the user associated with the session.
-// Called on every request during the session.
+// Called on every authenticated request.
 passport.deserializeUser(function(email, done) {
+  console.log('Deserializing.');
   models.User.where({ email: email })
     .fetch()
     .then(function(user) {

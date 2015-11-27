@@ -1,11 +1,10 @@
 var validator = require('validator');
 var apiHelpers = require('./api_helpers');
 var models = require('../models/models');
-var auth = require('./user').auth;
 
 exports.config = function(app) {
   app.post('/api/new_tag', function(req, res) {
-    auth(req, res, function(user) {
+    apiHelpers.auth(req, res, function(user) {
       const name = validator.trim(req.body.name);
       if (!validator.isLength(name, 1, 32)) {
         return res.json({
@@ -42,7 +41,7 @@ exports.config = function(app) {
   });
 
   app.post('/api/subscribe', function(req, res) {
-    exports.auth(req, res, function(user) {
+    apiHelpers.auth(req, res, function(user) {
       models.Tag.where({
         id: req.body.id
       })
@@ -73,7 +72,7 @@ exports.config = function(app) {
   });
 
   app.post('/api/unsubscribe', function(req, res) {
-    exports.auth(req, res, function(user) {
+    apiHelpers.auth(req, res, function(user) {
       models.Tag.where({
         id: req.body.id
       })
