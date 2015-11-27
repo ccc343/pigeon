@@ -1,23 +1,25 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+
 var session = require('express-session');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var GOOGLE_CLIENT_ID = "845843206204-so6m70el9a2kmc6vukhkvjll296vcpl3.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET="8jFzCXpxs-bFtvLXi_bfgSZ3";
 var models = require('./models/models');
 var db = require('./db');
+var AlchemyAPI = require('./lib/js/alchemyapi');
+
+var GOOGLE_CLIENT_ID = "845843206204-so6m70el9a2kmc6vukhkvjll296vcpl3.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET="8jFzCXpxs-bFtvLXi_bfgSZ3";
 
 // AlchemyAPI used for content tagging of emails
-var AlchemyAPI = require('./alchemyapi');
 var alchemyapi = new AlchemyAPI();
 
 // allows cross domain requests (for chrome extension)
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.header('Access-Control-Allow-Headers',
+      'Content-Type, Authorization, Content-Length, X-Requested-With');
 
     // intercept OPTIONS method
     if ('OPTIONS' == req.method) {
@@ -57,7 +59,6 @@ passport.use(new GoogleStrategy({
 ));
 
 var app = express();
-app.use(cookieParser());
 app.use(session({
   secret: 'howtogeneratethis idk needs to be hidden tho',
   resave: true,

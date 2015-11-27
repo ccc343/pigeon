@@ -16,7 +16,6 @@
     "body-parser": "^1.14.1",
     "bookshelf": "^0.9.1",
     "classnames": "^2.2.0",
-    "cookie-parser": "^1.4.0",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "garnet": "^0.1.9",
