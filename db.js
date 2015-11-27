@@ -1,8 +1,5 @@
 var pg = require('pg');
 
-exports.NOT_NULL_VIOLATION = 23502;
-exports.UNIQUE_VIOLATION = 23505;
-
 // Determine the database connection settings from the
 // environment variables.
 exports.databaseURL = process.env.DATABASE_URL;
