@@ -51,7 +51,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
-      done(null, profile);  
+      done(null, profile);
     });
   }
 ));
@@ -82,54 +82,6 @@ app.get('*', function (req, res) {
   res.render('application.garnet');
 });
 
-
-// Remove organization
-app.post('/remove-organization', function (request, response) {
-  var params = [request.body.orgId];
-  db.query('DELETE FROM organizations WHERE organization_id=($1)',
-    params,
-    function(err, res) {
-      if (err) {
-        console.log("ERROR");
-        response.sendStatus(500);
-      } else {
-        console.log("SUCCESS");
-        response.sendStatus(200);
-      }
-    });
-});
-
-// Remove user from organization
-app.post('/remove-user-from-org', function (request, response) {
-  var params = [request.body.emailId];
-  var sqlString = 'DELETE FROM emails WHERE email_id=($1)';
-  db.query(sqlString, params, function(err, res) {
-    if (err) {
-      console.log("ERROR");
-      response.sendStatus(500);
-    } else {
-      console.log("SUCCESS");
-      response.sendStatus(200);
-    }
-  });
-});
-
-// Remove tag from organization
-app.post('/remove-tag-from-org', function (request, response) {
-  var params = [request.body.tagId];
-  var sqlString = 'DELETE FROM tags WHERE tag_id=($1)';
-  db.query(sqlString, params, function(err, res) {
-    if (err) {
-      console.log("ERROR");
-      response.sendStatus(500);
-    } else {
-      console.log("SUCCESS");
-      response.sendStatus(200);
-    }
-  });
-});
-
-
 /* API end points - SENDER-SIDE */
 // Get all users of a tag by tag ID
 app.post('/get-all-users-tag', function (request, response) {
@@ -155,8 +107,8 @@ app.post('/get-all-users-tag', function (request, response) {
 // Get all users of a tag by tag_name and org_domain
 app.post('/get-all-users-tag-org', function (request, response) {
   var params = [request.body.tag, request.body.domain];
-  var sqlString = 'SELECT users.email FROM users ' + 
-                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' + 
+  var sqlString = 'SELECT users.email FROM users ' +
+                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' +
                   'INNER JOIN tags ON tags.id=tags_users.tag_id ' +
                   'WHERE tags.name=($1) ' +
                   'AND tags.organization_id=(SELECT id FROM organizations ' +
@@ -185,13 +137,13 @@ app.post('/get-union-users-tag-org', function (request, response) {
     params.push(element);
   }
   console.log(params);
-  var sqlString = 'SELECT DISTINCT users.email FROM users ' + 
-                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' + 
+  var sqlString = 'SELECT DISTINCT users.email FROM users ' +
+                  'INNER JOIN tags_users ON users.id=tags_users.user_id ' +
                   'INNER JOIN tags ON tags.id=tags_users.tag_id ' +
                   'WHERE tags.organization_id=(SELECT id FROM organizations ' +
                   'WHERE domain=($1)) ' +
                   'AND (tags.name=';
-                  
+
   for (var i = 0; i < tags.length; i++) {
     sqlString += '($' + (i+2) + ')';
     if (i < tags.length-1) {
@@ -242,7 +194,7 @@ app.post('/suggest-tags', function (request, response) {
   alchemyapi.concepts("text", emailText, {maxRetrieve: 10}, function(res) {
     for (var i = 0; i < res['concepts'].length; i++) {
       topics.push({
-                          "topic": res['concepts'][i]['text'], 
+                          "topic": res['concepts'][i]['text'],
                           "relevance": res['concepts'][i]['relevance']
                         });
     }
@@ -276,7 +228,7 @@ app.post('/suggest-tags', function (request, response) {
 //   var potentialTags = [];
 //   for (var i = 0; i < response['concepts'].length; i++) {
 //     potentialTags.push({
-//                         "tag": response['concepts'][i]['text'], 
+//                         "tag": response['concepts'][i]['text'],
 //                         "relevance": response['concepts'][i]['relevance']
 //                       });
 //   }
