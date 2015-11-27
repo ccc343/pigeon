@@ -41,4 +41,66 @@ exports.config = function(app) {
         });
     });
   });
+
+  app.post('/api/subscribe', function(req, res) {
+    exports.auth(req, res, function(user) {
+      models.Tag.where({
+        id: req.body.id
+      })
+        .fetch({
+          withRelated: 'users'
+        })
+        .then(function(tag) {
+          if (!tag) {
+            return res.json({
+              error: 'This tag does not exist.'
+            });
+          }
+
+          tag.related('users').attach(user)
+            .then(function() {
+              tag.load('users').then(function(tagReloaded) {
+                return res.json({
+                  error: null,
+                  users: tagReloaded.related('users')
+                });
+              });
+            });
+        })
+        .catch(function(err) {
+          return errors.render500(req, res, err);
+        });
+    });
+  });
+
+  app.post('/api/unsubscribe', function(req, res) {
+    exports.auth(req, res, function(user) {
+      models.Tag.where({
+        id: req.body.id
+      })
+        .fetch({
+          withRelated: 'users'
+        })
+        .then(function(tag) {
+          if (!tag) {
+            return res.json({
+              error: 'This tag does not exist.'
+            });
+          }
+
+          tag.related('users').detach(user)
+            .then(function() {
+              tag.load('users').then(function(tagReloaded) {
+                return res.json({
+                  error: null,
+                  users: tagReloaded.related('users')
+                });
+              });
+            });
+        })
+        .catch(function(err) {
+          return errors.render500(req, res, err);
+        });
+    });
+  });
 };
