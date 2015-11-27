@@ -22151,11 +22151,9 @@ var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
 _xr2['default'].post('/api/get_user_data').then(function (res) {
   if (res.user) {
-    if (window.location.pathname == '/') {
-      (0, _routerRouter.go)('/tags');
-    }
+    (0, _routerRouter.go)('/tags');
     _actionsUserActions2['default'].setCurrentUser(res.user);
-  } else if (window.location.pathname == '/') {
+  } else {
     (0, _routerRouter.go)('/login');
   }
 
@@ -22519,9 +22517,6 @@ var routes = {
   children: [{
     path: 'tags',
     component: _componentsTags2['default']
-  }, {
-    path: 'organization',
-    component: _componentsOrganization2['default']
   }, {
     path: 'login',
     component: _componentsLogin2['default']

@@ -12,10 +12,6 @@ export const routes = {
       component: Tags
     },
     {
-      path: 'organization',
-      component: Organization
-    },
-    {
       path: 'login',
       component: Login
     }

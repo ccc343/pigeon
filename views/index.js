@@ -9,11 +9,9 @@ import userActions from './actions/userActions';
 xr.post('/api/get_user_data')
   .then(function(res) {
     if (res.user) {
-      if (window.location.pathname == '/') {
-        go('/tags');
-      }
+      go('/tags');
       userActions.setCurrentUser(res.user);
-    } else if (window.location.pathname == '/') {
+    } else {
       go('/login');
     }
 
