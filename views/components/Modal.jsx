@@ -94,7 +94,7 @@ class Modal extends React.Component {
             <a
               className="btn-close"
               aria-hidden="true"
-              onClick={uiActions.close}
+              onClick={uiActions.closeModal}
             >
               <i className="ion-close-round" />
             </a>

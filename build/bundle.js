@@ -21456,7 +21456,7 @@ var Modal = (function (_React$Component) {
               {
                 className: 'btn-close',
                 'aria-hidden': 'true',
-                onClick: _actionsUiActions2['default'].close
+                onClick: _actionsUiActions2['default'].closeModal
               },
               _react2['default'].createElement('i', { className: 'ion-close-round' })
             )
