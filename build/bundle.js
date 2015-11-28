@@ -28186,7 +28186,7 @@ var Login = (function (_React$Component) {
                   { className: 'text-red' },
                   'tag-based mailing list for your organization'
                 ),
-                '. Subscribe to the tags that interest you. Pigeon will do the rest, ensuring that only emails you care about reach your inbox.'
+                '. Subscribe to the tags that interest you, and Pigeon will do the rest, ensuring that only emails you care about reach your inbox.'
               )
             ),
             _react2['default'].createElement(
@@ -28198,12 +28198,25 @@ var Login = (function (_React$Component) {
                 }
               },
               this.state.learnMore ? _react2['default'].createElement(
-                'p',
-                { className: 'space-2 text-normal' },
+                'div',
+                null,
                 _react2['default'].createElement(
-                  'b',
-                  null,
-                  'Pigeon is completely free to use, and we don’t store personal data. To advertise an event or opportunity to a targeted audience — send emails with Pigeon! Download our Chrome extension (COMING SOON)!'
+                  'p',
+                  { className: 'space-2 text-normal' },
+                  _react2['default'].createElement(
+                    'b',
+                    null,
+                    'Listservs are beyond outdated. Pigeon is a dynamic, streamlined mailing list solution: with Pigeon, you can receive less spam and manage your lists with ease. Best of all, it’s completely free to use, and we don’t store any of your personal data!'
+                  )
+                ),
+                _react2['default'].createElement(
+                  'p',
+                  { className: 'space-2 text-normal' },
+                  _react2['default'].createElement(
+                    'b',
+                    null,
+                    'To advertise an event or opportunity to a targeted audience — send emails with Pigeon! Download our Chrome extension (COMING SOON)!'
+                  )
                 )
               ) : null
             )
