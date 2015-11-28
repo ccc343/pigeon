@@ -7,7 +7,7 @@ body {
   padding-bottom: 150px; }
 
 img {
-  max-width: 100%; }
+  max-width: 95%; }
 
 .hidden {
   visibility: hidden; }
@@ -64,7 +64,8 @@ img {
   cursor: pointer;
   padding: 10px 20px;
   border-radius: 2px;
-  display: inline-block; }
+  display: inline-block;
+  margin: 5px 5px 5px 0; }
   .btn:hover {
     color: #fefefe !important; }
   .btn.btn-primary {
@@ -78,6 +79,9 @@ img {
   position: absolute;
   right: 15px;
   top: 15px; }
+
+#login {
+  margin: 40px; }
 
 .text-red {
   color: #d45f68; }
@@ -102,6 +106,9 @@ img {
 
 .text-right {
   text-align: right; }
+
+.text-normal {
+  text-transform: none; }
 
 a, a:visited {
   color: #a9a9a9;

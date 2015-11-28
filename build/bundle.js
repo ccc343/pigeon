@@ -28105,25 +28105,29 @@ exports['default'] = Header;
 module.exports = exports['default'];
 
 },{"../actions/userActions":254,"../router/router":273,"react":173}],259:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _velocityReactVelocityTransitionGroup = require('velocity-react/velocity-transition-group');
+
+var _velocityReactVelocityTransitionGroup2 = _interopRequireDefault(_velocityReactVelocityTransitionGroup);
 
 var Login = (function (_React$Component) {
   _inherits(Login, _React$Component);
@@ -28131,47 +28135,99 @@ var Login = (function (_React$Component) {
   function Login(props) {
     _classCallCheck(this, Login);
 
-    _get(Object.getPrototypeOf(Login.prototype), "constructor", this).call(this, props);
+    _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).call(this, props);
     this.state = {
-      error: null
+      learnMore: false
     };
+
+    this.onClickLearnMore = this.onClickLearnMore.bind(this);
   }
 
   _createClass(Login, [{
-    key: "render",
+    key: 'onClickLearnMore',
+    value: function onClickLearnMore() {
+      this.setState({ learnMore: true });
+    }
+  }, {
+    key: 'render',
     value: function render() {
-      return _react2["default"].createElement(
-        "div",
-        null,
-        _react2["default"].createElement(
-          "div",
-          { className: "row" },
-          _react2["default"].createElement(
-            "div",
-            { className: "span4 offset4 text-center" },
-            _react2["default"].createElement("img", { className: "space-2", src: "/posh.png", alt: "" })
+      return _react2['default'].createElement(
+        'div',
+        { id: 'login' },
+        _react2['default'].createElement(
+          'div',
+          { className: 'row' },
+          _react2['default'].createElement(
+            'div',
+            { className: 'span4 offset4 text-center' },
+            _react2['default'].createElement('img', { className: 'space-2', src: '/posh.png', alt: '' })
           )
         ),
-        _react2["default"].createElement(
-          "div",
-          { className: "row" },
-          _react2["default"].createElement(
-            "div",
-            { className: "span6 offset3 text-center" },
-            _react2["default"].createElement(
-              "h2",
-              null,
-              "Email should be as easy as afternoon tea."
+        _react2['default'].createElement(
+          'div',
+          { className: 'row' },
+          _react2['default'].createElement(
+            'div',
+            { className: 'span6 offset3 text-center' },
+            _react2['default'].createElement(
+              'h1',
+              { className: 'text-grey' },
+              'no more listservs.'
             ),
-            _react2["default"].createElement(
-              "p",
-              { className: "text-red" },
-              this.state.error
+            _react2['default'].createElement(
+              'p',
+              { className: 'space-2 text-normal' },
+              _react2['default'].createElement(
+                'b',
+                null,
+                'Pigeon is a ',
+                _react2['default'].createElement(
+                  'span',
+                  { className: 'text-red' },
+                  'tag-based mailing list for your organization'
+                ),
+                '. Subscribe to the tags that interest you. Pigeon will do the rest, ensuring that only emails you care about reach your inbox.'
+              )
             ),
-            _react2["default"].createElement(
-              "a",
-              { className: "btn btn-primary", href: "/auth/google" },
-              "Continue with Google"
+            _react2['default'].createElement(
+              _velocityReactVelocityTransitionGroup2['default'],
+              {
+                enter: {
+                  animation: 'slideDown',
+                  duration: 500
+                }
+              },
+              this.state.learnMore ? _react2['default'].createElement(
+                'p',
+                { className: 'space-2 text-normal' },
+                _react2['default'].createElement(
+                  'b',
+                  null,
+                  'Pigeon is completely free to use, and we don’t store personal data. To advertise an event or opportunity to a targeted audience — send emails with Pigeon! Download our Chrome extension (COMING SOON)!'
+                )
+              ) : null
+            )
+          )
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'row' },
+          _react2['default'].createElement(
+            'div',
+            { className: 'span6 offset3 text-center' },
+            !this.state.learnMore ? _react2['default'].createElement(
+              'div',
+              { className: 'btn', onClick: this.onClickLearnMore },
+              _react2['default'].createElement(
+                'b',
+                null,
+                'Learn more'
+              )
+            ) : null,
+            _react2['default'].createElement(
+              'a',
+              { className: 'btn btn-primary', href: '/auth/google' },
+              'Continue with Google'
             )
           )
         )
@@ -28180,12 +28236,12 @@ var Login = (function (_React$Component) {
   }]);
 
   return Login;
-})(_react2["default"].Component);
+})(_react2['default'].Component);
 
-exports["default"] = Login;
-module.exports = exports["default"];
+exports['default'] = Login;
+module.exports = exports['default'];
 
-},{"react":173}],260:[function(require,module,exports){
+},{"react":173,"velocity-react/velocity-transition-group":251}],260:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
