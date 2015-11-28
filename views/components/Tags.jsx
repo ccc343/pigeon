@@ -3,8 +3,8 @@ import Modal from './Modal';
 import Tag from './Tag';
 import TagDetails from './TagDetails';
 import Organization from './Organization';
+
 import connectToStores from 'alt/utils/connectToStores';
-import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';
 import uiActions from '../actions/uiActions';
 import uiStore from '../stores/uiStore';
@@ -17,26 +17,26 @@ class Tags extends React.Component {
 
   static getPropsFromStores() {
     return {
-      tagDetails: uiStore.getState().tagDetails,
-      user: userStore.getState()
+      ui: uiStore.getState(),
+      allTags: userStore.getState().tags
     };
   }
 
   render() {
-    const tags = this.props.user.tags;
-    const details = this.props.tagDetails;
+    const tags = this.props.ui.searchResults || this.props.allTags;
+    const sidebar = this.props.ui.tagDetails ? (
+      <TagDetails tag={this.props.ui.tagDetails} />
+      ) : <Organization />;
 
     return (
       <div className="row">
         <div className="span3">
-          <div key={details}>
-            { details ? <TagDetails tag={details} /> : <Organization /> }
-          </div>
+          {sidebar}
         </div>
 
         <div className="span9">
           <ul>
-            {Object.keys(tags).map((id) => {
+            {Object.keys(tags).map(id => {
               return <Tag key={id} tag={tags[id]} />;
             })}
           </ul>

@@ -12,25 +12,37 @@ class Search extends React.Component {
   }
 
   static getPropsFromStores() {
-    return userStore.getState();
+    return {
+      tags: userStore.getState().tags
+    };
   }
 
   constructor(props) {
     super(props);
-    this.onSelect = this.onSelect.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onClear = this.onClear.bind(this);
   }
 
-  onSelect(value) {
-    for (const id in this.props.tags) {
-      const tag = this.props.tags[id];
-      if (tag.name === value) {
-        return uiActions.showTag(tag);
-      }
+  onChange(result) {
+    function contains(x) {
+      let val = false;
+      result.results.forEach(y => {
+        if (x == y) {
+          val = true;
+        }
+      });
+      return val;
     }
+
+    const ids = Object.keys(this.props.tags)
+      .filter(id => contains(this.props.tags[id].name))
+      .map(id => this.props.tags[id]);
+
+    uiActions.setSearchResults(ids);
   }
 
   onClear() {
-    uiActions.hideTag();
+    uiActions.setSearchResults(null);
   }
 
   render() {
@@ -39,10 +51,10 @@ class Search extends React.Component {
         <i className="ion-search text-grey" />
         <AutocompleteTextField
           className="bg-light-grey"
-          dictionary={ this.props.user.organization.tags.map(x => x.name) }
+          dictionary={ Object.keys(this.props.tags).map(id => this.props.tags[id].name) }
           placeholder="search all tags..."
-          onSelect={this.onSelect}
           onClear={this.onClear}
+          onChange = {this.onChange}
         />
       </div>
     );

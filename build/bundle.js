@@ -20652,7 +20652,7 @@ var _alt2 = _interopRequireDefault(_alt);
 var actions = _alt2['default'].createActions(function UIActions() {
   _classCallCheck(this, UIActions);
 
-  this.generateActions('openModal', 'closeModal', 'showTag', 'hideTag');
+  this.generateActions('openModal', 'closeModal', 'showTag', 'hideTag', 'setSearchResults');
 });
 
 exports['default'] = actions;
@@ -20930,108 +20930,41 @@ var AutocompleteTextField = (function (_React$Component) {
     _classCallCheck(this, AutocompleteTextField);
 
     _get(Object.getPrototypeOf(AutocompleteTextField.prototype), 'constructor', this).call(this, props);
-    this.state = {
-      results: [],
-      selectedIndex: -1,
-      showResults: false,
-      value: null
-    };
+    this.state = { hasValue: false };
 
     // Bind event handlers.
-    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onKeydown = this.onKeydown.bind(this);
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.clear = this.clear.bind(this);
   }
 
-  // Hide autocomplete results on blur.
+  // Recompute autocomplete matches.
 
   _createClass(AutocompleteTextField, [{
-    key: 'onBlur',
-    value: function onBlur() {
-      this.setState({ showResults: false });
-    }
-
-    // Recompute autocomplete matches.
-  }, {
     key: 'onChange',
     value: function onChange(e) {
-      var results = (0, _utilsLevenshtein.search)(e.target.value, this.props.dictionary);
-      var minIndex = results.min ? results.min.index : -1;
+      var value = e.target.value;
+      this.setState({ hasValue: !!value });
 
-      this.setState({
-        results: results.words,
-        selectedIndex: minIndex, // Deselect any selected result field
-        showResults: !!e.target.value, // Hide results menu on empty input
-        value: e.target.value
-      });
-
-      // send callback to parent component
-      if (this.props.onChange) {
-        this.props.onChange(e.target.value);
+      if (!value) {
+        return this.props.onClear();
       }
+
+      var results = (0, _utilsLevenshtein.search)(value, this.props.dictionary);
+
+      // Send the results of the change to the parent component.
+      this.props.onChange({
+        query: e.target.value,
+        results: results.words
+      });
     }
 
     // Key commands for more natural flow through the menu.
   }, {
-    key: 'onKeydown',
-    value: function onKeydown(e) {
-      switch (e.keyCode) {
-        // Enter
-        case 13:
-          e.preventDefault();
-          if (this.state.selectedIndex >= 0) {
-            this.onSelect(this.state.results[this.state.selectedIndex]);
-          } else {
-            this.onSelect(this.state.value);
-          }
-          break;
-        // Escape
-        case 27:
-          this.input().blur();
-          break;
-        // Up
-        case 38:
-          var prevIndex = this.state.selectedIndex - 1;
-          this.setState({ selectedIndex: Math.max(prevIndex, -1) });
-          break;
-        // Down
-        case 40:
-          var nextIndex = this.state.selectedIndex + 1;
-          var maxIndex = this.state.results.length - 1;
-          this.setState({ selectedIndex: Math.min(nextIndex, maxIndex) });
-          break;
-        default:
-          break;
-      }
-    }
-
-    // Highlight result on hover.
-  }, {
-    key: 'onMouseEnter',
-    value: function onMouseEnter(index) {
-      this.setState({ selectedIndex: index });
-    }
-
-    // Set the input value to that of the selected entry.
-  }, {
-    key: 'onSelect',
-    value: function onSelect(entry) {
-      // Prevent the results menu from disappearing.
-      this.input().focus();
-
-      this.setState({
-        selectedIndex: -1,
-        showResults: false,
-        value: entry
-      });
-
-      // send callback to parent component
-      if (this.props.onSelect) {
-        this.props.onSelect(entry);
+    key: 'onKeyDown',
+    value: function onKeyDown(e) {
+      if (e.keyCode === 27) {
+        this.input().blur();
       }
     }
 
@@ -21042,11 +20975,9 @@ var AutocompleteTextField = (function (_React$Component) {
       var input = this.input();
       input.value = '';
       input.focus();
-      this.setState({ value: null });
 
-      if (this.props.onClear) {
-        this.props.onClear();
-      }
+      this.setState({ hasValue: false });
+      this.props.onClear();
     }
 
     // Returns a reference to the native DOM node of the input field.
@@ -21058,10 +20989,8 @@ var AutocompleteTextField = (function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this = this;
-
       var inputClass = (0, _classnames2['default'])({ invalid: this.props.invalid }, this.props.className);
-      var closeIconClass = (0, _classnames2['default'])('ion-close-circled', { hidden: !this.state.value });
+      var closeIconClass = (0, _classnames2['default'])('ion-close-circled', { hidden: !this.state.hasValue });
 
       return _react2['default'].createElement(
         'div',
@@ -21069,34 +20998,16 @@ var AutocompleteTextField = (function (_React$Component) {
         _react2['default'].createElement('input', {
           autoComplete: 'off',
           className: inputClass,
-          onBlur: this.onBlur,
           onChange: this.onChange,
-          onKeyDown: this.onKeydown,
+          onKeyDown: this.onKeyDown,
           placeholder: this.props.placeholder,
           ref: 'input',
-          type: 'text',
-          value: this.state.value
+          type: 'text'
         }),
         _react2['default'].createElement(
           'a',
           null,
           _react2['default'].createElement('i', { className: closeIconClass, onClick: this.clear })
-        ),
-        _react2['default'].createElement(
-          'ul',
-          { className: (0, _classnames2['default'])({ hide: !this.state.showResults }) },
-          this.state.results.map(function (entry, index) {
-            return _react2['default'].createElement(
-              'li',
-              {
-                key: entry,
-                className: (0, _classnames2['default'])({ 'selected': _this.state.selectedIndex === index }),
-                onMouseDown: _this.onSelect.bind(_this, entry),
-                onMouseEnter: _this.onMouseEnter.bind(_this, index)
-              },
-              entry
-            );
-          })
         )
       );
     }
@@ -21108,15 +21019,9 @@ var AutocompleteTextField = (function (_React$Component) {
 AutocompleteTextField.propTypes = {
   dictionary: _react2['default'].PropTypes.array.isRequired,
   className: _react2['default'].PropTypes.string,
-  invalid: _react2['default'].PropTypes.bool,
   onChange: _react2['default'].PropTypes.func,
-  onSelect: _react2['default'].PropTypes.func,
   onClear: _react2['default'].PropTypes.func,
   placeholder: _react2['default'].PropTypes.string
-};
-
-AutocompleteTextField.defaultProps = {
-  invalid: false
 };
 
 exports['default'] = AutocompleteTextField;
@@ -21663,7 +21568,9 @@ var Search = (function (_React$Component) {
   }, {
     key: 'getPropsFromStores',
     value: function getPropsFromStores() {
-      return _storesUserStore2['default'].getState();
+      return {
+        tags: _storesUserStore2['default'].getState().tags
+      };
     }
   }]);
 
@@ -21671,39 +21578,55 @@ var Search = (function (_React$Component) {
     _classCallCheck(this, Search);
 
     _get(Object.getPrototypeOf(Search.prototype), 'constructor', this).call(this, props);
-    this.onSelect = this.onSelect.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onClear = this.onClear.bind(this);
   }
 
   _createClass(Search, [{
-    key: 'onSelect',
-    value: function onSelect(value) {
-      for (var id in this.props.tags) {
-        var tag = this.props.tags[id];
-        if (tag.name === value) {
-          return _actionsUiActions2['default'].showTag(tag);
-        }
+    key: 'onChange',
+    value: function onChange(result) {
+      var _this = this;
+
+      function contains(x) {
+        var val = false;
+        result.results.forEach(function (y) {
+          if (x == y) {
+            val = true;
+          }
+        });
+        return val;
       }
+
+      var ids = Object.keys(this.props.tags).filter(function (id) {
+        return contains(_this.props.tags[id].name);
+      }).map(function (id) {
+        return _this.props.tags[id];
+      });
+
+      _actionsUiActions2['default'].setSearchResults(ids);
     }
   }, {
     key: 'onClear',
     value: function onClear() {
-      _actionsUiActions2['default'].hideTag();
+      _actionsUiActions2['default'].setSearchResults(null);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2['default'].createElement(
         'div',
         { className: 'text-light-grey' },
         _react2['default'].createElement('i', { className: 'ion-search text-grey' }),
         _react2['default'].createElement(_AutocompleteTextField2['default'], {
           className: 'bg-light-grey',
-          dictionary: this.props.user.organization.tags.map(function (x) {
-            return x.name;
+          dictionary: Object.keys(this.props.tags).map(function (id) {
+            return _this2.props.tags[id].name;
           }),
           placeholder: 'search all tags...',
-          onSelect: this.onSelect,
-          onClear: this.onClear
+          onClear: this.onClear,
+          onChange: this.onChange
         })
       );
     }
@@ -22039,10 +21962,6 @@ var _altUtilsConnectToStores = require('alt/utils/connectToStores');
 
 var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
 
-var _actionsUserActions = require('../actions/userActions');
-
-var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
-
 var _storesUserStore = require('../stores/userStore');
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
@@ -22067,8 +21986,8 @@ var Tags = (function (_React$Component) {
   _createClass(Tags, [{
     key: 'render',
     value: function render() {
-      var tags = this.props.user.tags;
-      var details = this.props.tagDetails;
+      var tags = this.props.ui.searchResults || this.props.allTags;
+      var sidebar = this.props.ui.tagDetails ? _react2['default'].createElement(_TagDetails2['default'], { tag: this.props.ui.tagDetails }) : _react2['default'].createElement(_Organization2['default'], null);
 
       return _react2['default'].createElement(
         'div',
@@ -22076,11 +21995,7 @@ var Tags = (function (_React$Component) {
         _react2['default'].createElement(
           'div',
           { className: 'span3' },
-          _react2['default'].createElement(
-            'div',
-            { key: details },
-            details ? _react2['default'].createElement(_TagDetails2['default'], { tag: details }) : _react2['default'].createElement(_Organization2['default'], null)
-          )
+          sidebar
         ),
         _react2['default'].createElement(
           'div',
@@ -22110,8 +22025,8 @@ var Tags = (function (_React$Component) {
     key: 'getPropsFromStores',
     value: function getPropsFromStores() {
       return {
-        tagDetails: _storesUiStore2['default'].getState().tagDetails,
-        user: _storesUserStore2['default'].getState()
+        ui: _storesUiStore2['default'].getState(),
+        allTags: _storesUserStore2['default'].getState().tags
       };
     }
   }]);
@@ -22122,7 +22037,7 @@ var Tags = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(Tags);
 module.exports = exports['default'];
 
-},{"../actions/uiActions":173,"../actions/userActions":174,"../stores/uiStore":196,"../stores/userStore":197,"./Modal":180,"./Organization":181,"./Tag":184,"./TagDetails":185,"alt/utils/connectToStores":12,"react":171}],187:[function(require,module,exports){
+},{"../actions/uiActions":173,"../stores/uiStore":196,"../stores/userStore":197,"./Modal":180,"./Organization":181,"./Tag":184,"./TagDetails":185,"alt/utils/connectToStores":12,"react":171}],187:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -22553,6 +22468,7 @@ var UIStore = (function () {
 
     this.modalVisible = false;
     this.tagDetails = null;
+    this.searchResults = null;
   }
 
   _createClass(UIStore, [{
@@ -22574,6 +22490,11 @@ var UIStore = (function () {
     key: 'hideTag',
     value: function hideTag() {
       this.tagDetails = null;
+    }
+  }, {
+    key: 'setSearchResults',
+    value: function setSearchResults(results) {
+      this.searchResults = results;
     }
   }]);
 
@@ -22715,6 +22636,9 @@ exports.search = search;
 
 var _arrayUtils = require('./arrayUtils');
 
+var MAX_RESULTS = 10;
+var MAX_DISTANCE = 5;
+
 function distanceTo(str1, str2) {
   var results = [];
   for (var i = 0; i <= str1.length; i++) {
@@ -22739,27 +22663,26 @@ function distanceTo(str1, str2) {
 }
 
 function search(word, dictionary) {
-  var maxResults = arguments.length <= 2 || arguments[2] === undefined ? 5 : arguments[2];
-
   var matches = [];
 
   for (var i = 0; i < dictionary.length; i++) {
     var distance = distanceTo(word, dictionary[i]);
-
-    if (matches.length < maxResults) {
-      matches.push({
-        word: dictionary[i],
-        distance: distance
-      });
-    } else {
-      var max = (0, _arrayUtils.maxWithIndex)(matches, function (x) {
-        return x.distance;
-      });
-      if (distance < max.value) {
-        matches[max.index] = {
+    if (distance <= MAX_DISTANCE) {
+      if (matches.length < MAX_RESULTS) {
+        matches.push({
           word: dictionary[i],
           distance: distance
-        };
+        });
+      } else {
+        var max = (0, _arrayUtils.maxWithIndex)(matches, function (x) {
+          return x.distance;
+        });
+        if (distance < max.value) {
+          matches[max.index] = {
+            word: dictionary[i],
+            distance: distance
+          };
+        }
       }
     }
   }

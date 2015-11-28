@@ -8,6 +8,7 @@ class UIStore {
 
     this.modalVisible = false;
     this.tagDetails = null;
+    this.searchResults = null;
   }
 
   openModal() {
@@ -24,6 +25,10 @@ class UIStore {
 
   hideTag() {
     this.tagDetails = null;
+  }
+
+  setSearchResults(results) {
+    this.searchResults = results;
   }
 }
 

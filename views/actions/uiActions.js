@@ -7,7 +7,8 @@ const actions = alt.createActions(class UIActions {
       'openModal',
       'closeModal',
       'showTag',
-      'hideTag'
+      'hideTag',
+      'setSearchResults'
     );
   }
 });

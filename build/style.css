@@ -211,7 +211,6 @@ header a {
 
 .autocomplete-container {
   display: inline-block;
-  position: relative;
   width: 90%; }
   .autocomplete-container input {
     font-family: 'Quicksand', sans-serif;
@@ -230,25 +229,6 @@ header a {
     color: #a9a9a9; }
   .autocomplete-container a > i {
     cursor: pointer; }
-  .autocomplete-container ul {
-    z-index: 99;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    color: #fefefe;
-    background-color: #a9a9a9; }
-    .autocomplete-container ul.hide {
-      display: none; }
-    .autocomplete-container ul li {
-      cursor: pointer;
-      display: block;
-      padding: 20px;
-      list-style: none;
-      text-align: left; }
-      .autocomplete-container ul li.selected {
-        background-color: #d45f68;
-        font-weight: bold; }
 
 .btn-floating {
   position: fixed;
