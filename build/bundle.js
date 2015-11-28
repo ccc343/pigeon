@@ -21763,7 +21763,7 @@ var Tag = (function (_React$Component) {
       return _react2['default'].createElement(
         'li',
         {
-          className: (0, _classnames2['default'])('tag', { selected: this.props.tag.subscribed }),
+          className: (0, _classnames2['default'])('tag', { subscribed: this.props.tag.subscribed }),
           onClick: this.onClick
         },
         '#',
@@ -22636,7 +22636,7 @@ exports.search = search;
 
 var _arrayUtils = require('./arrayUtils');
 
-var MAX_RESULTS = 10;
+var MAX_RESULTS = Infinity;
 var MAX_DISTANCE = 5;
 
 function distanceTo(str1, str2) {

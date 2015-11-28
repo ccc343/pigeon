@@ -194,8 +194,10 @@ header a {
   margin: 40px 15px 0 20px;
   border-radius: 2px;
   cursor: pointer; }
-  .tag.selected {
+  .tag.subscribed {
     background-color: #d45f68; }
+  .tag.selected {
+    background-color: #444444; }
 
 .sidebar {
   margin: 20px;

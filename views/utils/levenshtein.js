@@ -1,6 +1,6 @@
 import {maxWithIndex, minWithIndex} from './arrayUtils';
 
-const MAX_RESULTS = 10;
+const MAX_RESULTS = Infinity;
 const MAX_DISTANCE = 5;
 
 function distanceTo(str1, str2) {
