@@ -1,7 +1,6 @@
 exports.UNIQUE_VIOLATION = 23505;
 
 exports.auth = function(req, res, callback) {
-  console.log('Authenticating.');
   if (req.isAuthenticated()) {
     callback(req.user);
   } else {
