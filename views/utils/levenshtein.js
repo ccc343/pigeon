@@ -55,6 +55,6 @@ export function search(word, dictionary) {
 
   return {
     min: minWithIndex(matches, x => x.distance),
-    words: matches.map(x => x.word)
+    words: matches.sort((a, b) => a.distance - b.distance).map(x => x.word)
   };
 }

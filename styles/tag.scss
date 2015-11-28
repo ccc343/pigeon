@@ -1,13 +1,15 @@
 .tag {
   @extend .animate-on-hover;
 
+  display: inline-block;
+  position: relative;
   background-color: $grey;
   color: $white;
-  display: inline-block;
   padding: 15px;
   margin: 40px 15px 0 20px;
   border-radius: 2px;
   cursor: pointer;
+  transition: 0.3s;
 
   &.subscribed {
     background-color: $red;
@@ -15,5 +17,48 @@
 
   &.selected {
     background-color: $dark-grey;
+  }
+}
+
+#tags-wrapper {
+  position: relative;
+
+  .tag-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $white;
+    width: 100%;
+    height: 100%;
+
+    h1 {
+      margin: 0;
+    }
+
+    .content {
+      margin: 40px;
+    }
+
+    .btn-close {
+      top: 40px;
+      right: 50px;
+    }
+  }
+}
+
+.sidebar {
+  margin: 40px;
+
+  h1 {
+    margin: 0;
+  }
+
+  .statistic {
+    margin-right: 20px;
+  }
+
+  .btn-back {
+    margin-right: 10px;
+    margin-bottom: 10px;
   }
 }

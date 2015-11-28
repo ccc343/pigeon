@@ -17,9 +17,9 @@ class Organization extends React.Component {
 
     return (
       <div className="sidebar">
-        <h1 className="text-red">
+        <h2 className="text-dark-grey space-2">
           {org.name}
-        </h1>
+        </h2>
         <p>
           <span className="text-grey statistic">
             <i className="ion-person" />

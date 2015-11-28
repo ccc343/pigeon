@@ -25,14 +25,14 @@ class Modal extends React.Component {
     this.state = { error: '' };
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.onKeydown = this.onKeydown.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onClick = this.onClick.bind(this);
   }
 
-  onKeydown(e) {
+  onKeyDown(e) {
     if (e.keyCode === 13) {
-        e.preventDefault();
-        this.onSubmit();
+      e.preventDefault();
+      this.onSubmit();
     }
   }
 
@@ -76,6 +76,14 @@ class Modal extends React.Component {
     return true;
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27 && this.props.visible) {
+        uiActions.closeModal();
+      }
+    });
+  }
+
   render() {
     const error = this.state.error ? (
       <div className="text-red space-2">{this.state.error}</div>
@@ -84,20 +92,20 @@ class Modal extends React.Component {
     return (
       <div
         className={cx('modal', { hidden: !this.props.visible })}
-        aria-hidden="true"
-        onKeyDown={this.onKeydown}
+        onKeyDown={this.onKeyDown}
         onClick={this.onClick}
       >
         <div className="modal-dialog">
           <div className="modal-header">
             <h2>Create a tag</h2>
-            <a
-              className="btn-close"
-              aria-hidden="true"
-              onClick={uiActions.closeModal}
-            >
-              <i className="ion-close-round" />
-            </a>
+
+            <div className="btn-close text-center">
+              <a onClick={uiActions.closeModal}>
+                <i className="ion-close-round" />
+              </a>
+              <br />
+              <small className="text-grey">esc</small>
+            </div>
           </div>
 
           <div className="modal-body">

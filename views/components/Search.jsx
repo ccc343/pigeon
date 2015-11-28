@@ -23,22 +23,21 @@ class Search extends React.Component {
     this.onClear = this.onClear.bind(this);
   }
 
-  onChange(result) {
-    function contains(x) {
-      let val = false;
-      result.results.forEach(y => {
-        if (x == y) {
-          val = true;
+  onChange(results) {
+    const getTagId = (name) => {
+      let tagId = -1;
+      Object.keys(this.props.tags).forEach(id => {
+        if (this.props.tags[id].name === name) {
+          tagId = id;
+          return;
         }
       });
-      return val;
+      return tagId;
     }
 
-    const ids = Object.keys(this.props.tags)
-      .filter(id => contains(this.props.tags[id].name))
-      .map(id => this.props.tags[id]);
+    const tags = results.map(x => this.props.tags[getTagId(x)]);
 
-    uiActions.setSearchResults(ids);
+    uiActions.setSearchResults(tags);
   }
 
   onClear() {

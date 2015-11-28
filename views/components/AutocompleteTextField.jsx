@@ -27,10 +27,7 @@ class AutocompleteTextField extends React.Component {
     const results = search(value, this.props.dictionary);
 
     // Send the results of the change to the parent component.
-    this.props.onChange({
-      query: e.target.value,
-      results: results.words
-    });
+    this.props.onChange(results.words);
   }
 
   // Key commands for more natural flow through the menu.
