@@ -9,7 +9,11 @@
   border-radius: 2px;
   cursor: pointer;
 
-  &.selected {
+  &.subscribed {
     background-color: $red;
+  }
+
+  &.selected {
+    background-color: $dark-grey;
   }
 }
