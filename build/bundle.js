@@ -28180,7 +28180,7 @@ var Login = (function (_React$Component) {
             ),
             _react2['default'].createElement(
               'p',
-              { className: 'space-2 text-normal' },
+              { className: 'text-normal' },
               _react2['default'].createElement(
                 'b',
                 null,
@@ -28197,7 +28197,7 @@ var Login = (function (_React$Component) {
               _velocityReactVelocityTransitionGroup2['default'],
               {
                 enter: {
-                  animation: 'slideDown',
+                  animation: 'fadeIn',
                   duration: 500
                 }
               },
@@ -28206,7 +28206,7 @@ var Login = (function (_React$Component) {
                 null,
                 _react2['default'].createElement(
                   'p',
-                  { className: 'space-2 text-normal' },
+                  { className: 'text-normal' },
                   _react2['default'].createElement(
                     'b',
                     null,
@@ -28215,7 +28215,7 @@ var Login = (function (_React$Component) {
                 ),
                 _react2['default'].createElement(
                   'p',
-                  { className: 'space-2 text-normal' },
+                  { className: 'text-normal' },
                   _react2['default'].createElement(
                     'b',
                     null,
