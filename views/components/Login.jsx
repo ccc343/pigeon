@@ -1,6 +1,8 @@
 import React from 'react';
 import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
 
+import uiStore from '../stores/uiStore';
+
 class Login extends React.Component {
 
   constructor(props) {
@@ -55,7 +57,14 @@ class Login extends React.Component {
         </div>
 
         <div className="row">
+          <div className="span4 offset4 text-center">
+            <p className="text-red">{uiStore.getState().loginError}</p>
+          </div>
+        </div>
+
+        <div className="row">
           <div className="span6 offset3 text-center">
+
             { !this.state.learnMore ? (
               <div className="btn" onClick={this.onClickLearnMore}>
                 <b>Learn more</b>

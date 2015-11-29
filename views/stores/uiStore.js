@@ -9,6 +9,8 @@ class UIStore {
     this.modalVisible = false;
     this.tagDetails = null;
     this.searchResults = null;
+    this.loginError = '';
+    this.newUser = false;
   }
 
   openModal() {
@@ -29,6 +31,14 @@ class UIStore {
 
   setSearchResults(results) {
     this.searchResults = results;
+  }
+
+  setLoginError(err) {
+    this.loginError = err;
+  }
+
+  newUser() {
+    this.newUser = true;
   }
 }
 

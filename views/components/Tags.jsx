@@ -24,6 +24,12 @@ class Tags extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.ui.newUser) {
+
+    }
+  }
+
   render() {
     const tags = this.props.ui.searchResults || this.props.allTags;
     const details = this.props.ui.tagDetails;

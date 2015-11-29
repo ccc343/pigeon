@@ -39,15 +39,12 @@ exports.config = function(app) {
       .then(function(user) {
         // Create a new user if this user doesn't exist.
         if (!user) {
-          console.log('no user')
           const domain = email.split('@')[1];
           models.Organization.where({ domain: domain })
             .fetch()
             .then(function(org) {
               if (!org) {
-                return res.json({
-                  error: 'This organization is not registered.'
-                });
+                return res.redirect('/login/?code=0');
               }
 
               models.User.forge({
@@ -56,7 +53,7 @@ exports.config = function(app) {
               })
                 .save()
                 .then(function() {
-                  return res.redirect('/');
+                  return res.redirect('/login/?code=1');
                 })
                 .catch(function(err) {
                   return apiHelpers.render500(req, res, err);

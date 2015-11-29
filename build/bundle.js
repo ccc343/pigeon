@@ -27643,7 +27643,7 @@ var _alt2 = _interopRequireDefault(_alt);
 var actions = _alt2['default'].createActions(function UIActions() {
   _classCallCheck(this, UIActions);
 
-  this.generateActions('openModal', 'closeModal', 'showTag', 'hideTag', 'setSearchResults');
+  this.generateActions('openModal', 'closeModal', 'showTag', 'hideTag', 'setSearchResults', 'setLoginError', 'newUser');
 });
 
 exports['default'] = actions;
@@ -28129,6 +28129,10 @@ var _velocityReactVelocityTransitionGroup = require('velocity-react/velocity-tra
 
 var _velocityReactVelocityTransitionGroup2 = _interopRequireDefault(_velocityReactVelocityTransitionGroup);
 
+var _storesUiStore = require('../stores/uiStore');
+
+var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
+
 var Login = (function (_React$Component) {
   _inherits(Login, _React$Component);
 
@@ -28227,6 +28231,19 @@ var Login = (function (_React$Component) {
           { className: 'row' },
           _react2['default'].createElement(
             'div',
+            { className: 'span4 offset4 text-center' },
+            _react2['default'].createElement(
+              'p',
+              { className: 'text-red' },
+              _storesUiStore2['default'].getState().loginError
+            )
+          )
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'row' },
+          _react2['default'].createElement(
+            'div',
             { className: 'span6 offset3 text-center' },
             !this.state.learnMore ? _react2['default'].createElement(
               'div',
@@ -28254,7 +28271,7 @@ var Login = (function (_React$Component) {
 exports['default'] = Login;
 module.exports = exports['default'];
 
-},{"react":173,"velocity-react/velocity-transition-group":251}],260:[function(require,module,exports){
+},{"../stores/uiStore":276,"react":173,"velocity-react/velocity-transition-group":251}],260:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29103,6 +29120,11 @@ var Tags = (function (_React$Component) {
   }
 
   _createClass(Tags, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.ui.newUser) {}
+    }
+  }, {
     key: 'render',
     value: function render() {
       var tags = this.props.ui.searchResults || this.props.allTags;
@@ -29209,11 +29231,30 @@ var _routerRouter = require('./router/router');
 
 var _routes = require('./routes');
 
+var _actionsUiActions = require('./actions/uiActions');
+
+var _actionsUiActions2 = _interopRequireDefault(_actionsUiActions);
+
 var _actionsUserActions = require('./actions/userActions');
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
+function getQueryStringValue(key) {
+  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
 _xr2['default'].post('/api/get_user_data').then(function (res) {
+  switch (getQueryStringValue("code")) {
+    case '0':
+      _actionsUiActions2['default'].setLoginError('Oops! We’re currently only accepting @princeton.edu email addresses. Sorry!');
+      break;
+    case '1':
+      _actionsUiActions2['default'].newUser();
+      break;
+    default:
+      break;
+  };
+
   if (res.user) {
     (0, _routerRouter.go)('/tags');
     _actionsUserActions2['default'].setCurrentUser(res.user);
@@ -29225,7 +29266,7 @@ _xr2['default'].post('/api/get_user_data').then(function (res) {
   (0, _reactDom.render)(router, document.getElementById('react-root'));
 });
 
-},{"./actions/userActions":254,"./router/components/Router":271,"./router/router":273,"./routes":275,"react":173,"react-dom":15,"xr":252}],268:[function(require,module,exports){
+},{"./actions/uiActions":253,"./actions/userActions":254,"./router/components/Router":271,"./router/router":273,"./routes":275,"react":173,"react-dom":15,"xr":252}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29618,6 +29659,8 @@ var UIStore = (function () {
     this.modalVisible = false;
     this.tagDetails = null;
     this.searchResults = null;
+    this.loginError = '';
+    this.newUser = false;
   }
 
   _createClass(UIStore, [{
@@ -29644,6 +29687,16 @@ var UIStore = (function () {
     key: 'setSearchResults',
     value: function setSearchResults(results) {
       this.searchResults = results;
+    }
+  }, {
+    key: 'setLoginError',
+    value: function setLoginError(err) {
+      this.loginError = err;
+    }
+  }, {
+    key: 'newUser',
+    value: function newUser() {
+      this.newUser = true;
     }
   }]);
 

@@ -8,7 +8,9 @@ const actions = alt.createActions(class UIActions {
       'closeModal',
       'showTag',
       'hideTag',
-      'setSearchResults'
+      'setSearchResults',
+      'setLoginError',
+      'newUser'
     );
   }
 });
