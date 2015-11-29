@@ -18,7 +18,7 @@ xr.post('/api/get_user_data')
         uiActions.setLoginError('Oops! We’re currently only accepting @princeton.edu email addresses. Sorry!');
         break;
       case '1':
-        uiActions.newUser();
+        uiActions.openNewUser();
         break;
       default:
         break;

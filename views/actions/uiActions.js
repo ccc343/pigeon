@@ -10,7 +10,8 @@ const actions = alt.createActions(class UIActions {
       'hideTag',
       'setSearchResults',
       'setLoginError',
-      'newUser'
+      'openNewUser',
+      'closeNewUser'
     );
   }
 });

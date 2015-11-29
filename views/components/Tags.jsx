@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
+import Welcome from './Welcome';
 import Tag from './Tag';
 import TagDetails from './TagDetails';
 import Organization from './Organization';
@@ -22,12 +23,6 @@ class Tags extends React.Component {
       ui: uiStore.getState(),
       allTags: userStore.getState().tags
     };
-  }
-
-  componentDidMount() {
-    if (this.props.ui.newUser) {
-
-    }
   }
 
   render() {
@@ -80,6 +75,7 @@ class Tags extends React.Component {
         </a>
 
         <Modal />
+        <Welcome />
       </div>
     );
   }

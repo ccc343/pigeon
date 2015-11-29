@@ -37,8 +37,12 @@ class UIStore {
     this.loginError = err;
   }
 
-  newUser() {
+  openNewUser() {
     this.newUser = true;
+  }
+
+  closeNewUser() {
+    this.newUser = false;
   }
 }
 
