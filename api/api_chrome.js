@@ -144,34 +144,47 @@ exports.config = function(app) {
   // Suggest the tags to the user
   app.post('/suggest-tags', function (request, response) {
     var emailText = request.body.email;
-    var topics = [];
+    var tags = [];
+    // Get list of concepts from Alchemy API
     alchemyapi.concepts("text", emailText, {maxRetrieve: 5}, function(res) {
-      var concept, tags, sqlString;
+      var concepts = res['concepts'];
+      // If no concepts...
+      if (concepts.length == 0 || concepts == null) {
+        response.writeHead(200, { 'Content-Type': 'application/json'});
+        response.end(JSON.stringify(tags));
+        response.end();
+        return;
+      }
       var params = [];
-      for (var i = 0; i < res['concepts'].length; i++) {
-        concept = res['concepts'][i]['text'];
-        tags = [];
-        sqlString = "SELECT name FROM tags WHERE description ILIKE '%" 
-                    + concept + "%'";
-        db.query(sqlString, params, function(err, response) {
-          if (err) {
-            console.log('Error');
-          } else {
-            console.log('Success');
-            tags = response.rows;
-          }
-          for (var j = 0; j < tags.length; j++) {
-            console.log(tags[j].name);
-            topics.push({
-              "topic": tags[j].name
+      // Construct SQL query to find all relevant tags from these concepts
+      var sqlString = "SELECT name FROM tags WHERE";
+      for (var i = 0; i < concepts.length; i++) {
+        if (i > 0) sqlString += " OR";
+        sqlString += " description ILIKE '%" + concepts[i]['text'] + "%'"; 
+      }
+      console.log(sqlString);
+      // Query for all tags that are related to these concepts
+      var tagRows;
+      db.query(sqlString, params, function(err, res2) {
+        if (err) {
+          console.log('Error');
+          response.sendStatus(500);
+        } else {
+          console.log('Success');
+          tagRows = res2.rows;
+          for (var j = 0; j < tagRows.length; j++) {
+            console.log(tagRows[j].name);
+            tags.push({
+              "tag": tagRows[j].name
             });
           }
-        });
-      }
-
-      response.writeHead(200, { 'Content-Type': 'application/json'});
-      response.end(JSON.stringify(topics));
-      response.end();
+          console.log("tags....");
+          console.log(tags);
+          response.writeHead(200, { 'Content-Type': 'application/json'});
+          response.end(JSON.stringify(tags));
+          response.end();
+        }
+      });
     });
   });
 
