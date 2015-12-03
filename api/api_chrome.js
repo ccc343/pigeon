@@ -161,9 +161,9 @@ exports.config = function(app) {
             tags = response.rows;
           }
           for (var j = 0; j < tags.length; j++) {
-            console.log(tags[j]);
+            console.log(tags[j].name);
             topics.push({
-              "topic": tags[j]
+              "topic": tags[j].name
             });
           }
         });
