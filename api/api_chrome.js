@@ -3,6 +3,24 @@ var AlchemyAPI = require('../lib/js/alchemyapi');
 
 var alchemyapi = new AlchemyAPI();
 
+// Finds tags in this organization that contain the concept word in the name
+// or the description of the tag. Returns array of such tags.
+findTagsWithConcept = function(concept) {
+  var tags = [];
+  var sqlString = 'SELECT name FROM tags WHERE description ILIKE "%($1)%"';
+  var params = [concept];
+  db.query(sqlString, params, function(err, res) {
+    if (err) {
+      console.log('Error');
+    } else {
+      console.log('Success');
+      tags = res.rows;
+      console.log(tags);
+    }
+    return tags;
+  });
+}
+
 exports.config = function(app) {
   // Allows cross domain requests.
   app.use(function(req, res, next) {
@@ -127,16 +145,29 @@ exports.config = function(app) {
   app.post('/suggest-tags', function (request, response) {
     var emailText = request.body.email;
     var topics = [];
-    alchemyapi.concepts("text", emailText, {maxRetrieve: 10}, function(res) {
+    alchemyapi.concepts("text", emailText, {maxRetrieve: 5}, function(res) {
+      var concept, tags, sqlString;
+      var params = [];
       for (var i = 0; i < res['concepts'].length; i++) {
-        topics.push({
-                            "topic": res['concepts'][i]['text'],
-                            "relevance": res['concepts'][i]['relevance']
-                          });
+        concept = res['concepts'][i]['text'];
+        tags = [];
+        sqlString = "SELECT name FROM tags WHERE description ILIKE '%" 
+                    + concept + "%'";
+        db.query(sqlString, params, function(err, response) {
+          if (err) {
+            console.log('Error');
+          } else {
+            console.log('Success');
+            tags = response.rows;
+          }
+          for (var j = 0; j < tags.length; j++) {
+            console.log(tags[j]);
+            topics.push({
+              "topic": tags[j]
+            });
+          }
+        });
       }
-      console.log(topics);
-      // parse those potential topics to find the actual tags
-      // ALGORITHM HERE
 
       response.writeHead(200, { 'Content-Type': 'application/json'});
       response.end(JSON.stringify(topics));
