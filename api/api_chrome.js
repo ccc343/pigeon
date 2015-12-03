@@ -155,16 +155,16 @@ exports.config = function(app) {
         response.end();
         return;
       }
-      var params = [];
       // Construct SQL query to find all relevant tags from these concepts
+      var params = [];
       var sqlString = "SELECT name FROM tags WHERE";
+      var tagRows;
       for (var i = 0; i < concepts.length; i++) {
         if (i > 0) sqlString += " OR";
         sqlString += " description ILIKE '%" + concepts[i]['text'] + "%'"; 
       }
-      console.log(sqlString);
+
       // Query for all tags that are related to these concepts
-      var tagRows;
       db.query(sqlString, params, function(err, res2) {
         if (err) {
           console.log('Error');
@@ -173,13 +173,10 @@ exports.config = function(app) {
           console.log('Success');
           tagRows = res2.rows;
           for (var j = 0; j < tagRows.length; j++) {
-            console.log(tagRows[j].name);
             tags.push({
               "tag": tagRows[j].name
             });
           }
-          console.log("tags....");
-          console.log(tags);
           response.writeHead(200, { 'Content-Type': 'application/json'});
           response.end(JSON.stringify(tags));
           response.end();
