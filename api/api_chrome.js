@@ -3,24 +3,6 @@ var AlchemyAPI = require('../lib/js/alchemyapi');
 
 var alchemyapi = new AlchemyAPI();
 
-// Finds tags in this organization that contain the concept word in the name
-// or the description of the tag. Returns array of such tags.
-findTagsWithConcept = function(concept) {
-  var tags = [];
-  var sqlString = 'SELECT name FROM tags WHERE description ILIKE "%($1)%"';
-  var params = [concept];
-  db.query(sqlString, params, function(err, res) {
-    if (err) {
-      console.log('Error');
-    } else {
-      console.log('Success');
-      tags = res.rows;
-      console.log(tags);
-    }
-    return tags;
-  });
-}
-
 exports.config = function(app) {
   // Allows cross domain requests.
   app.use(function(req, res, next) {
