@@ -28251,7 +28251,6 @@ var AutocompleteTextField = (function (_React$Component) {
     key: 'render',
     value: function render() {
       var inputClass = (0, _classnames2['default'])({ invalid: this.props.invalid }, this.props.className);
-      var closeIconClass = (0, _classnames2['default'])('ion-close-circled', { hidden: !this.state.hasValue });
 
       return _react2['default'].createElement(
         'div',
@@ -28267,8 +28266,8 @@ var AutocompleteTextField = (function (_React$Component) {
         }),
         _react2['default'].createElement(
           'a',
-          null,
-          _react2['default'].createElement('i', { className: closeIconClass, onClick: this.clear })
+          { className: (0, _classnames2['default'])({ hidden: !this.state.hasValue }) },
+          _react2['default'].createElement('i', { className: 'ion-close-circled', onClick: this.clear })
         )
       );
     }
