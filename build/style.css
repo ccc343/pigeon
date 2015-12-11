@@ -216,7 +216,7 @@ header a {
   height: 61px; }
   .subheader i {
     display: inline-block;
-    width: 50px;
+    width: 10%;
     margin: 0 auto; }
   .subheader #add-btn {
     height: 100%; }
@@ -281,7 +281,7 @@ header a {
     outline: none; }
   .autocomplete-container i {
     display: inline-block;
-    width: 50px;
+    width: 10%;
     margin: 0 auto;
     color: #a9a9a9; }
   .autocomplete-container a > i {
