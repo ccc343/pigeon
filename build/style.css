@@ -142,6 +142,39 @@ input, textarea {
 textarea {
   resize: vertical; }
 
+.select-wrapper {
+  float: left;
+  margin: 40px 0 0 20px;
+  font-family: 'Quicksand', sans-serif; }
+  .select-wrapper .select-label {
+    font-weight: bold;
+    float: left;
+    display: inline-block;
+    padding: 10px; }
+  .select-wrapper ul {
+    width: 125px;
+    float: left; }
+    .select-wrapper ul li {
+      cursor: pointer;
+      padding: 10px;
+      display: block;
+      border: #a9a9a9 1px solid;
+      border-bottom-width: 0px; }
+      .select-wrapper ul li:last-of-type {
+        border-bottom-width: 1px; }
+      .select-wrapper ul li.select-option {
+        transition: 0.3s; }
+        .select-wrapper ul li.select-option:hover {
+          background-color: #eeeeee; }
+        .select-wrapper ul li.select-option.selected {
+          font-weight: bold; }
+      .select-wrapper ul li.selected-option:after {
+        content: "\0025be";
+        position: relative;
+        float: right;
+        font-size: 14px;
+        margin-left: 5px; }
+
 label {
   display: block;
   color: #a9a9a9;
@@ -179,19 +212,17 @@ header a {
   margin: 40px 40px 0 20px; }
 
 .subheader {
-  border-top: 5px solid #eeeeee;
-  background-color: #eeeeee; }
-  .subheader .tab {
-    border-bottom: 5px solid #eeeeee;
-    transition: border 0.3s ease;
-    cursor: pointer;
-    color: #a9a9a9; }
-    .subheader .tab:hover, .subheader .tab.selected {
-      border-bottom: 5px solid #a9a9a9; }
+  background-color: #eeeeee;
+  height: 61px; }
   .subheader i {
     display: inline-block;
-    width: 10%;
+    width: 50px;
     margin: 0 auto; }
+  .subheader #add-btn {
+    height: 100%; }
+
+.subheader-placeholder {
+  height: 61px; }
 
 .tag {
   display: inline-block;
@@ -250,7 +281,7 @@ header a {
     outline: none; }
   .autocomplete-container i {
     display: inline-block;
-    width: 10%;
+    width: 50px;
     margin: 0 auto;
     color: #a9a9a9; }
   .autocomplete-container a > i {
@@ -272,8 +303,6 @@ header a {
     text-align: center;
     font-size: 1rem;
     line-height: 55.5px; }
-  .btn-floating:before {
-    border-radius: 0; }
 
 .row {
   zoom: 1; }

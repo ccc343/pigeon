@@ -4,6 +4,7 @@ import Welcome from './Welcome';
 import Tag from './Tag';
 import TagDetails from './TagDetails';
 import Organization from './Organization';
+import Dropdown from './Dropdown';
 
 import connectToStores from 'alt/utils/connectToStores';
 import userStore from '../stores/userStore';
@@ -43,6 +44,7 @@ class Tags extends React.Component {
         </div>
 
         <div className="span9" id="tags-wrapper">
+          {/*<Dropdown label="Sort by" options={["Newest", "Popularity", "A-Z"]} />*/}
           <VelocityTransitionGroup
             enter={{
               animation: 'fadeIn',

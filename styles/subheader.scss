@@ -1,21 +1,20 @@
+$subheader-height: 61px;
+
 .subheader {
-  border-top: 5px solid $light-grey;
   background-color: $light-grey;
-
-  .tab {
-    border-bottom: 5px solid $light-grey;
-    transition: border 0.3s ease;
-    cursor: pointer;
-    color: $grey;
-
-    &:hover, &.selected {
-      border-bottom: 5px solid $grey;
-    }
-  }
+  height: $subheader-height;
 
   i {
     display: inline-block;
-    width: 10%;
+    width: 50px;
     margin: 0 auto;
   }
+
+  #add-btn {
+    height: 100%;
+  }
+}
+
+.subheader-placeholder {
+  height: $subheader-height;
 }

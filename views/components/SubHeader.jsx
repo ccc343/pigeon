@@ -1,25 +1,36 @@
 import React from 'react';
+import Sticky from 'react-sticky';
 import cx from 'classnames';
 import Search from './Search';
-import {getPath, Link} from '../router/router';
 
 class SubHeader extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      sticky: false
+    };
+
+    this.handleStickyStateChange = this.handleStickyStateChange.bind(this);
+  }
+
+  handleStickyStateChange(e) {
+    this.setState({ sticky: e });
+  }
+
   render() {
-    const path = getPath();
-
     return (
-      <div className="row subheader text-center">
-        <div className="span9">
-          <Search />
-        </div>
+      <div>
+        <Sticky onStickyStateChange={this.handleStickyStateChange}>
+          <div className="row subheader text-center">
+            <div className="span12">
+              <Search />
+            </div>
+          </div>
+        </Sticky>
 
-        <Link
-          to='/tags'
-          className={cx('span3 phone-hidden tab', {'selected': path === '/tags'})}
-        >
-          <h3>your tags</h3>
-        </Link>
+        {/* Prevents content from jumping on sticky state change. */}
+        {this.state.sticky ? <div className="subheader-placeholder" /> : null}
       </div>
     );
   }
