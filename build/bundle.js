@@ -28156,7 +28156,7 @@ var App = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(App);
 module.exports = exports['default'];
 
-},{"../router/router":276,"../stores/userStore":280,"./Header":260,"./SubHeader":265,"alt/utils/connectToStores":12,"react":174}],258:[function(require,module,exports){
+},{"../router/router":276,"../stores/userStore":280,"./Header":261,"./SubHeader":265,"alt/utils/connectToStores":12,"react":174}],258:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28308,6 +28308,241 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _altUtilsConnectToStores = require('alt/utils/connectToStores');
+
+var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
+
+var _actionsUiActions = require('../actions/uiActions');
+
+var _actionsUiActions2 = _interopRequireDefault(_actionsUiActions);
+
+var _storesUiStore = require('../stores/uiStore');
+
+var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
+
+var _actionsUserActions = require('../actions/userActions');
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
+var _storesUserStore = require('../stores/userStore');
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var CreateTag = (function (_React$Component) {
+  _inherits(CreateTag, _React$Component);
+
+  _createClass(CreateTag, null, [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_storesUserStore2['default'], _storesUiStore2['default']];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return {
+        user: _storesUserStore2['default'].getState(),
+        visible: _storesUiStore2['default'].getState().modalVisible
+      };
+    }
+  }]);
+
+  function CreateTag(props) {
+    _classCallCheck(this, CreateTag);
+
+    _get(Object.getPrototypeOf(CreateTag.prototype), 'constructor', this).call(this, props);
+    this.state = { error: '' };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  _createClass(CreateTag, [{
+    key: 'onKeyDown',
+    value: function onKeyDown(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        this.onSubmit();
+      }
+    }
+  }, {
+    key: 'onClick',
+    value: function onClick(e) {
+      if (e.target.className === 'modal') {
+        _actionsUiActions2['default'].closeModal();
+      }
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit() {
+      var _this = this;
+
+      var nameInput = _reactDom2['default'].findDOMNode(this.refs.nameInput);
+      var descriptionInput = _reactDom2['default'].findDOMNode(this.refs.descriptionInput);
+
+      if (this.validate(nameInput)) {
+        _actionsUserActions2['default'].newTag(nameInput.value, descriptionInput.value, function (err, id) {
+          if (err) {
+            nameInput.focus();
+            return _this.setState({ error: err });
+          }
+
+          _actionsUiActions2['default'].closeModal();
+
+          // Clear out input and any validation errors.
+          _this.setState({ error: '' });
+          nameInput.value = '';
+          descriptionInput.value = '';
+
+          // Show the new tag in the sidebar.
+          _actionsUiActions2['default'].showTag(_this.props.user.tags[id]);
+        });
+      }
+    }
+  }, {
+    key: 'validate',
+    value: function validate(nameInput) {
+      if (!nameInput.value) {
+        this.setState({ error: 'Please name your tag.' });
+        nameInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      window.addEventListener('keydown', function (e) {
+        if (e.keyCode === 27 && _this2.props.visible) {
+          _actionsUiActions2['default'].closeModal();
+        }
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var error = this.state.error ? _react2['default'].createElement(
+        'div',
+        { className: 'text-red space-2' },
+        this.state.error
+      ) : null;
+
+      return _react2['default'].createElement(
+        'div',
+        {
+          className: (0, _classnames2['default'])('modal', { hidden: !this.props.visible }),
+          onKeyDown: this.onKeyDown,
+          onClick: this.onClick
+        },
+        _react2['default'].createElement(
+          'div',
+          { className: 'modal-dialog' },
+          _react2['default'].createElement(
+            'div',
+            { className: 'modal-header' },
+            _react2['default'].createElement(
+              'h2',
+              null,
+              'Create a tag'
+            ),
+            _react2['default'].createElement(
+              'div',
+              { className: 'btn-close text-center' },
+              _react2['default'].createElement(
+                'a',
+                { onClick: _actionsUiActions2['default'].closeModal },
+                _react2['default'].createElement('i', { className: 'ion-close-round' })
+              ),
+              _react2['default'].createElement('br', null),
+              _react2['default'].createElement(
+                'small',
+                { className: 'text-grey' },
+                'esc'
+              )
+            )
+          ),
+          _react2['default'].createElement(
+            'div',
+            { className: 'modal-body' },
+            error,
+            _react2['default'].createElement(
+              'label',
+              null,
+              'Name'
+            ),
+            _react2['default'].createElement('input', {
+              className: 'space-3 material-caret',
+              type: 'text',
+              name: 'tag-name',
+              ref: 'nameInput',
+              placeholder: 'whitman',
+              autoComplete: 'off'
+            }),
+            _react2['default'].createElement(
+              'label',
+              null,
+              'Description'
+            ),
+            _react2['default'].createElement('textarea', {
+              className: 'space-2 material-caret',
+              name: 'tag-description',
+              ref: 'descriptionInput',
+              rows: '1',
+              placeholder: 'princetonians who have no soul.'
+            })
+          ),
+          _react2['default'].createElement(
+            'div',
+            { className: 'modal-footer' },
+            _react2['default'].createElement(
+              'a',
+              { className: 'btn btn-primary', onClick: this.onSubmit },
+              'Create'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return CreateTag;
+})(_react2['default'].Component);
+
+exports['default'] = (0, _altUtilsConnectToStores2['default'])(CreateTag);
+module.exports = exports['default'];
+
+},{"../actions/uiActions":254,"../actions/userActions":255,"../stores/uiStore":279,"../stores/userStore":280,"alt/utils/connectToStores":12,"classnames":14,"react":174,"react-dom":15}],260:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -28387,7 +28622,7 @@ var Dropdown = (function (_React$Component) {
 exports['default'] = Dropdown;
 module.exports = exports['default'];
 
-},{"classnames":14,"react":174}],260:[function(require,module,exports){
+},{"classnames":14,"react":174}],261:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28476,7 +28711,7 @@ var Header = (function (_React$Component) {
 exports['default'] = Header;
 module.exports = exports['default'];
 
-},{"../actions/userActions":255,"../router/router":276,"react":174}],261:[function(require,module,exports){
+},{"../actions/userActions":255,"../router/router":276,"react":174}],262:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28643,242 +28878,7 @@ var Login = (function (_React$Component) {
 exports['default'] = Login;
 module.exports = exports['default'];
 
-},{"../stores/uiStore":279,"react":174,"velocity-react/velocity-transition-group":252}],262:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _altUtilsConnectToStores = require('alt/utils/connectToStores');
-
-var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
-
-var _actionsUiActions = require('../actions/uiActions');
-
-var _actionsUiActions2 = _interopRequireDefault(_actionsUiActions);
-
-var _storesUiStore = require('../stores/uiStore');
-
-var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
-
-var _actionsUserActions = require('../actions/userActions');
-
-var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
-
-var _storesUserStore = require('../stores/userStore');
-
-var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
-
-var Modal = (function (_React$Component) {
-  _inherits(Modal, _React$Component);
-
-  _createClass(Modal, null, [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_storesUserStore2['default'], _storesUiStore2['default']];
-    }
-  }, {
-    key: 'getPropsFromStores',
-    value: function getPropsFromStores() {
-      return {
-        user: _storesUserStore2['default'].getState(),
-        visible: _storesUiStore2['default'].getState().modalVisible
-      };
-    }
-  }]);
-
-  function Modal(props) {
-    _classCallCheck(this, Modal);
-
-    _get(Object.getPrototypeOf(Modal.prototype), 'constructor', this).call(this, props);
-    this.state = { error: '' };
-
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  _createClass(Modal, [{
-    key: 'onKeyDown',
-    value: function onKeyDown(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        this.onSubmit();
-      }
-    }
-  }, {
-    key: 'onClick',
-    value: function onClick(e) {
-      if (e.target.className === 'modal') {
-        _actionsUiActions2['default'].closeModal();
-      }
-    }
-  }, {
-    key: 'onSubmit',
-    value: function onSubmit() {
-      var _this = this;
-
-      var nameInput = _reactDom2['default'].findDOMNode(this.refs.nameInput);
-      var descriptionInput = _reactDom2['default'].findDOMNode(this.refs.descriptionInput);
-
-      if (this.validate(nameInput)) {
-        _actionsUserActions2['default'].newTag(nameInput.value, descriptionInput.value, function (err, id) {
-          if (err) {
-            nameInput.focus();
-            return _this.setState({ error: err });
-          }
-
-          _actionsUiActions2['default'].closeModal();
-
-          // Clear out input and any validation errors.
-          _this.setState({ error: '' });
-          nameInput.value = '';
-          descriptionInput.value = '';
-
-          // Show the new tag in the sidebar.
-          _actionsUiActions2['default'].showTag(_this.props.user.tags[id]);
-        });
-      }
-    }
-  }, {
-    key: 'validate',
-    value: function validate(nameInput) {
-      if (!nameInput.value) {
-        this.setState({ error: 'Please name your tag.' });
-        nameInput.focus();
-        return false;
-      }
-
-      return true;
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      window.addEventListener('keydown', function (e) {
-        if (e.keyCode === 27 && _this2.props.visible) {
-          _actionsUiActions2['default'].closeModal();
-        }
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var error = this.state.error ? _react2['default'].createElement(
-        'div',
-        { className: 'text-red space-2' },
-        this.state.error
-      ) : null;
-
-      return _react2['default'].createElement(
-        'div',
-        {
-          className: (0, _classnames2['default'])('modal', { hidden: !this.props.visible }),
-          onKeyDown: this.onKeyDown,
-          onClick: this.onClick
-        },
-        _react2['default'].createElement(
-          'div',
-          { className: 'modal-dialog' },
-          _react2['default'].createElement(
-            'div',
-            { className: 'modal-header' },
-            _react2['default'].createElement(
-              'h2',
-              null,
-              'Create a tag'
-            ),
-            _react2['default'].createElement(
-              'div',
-              { className: 'btn-close text-center' },
-              _react2['default'].createElement(
-                'a',
-                { onClick: _actionsUiActions2['default'].closeModal },
-                _react2['default'].createElement('i', { className: 'ion-close-round' })
-              ),
-              _react2['default'].createElement('br', null),
-              _react2['default'].createElement(
-                'small',
-                { className: 'text-grey' },
-                'esc'
-              )
-            )
-          ),
-          _react2['default'].createElement(
-            'div',
-            { className: 'modal-body' },
-            error,
-            _react2['default'].createElement(
-              'label',
-              null,
-              'Name'
-            ),
-            _react2['default'].createElement('input', {
-              className: 'space-3 material-caret',
-              type: 'text',
-              name: 'tag-name',
-              ref: 'nameInput',
-              placeholder: 'whitman',
-              autoComplete: 'off'
-            }),
-            _react2['default'].createElement(
-              'label',
-              null,
-              'Description'
-            ),
-            _react2['default'].createElement('textarea', {
-              className: 'space-2 material-caret',
-              name: 'tag-description',
-              ref: 'descriptionInput',
-              rows: '1',
-              placeholder: 'princetonians who have no soul.'
-            })
-          ),
-          _react2['default'].createElement(
-            'div',
-            { className: 'modal-footer' },
-            _react2['default'].createElement(
-              'a',
-              { className: 'btn btn-primary', onClick: this.onSubmit },
-              'Create'
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Modal;
-})(_react2['default'].Component);
-
-exports['default'] = (0, _altUtilsConnectToStores2['default'])(Modal);
-module.exports = exports['default'];
-
-},{"../actions/uiActions":254,"../actions/userActions":255,"../stores/uiStore":279,"../stores/userStore":280,"alt/utils/connectToStores":12,"classnames":14,"react":174,"react-dom":15}],263:[function(require,module,exports){
+},{"../stores/uiStore":279,"react":174,"velocity-react/velocity-transition-group":252}],263:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29454,9 +29454,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Modal = require('./Modal');
+var _CreateTag = require('./CreateTag');
 
-var _Modal2 = _interopRequireDefault(_Modal);
+var _CreateTag2 = _interopRequireDefault(_CreateTag);
 
 var _Welcome = require('./Welcome');
 
@@ -29494,10 +29494,6 @@ var _storesUiStore = require('../stores/uiStore');
 
 var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
 
-var _velocityReactVelocityTransitionGroup = require('velocity-react/velocity-transition-group');
-
-var _velocityReactVelocityTransitionGroup2 = _interopRequireDefault(_velocityReactVelocityTransitionGroup);
-
 var Tags = (function (_React$Component) {
   _inherits(Tags, _React$Component);
 
@@ -29514,13 +29510,6 @@ var Tags = (function (_React$Component) {
       var details = this.props.ui.tagDetails;
 
       var tagDetails = details ? _react2['default'].createElement(_TagDetails2['default'], { tag: details }) : null;
-      var tagsList = !details ? _react2['default'].createElement(
-        'ul',
-        null,
-        Object.keys(tags).map(function (id) {
-          return _react2['default'].createElement(_Tag2['default'], { key: id, tag: tags[id] });
-        })
-      ) : null;
 
       return _react2['default'].createElement(
         'div',
@@ -29533,33 +29522,12 @@ var Tags = (function (_React$Component) {
         _react2['default'].createElement(
           'div',
           { className: 'span9', id: 'tags-wrapper' },
-          _react2['default'].createElement(
-            _velocityReactVelocityTransitionGroup2['default'],
-            {
-              enter: {
-                animation: 'fadeIn',
-                duration: 200
-              },
-              leave: {
-                animation: 'fadeOut',
-                duration: 200
-              }
-            },
-            tagsList
-          ),
-          _react2['default'].createElement(
-            _velocityReactVelocityTransitionGroup2['default'],
-            {
-              enter: {
-                animation: 'fadeIn',
-                duration: 200
-              },
-              leave: {
-                animation: 'fadeOut',
-                duration: 200
-              }
-            },
-            tagDetails
+          tagDetails || _react2['default'].createElement(
+            'ul',
+            null,
+            Object.keys(tags).map(function (id) {
+              return _react2['default'].createElement(_Tag2['default'], { key: id, tag: tags[id] });
+            })
           )
         ),
         _react2['default'].createElement(
@@ -29567,7 +29535,7 @@ var Tags = (function (_React$Component) {
           { className: 'btn-floating bg-red', onClick: _actionsUiActions2['default'].openModal },
           _react2['default'].createElement('i', { className: 'ion-plus-round' })
         ),
-        _react2['default'].createElement(_Modal2['default'], null),
+        _react2['default'].createElement(_CreateTag2['default'], null),
         _react2['default'].createElement(_Welcome2['default'], null)
       );
     }
@@ -29591,9 +29559,8 @@ var Tags = (function (_React$Component) {
 
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(Tags);
 module.exports = exports['default'];
-/*<Dropdown label="Sort by" options={["Newest", "Popularity", "A-Z"]} />*/
 
-},{"../actions/uiActions":254,"../stores/uiStore":279,"../stores/userStore":280,"./Dropdown":259,"./Modal":262,"./Organization":263,"./Tag":266,"./TagDetails":267,"./Welcome":269,"alt/utils/connectToStores":12,"react":174,"velocity-react/velocity-transition-group":252}],269:[function(require,module,exports){
+},{"../actions/uiActions":254,"../stores/uiStore":279,"../stores/userStore":280,"./CreateTag":259,"./Dropdown":260,"./Organization":263,"./Tag":266,"./TagDetails":267,"./Welcome":269,"alt/utils/connectToStores":12,"react":174}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -30174,7 +30141,7 @@ var routes = {
 };
 exports.routes = routes;
 
-},{"./components/App":257,"./components/Login":261,"./components/Organization":263,"./components/Tags":268}],279:[function(require,module,exports){
+},{"./components/App":257,"./components/Login":262,"./components/Organization":263,"./components/Tags":268}],279:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
