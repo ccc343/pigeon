@@ -19,6 +19,8 @@ class Dropdown extends React.Component {
       selected: index,
       showOptions: false
     });
+
+    this.props.onSelect(index);
   }
 
   toggle() {
@@ -27,27 +29,31 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="select-wrapper">
-          <span className="select-label">{this.props.label}</span>
-          <ul className="select">
-            <li className="selected-option" onClick={this.toggle}>
-              {this.props.options[this.state.selected]}
-            </li>
+      <div className="select-wrapper">
+        <h3 className="text-grey">{this.props.label}</h3>
+        <ul>
+          <li className="selected-option" onClick={this.toggle}>
+            {this.props.options[this.state.selected]}
+          </li>
 
-            {this.state.showOptions ? (
-              this.props.options.map((x, index) => {
-                const c = cx("select-option", {
-                  selected: index === this.state.selected
-                });
-                return <li className={c} onClick={this.onClick.bind(this, index)} key={x}>{x}</li>;
-              })
-            ) : null}
-          </ul>
-        </div>
+          {this.state.showOptions ? (
+            this.props.options.map((x, index) => {
+              const c = cx("select-option", {
+                selected: index === this.state.selected
+              });
+              return <li className={c} onClick={this.onClick.bind(this, index)} key={x}>{x}</li>;
+            })
+          ) : null}
+        </ul>
       </div>
     );
   }
+}
+
+Dropdown.propTypes = {
+  options: React.PropTypes.array.isRequired,
+  label: React.PropTypes.string.isRequired,
+  onSelect: React.PropTypes.func.isRequired
 }
 
 export default Dropdown;

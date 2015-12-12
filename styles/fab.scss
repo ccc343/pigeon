@@ -12,6 +12,7 @@ $icon-font-size: 1rem;
   height: $button-floating-size;
   border-radius: 50%;
   cursor: pointer;
+  border: 2px solid $white;
 
   i {
     color: $white;

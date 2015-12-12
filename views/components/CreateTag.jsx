@@ -4,7 +4,7 @@ import cx from 'classnames';
 import connectToStores from 'alt/utils/connectToStores';
 import uiActions from '../actions/uiActions';
 import uiStore from '../stores/uiStore';
-import userActions from '../actions/userActions';
+import tagsActions from '../actions/tagsActions';
 import userStore from '../stores/userStore';
 
 class CreateTag extends React.Component {
@@ -47,7 +47,7 @@ class CreateTag extends React.Component {
     const descriptionInput = ReactDOM.findDOMNode(this.refs.descriptionInput);
 
     if (this.validate(nameInput)) {
-      userActions.newTag(nameInput.value, descriptionInput.value, (err, id) => {
+      tagsActions.newTag(nameInput.value, descriptionInput.value, (err, id) => {
         if (err) {
           nameInput.focus();
           return this.setState({ error: err });

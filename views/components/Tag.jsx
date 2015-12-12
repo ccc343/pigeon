@@ -7,20 +7,6 @@ class Tag extends React.Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      hover: false
-    };
-
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
-  }
-
-  onMouseEnter() {
-    this.setState({ hover: true });
-  }
-
-  onMouseLeave() {
-    this.setState({ hover: false });
   }
 
   onClick() {
@@ -28,12 +14,6 @@ class Tag extends React.Component {
   }
 
   render() {
-    const overlay = this.state.hover ? (
-      <div className="overlay">
-        <i className="ion-star text-dark-grey" />
-      </div>
-    ) : null;
-
     return (
       <li
         className={cx('tag', {

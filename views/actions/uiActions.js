@@ -8,7 +8,6 @@ const actions = alt.createActions(class UIActions {
       'closeModal',
       'showTag',
       'hideTag',
-      'setSearchResults',
       'setLoginError',
       'openNewUser',
       'closeNewUser'

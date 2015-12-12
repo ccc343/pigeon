@@ -142,39 +142,6 @@ input, textarea {
 textarea {
   resize: vertical; }
 
-.select-wrapper {
-  float: left;
-  margin: 40px 0 0 20px;
-  font-family: 'Quicksand', sans-serif; }
-  .select-wrapper .select-label {
-    font-weight: bold;
-    float: left;
-    display: inline-block;
-    padding: 10px; }
-  .select-wrapper ul {
-    width: 125px;
-    float: left; }
-    .select-wrapper ul li {
-      cursor: pointer;
-      padding: 10px;
-      display: block;
-      border: #a9a9a9 1px solid;
-      border-bottom-width: 0px; }
-      .select-wrapper ul li:last-of-type {
-        border-bottom-width: 1px; }
-      .select-wrapper ul li.select-option {
-        transition: 0.3s; }
-        .select-wrapper ul li.select-option:hover {
-          background-color: #eeeeee; }
-        .select-wrapper ul li.select-option.selected {
-          font-weight: bold; }
-      .select-wrapper ul li.selected-option:after {
-        content: "\0025be";
-        position: relative;
-        float: right;
-        font-size: 14px;
-        margin-left: 5px; }
-
 label {
   display: block;
   color: #a9a9a9;
@@ -212,14 +179,54 @@ header a {
   margin: 40px 40px 0 20px; }
 
 .subheader {
-  background-color: #eeeeee;
   height: 61px; }
   .subheader i {
     display: inline-block;
-    width: 10%;
+    width: 15%;
     margin: 0 auto; }
   .subheader #add-btn {
     height: 100%; }
+  .subheader .tab {
+    background-color: #eeeeee; }
+  .subheader .select-wrapper {
+    position: relative;
+    font-family: 'Quicksand', sans-serif;
+    width: 90%;
+    margin: 0 auto;
+    z-index: 3; }
+    .subheader .select-wrapper h3 {
+      display: inline-block;
+      width: 80px;
+      text-align: left; }
+    .subheader .select-wrapper ul {
+      display: inline-block;
+      position: absolute;
+      margin: 10px;
+      width: 50%; }
+      .subheader .select-wrapper ul li {
+        cursor: pointer;
+        padding: 10px;
+        display: block;
+        border: #eeeeee 1px solid;
+        border-bottom-width: 0px;
+        background-color: #fefefe; }
+        .subheader .select-wrapper ul li:last-of-type {
+          border-bottom-width: 1px; }
+        .subheader .select-wrapper ul li.select-option {
+          transition: 0.3s; }
+          .subheader .select-wrapper ul li.select-option:hover {
+            background-color: #eeeeee; }
+          .subheader .select-wrapper ul li.select-option.selected {
+            font-weight: bold; }
+        .subheader .select-wrapper ul li.selected-option:after {
+          content: "\0025be";
+          color: #a9a9a9;
+          position: relative;
+          float: right;
+          font-size: 14px;
+          margin-left: 5px; }
+  .subheader #filter .select-wrapper {
+    z-index: 2; }
 
 .subheader-placeholder {
   height: 61px; }
@@ -268,7 +275,7 @@ header a {
 
 .autocomplete-container {
   display: inline-block;
-  width: 90%; }
+  width: 85%; }
   .autocomplete-container input {
     font-family: 'Quicksand', sans-serif;
     font-size: 18.72px;
@@ -276,12 +283,12 @@ header a {
     margin: 1em 0;
     padding: 0;
     border: none;
-    width: 90%;
+    width: 85%;
     color: #444444;
     outline: none; }
   .autocomplete-container i {
     display: inline-block;
-    width: 10%;
+    width: 15%;
     margin: 0 auto;
     color: #a9a9a9; }
   .autocomplete-container a > i {
@@ -295,7 +302,8 @@ header a {
   width: 55.5px;
   height: 55.5px;
   border-radius: 50%;
-  cursor: pointer; }
+  cursor: pointer;
+  border: 2px solid #fefefe; }
   .btn-floating i {
     color: #fefefe;
     display: inline-block;

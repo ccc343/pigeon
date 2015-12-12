@@ -52,57 +52,6 @@ textarea {
   resize: vertical;
 }
 
-.select-wrapper {
-  float: left;
-  margin: 40px 0 0 20px;
-  font-family: 'Quicksand', sans-serif;
-
-  .select-label {
-    font-weight: bold;
-    float: left;
-    display: inline-block;
-    padding: 10px;
-  }
-
-  ul {
-    width: 125px;
-    float: left;
-
-    li {
-      cursor: pointer;
-      padding: 10px;
-      display: block;
-      border: $grey 1px solid;
-      border-bottom-width: 0px;
-
-      &:last-of-type {
-        border-bottom-width: 1px;
-      }
-
-      &.select-option {
-        transition: 0.3s;
-
-        &:hover {
-          background-color: $light-grey;
-        }
-
-        &.selected {
-          font-weight: bold;
-        }
-      }
-
-      &.selected-option:after {
-        content: "\0025be";
-        position: relative;
-        float: right;
-        font-size: 14px;
-        margin-left: 5px;
-      }
-    }
-
-  }
-}
-
 label {
   display: block;
   color: $grey;

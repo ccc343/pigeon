@@ -5,9 +5,7 @@ class UserStore {
 
   constructor() {
     this.bindActions(actions);
-
     this.user = null;
-    this.tags = {};
   }
 
   setCurrentUser(user) {
@@ -18,25 +16,6 @@ class UserStore {
     this.user = {
       email: user.email,
       organization: user.organization,
-    };
-
-    this.tags = {};
-    user.organization.tags.forEach(tag => this.addTag(tag));
-    user.tags.forEach(tag => {
-      this.tags[tag.id].subscribed = true;
-    });
-  }
-
-  updateTag(updated) {
-    Object.assign(this.tags[updated.id], updated);
-  }
-
-  addTag(tag) {
-    this.tags[tag.id] = {
-      id: tag.id,
-      name: tag.name,
-      description: tag.description,
-      users: tag.users || []
     };
   }
 }

@@ -1,17 +1,79 @@
 $subheader-height: 61px;
 
 .subheader {
-  background-color: $light-grey;
   height: $subheader-height;
 
   i {
     display: inline-block;
-    width: 10%;
+    width: 15%;
     margin: 0 auto;
   }
 
   #add-btn {
     height: 100%;
+  }
+
+  .tab {
+    background-color: $light-grey;
+  }
+
+  .select-wrapper {
+    position: relative;
+    font-family: 'Quicksand', sans-serif;
+    width: 90%;
+    margin: 0 auto;
+    z-index: 3;
+
+    h3 {
+      display: inline-block;
+      width: 80px;
+      text-align: left;
+    }
+
+    ul {
+      display: inline-block;
+      position: absolute;
+      margin: 10px;
+      width: 50%;
+
+      li {
+        cursor: pointer;
+        padding: 10px;
+        display: block;
+        border: $light-grey 1px solid;
+        border-bottom-width: 0px;
+        background-color: $white;
+
+        &:last-of-type {
+          border-bottom-width: 1px;
+        }
+
+        &.select-option {
+          transition: 0.3s;
+
+          &:hover {
+            background-color: $light-grey;
+          }
+
+          &.selected {
+            font-weight: bold;
+          }
+        }
+
+        &.selected-option:after {
+          content: "\0025be";
+          color: $grey;
+          position: relative;
+          float: right;
+          font-size: 14px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  #filter .select-wrapper {
+    z-index: 2;
   }
 }
 
