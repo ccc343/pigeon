@@ -7,7 +7,7 @@ import uiStore from '../stores/uiStore';
 import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';
 
-class Modal extends React.Component {
+class CreateTag extends React.Component {
 
   static getStores() {
     return [userStore, uiStore];
@@ -139,4 +139,4 @@ class Modal extends React.Component {
   }
 }
 
-export default connectToStores(Modal);
+export default connectToStores(CreateTag);
