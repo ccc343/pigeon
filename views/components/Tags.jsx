@@ -26,9 +26,6 @@ class Tags extends React.Component {
   }
 
   render() {
-    const details = this.props.ui.tagDetails;
-    const tagDetails = details ? <TagDetails tag={details} /> : null;
-
     const state = this.props.tags;
     let tags = state.tagsToShow.map(id => state.tags[id]);
     tags = state.sort(state.filter(tags));
@@ -40,10 +37,9 @@ class Tags extends React.Component {
         </div>
 
         <div className="span9" id="tags-wrapper">
-          {tagDetails ||
           <ul>
             {tags.map(t => <Tag key={t.id} tag={t} />)}
-          </ul>}
+          </ul>
         </div>
 
         <a className="btn-floating bg-red" onClick={uiActions.openModal}>
@@ -52,6 +48,7 @@ class Tags extends React.Component {
 
         <CreateTag />
         <Welcome />
+        <TagDetails />
       </div>
     );
   }

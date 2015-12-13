@@ -29286,6 +29286,10 @@ var _actionsUiActions = require('../actions/uiActions');
 
 var _actionsUiActions2 = _interopRequireDefault(_actionsUiActions);
 
+var _storesUiStore = require('../stores/uiStore');
+
+var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
+
 var Tag = (function (_React$Component) {
   _inherits(Tag, _React$Component);
 
@@ -29330,7 +29334,7 @@ Tag.propTypes = {
 exports['default'] = Tag;
 module.exports = exports['default'];
 
-},{"../actions/uiActions":255,"classnames":14,"react":174}],268:[function(require,module,exports){
+},{"../actions/uiActions":255,"../stores/uiStore":281,"classnames":14,"react":174}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29355,6 +29359,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _altUtilsConnectToStores = require('alt/utils/connectToStores');
+
+var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores);
+
 var _actionsUserActions = require('../actions/userActions');
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
@@ -29363,8 +29371,26 @@ var _actionsUiActions = require('../actions/uiActions');
 
 var _actionsUiActions2 = _interopRequireDefault(_actionsUiActions);
 
+var _storesUiStore = require('../stores/uiStore');
+
+var _storesUiStore2 = _interopRequireDefault(_storesUiStore);
+
 var TagDetails = (function (_React$Component) {
   _inherits(TagDetails, _React$Component);
+
+  _createClass(TagDetails, null, [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_storesUiStore2['default']];
+    }
+  }, {
+    key: 'getPropsFromStores',
+    value: function getPropsFromStores() {
+      return {
+        tag: _storesUiStore2['default'].getState().tagDetails
+      };
+    }
+  }]);
 
   function TagDetails(props) {
     _classCallCheck(this, TagDetails);
@@ -29376,15 +29402,26 @@ var TagDetails = (function (_React$Component) {
 
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   _createClass(TagDetails, [{
+    key: 'onClick',
+    value: function onClick(e) {
+      if (e.target.className === 'modal') {
+        _actionsUiActions2['default'].hideTag();
+      }
+    }
+  }, {
     key: 'subscribe',
     value: function subscribe() {
       var _this = this;
 
       _actionsUserActions2['default'].subscribe(this.props.tag.id, function (err) {
         _this.setState({ error: err });
+        if (!err) {
+          _actionsUiActions2['default'].hideTag();
+        }
       });
     }
   }, {
@@ -29394,13 +29431,18 @@ var TagDetails = (function (_React$Component) {
 
       _actionsUserActions2['default'].unsubscribe(this.props.tag.id, function (err) {
         _this2.setState({ error: err });
+        if (!err) {
+          _actionsUiActions2['default'].hideTag();
+        }
       });
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this3 = this;
+
       window.addEventListener('keydown', function (e) {
-        if (e.keyCode === 27) {
+        if (e.keyCode === 27 && _this3.props.tag) {
           _actionsUiActions2['default'].hideTag();
         }
       });
@@ -29408,15 +29450,41 @@ var TagDetails = (function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var btn = undefined;
-      if (this.props.tag.subscribed) {
-        btn = _react2['default'].createElement(
+      var header = undefined,
+          body1 = undefined,
+          body2 = undefined,
+          footer = undefined;
+
+      if (this.props.tag) {
+        header = _react2['default'].createElement(
+          'h2',
+          null,
+          '#',
+          this.props.tag.name
+        );
+
+        body1 = _react2['default'].createElement(
+          'span',
+          { className: 'text-grey statistic' },
+          _react2['default'].createElement('i', { className: 'ion-person' }),
+          _react2['default'].createElement(
+            'b',
+            null,
+            this.props.tag.users.length
+          )
+        );
+
+        body2 = _react2['default'].createElement(
+          'p',
+          { className: 'space-2' },
+          this.props.tag.description
+        );
+
+        footer = this.props.tag.subscribed ? _react2['default'].createElement(
           'div',
           { className: 'btn', onClick: this.unsubscribe },
           'Unsubscribe'
-        );
-      } else {
-        btn = _react2['default'].createElement(
+        ) : _react2['default'].createElement(
           'div',
           { className: 'btn btn-primary', onClick: this.subscribe },
           'Subscribe'
@@ -29425,56 +29493,50 @@ var TagDetails = (function (_React$Component) {
 
       return _react2['default'].createElement(
         'div',
-        { className: 'tag-details' },
+        {
+          className: (0, _classnames2['default'])('modal', { hidden: !this.props.tag }),
+          onKeyDown: this.onKeyDown,
+          onClick: this.onClick
+        },
         _react2['default'].createElement(
           'div',
-          { className: 'btn-close text-center' },
+          { className: 'modal-dialog' },
           _react2['default'].createElement(
-            'a',
-            { onClick: _actionsUiActions2['default'].hideTag },
-            _react2['default'].createElement('i', { className: 'ion-close-round' })
-          ),
-          _react2['default'].createElement('br', null),
-          _react2['default'].createElement(
-            'small',
-            { className: 'text-grey' },
-            'esc'
-          )
-        ),
-        _react2['default'].createElement(
-          'div',
-          { className: 'content' },
-          _react2['default'].createElement(
-            'h1',
-            { className: 'text-red' },
-            '#',
-            this.props.tag.name
-          ),
-          _react2['default'].createElement(
-            'p',
-            null,
+            'div',
+            { className: 'modal-header' },
+            header,
             _react2['default'].createElement(
-              'span',
-              { className: 'text-grey statistic' },
-              _react2['default'].createElement('i', { className: 'ion-person' }),
+              'div',
+              { className: 'btn-close text-center' },
               _react2['default'].createElement(
-                'b',
-                null,
-                this.props.tag.users.length
+                'a',
+                { onClick: _actionsUiActions2['default'].hideTag },
+                _react2['default'].createElement('i', { className: 'ion-close-round' })
+              ),
+              _react2['default'].createElement('br', null),
+              _react2['default'].createElement(
+                'small',
+                { className: 'text-grey' },
+                'esc'
               )
             )
           ),
           _react2['default'].createElement(
-            'p',
-            { className: 'space-2' },
-            this.props.tag.description
+            'div',
+            { className: 'modal-body' },
+            body1,
+            body2
           ),
           _react2['default'].createElement(
-            'p',
-            { className: 'text-red' },
-            this.state.error
-          ),
-          btn
+            'div',
+            { className: 'modal-footer' },
+            _react2['default'].createElement(
+              'p',
+              { className: 'text-red' },
+              this.state.error
+            ),
+            footer
+          )
         )
       );
     }
@@ -29483,10 +29545,10 @@ var TagDetails = (function (_React$Component) {
   return TagDetails;
 })(_react2['default'].Component);
 
-exports['default'] = TagDetails;
+exports['default'] = (0, _altUtilsConnectToStores2['default'])(TagDetails);
 module.exports = exports['default'];
 
-},{"../actions/uiActions":255,"../actions/userActions":256,"classnames":14,"react":174}],269:[function(require,module,exports){
+},{"../actions/uiActions":255,"../actions/userActions":256,"../stores/uiStore":281,"alt/utils/connectToStores":12,"classnames":14,"react":174}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29563,9 +29625,6 @@ var Tags = (function (_React$Component) {
   _createClass(Tags, [{
     key: 'render',
     value: function render() {
-      var details = this.props.ui.tagDetails;
-      var tagDetails = details ? _react2['default'].createElement(_TagDetails2['default'], { tag: details }) : null;
-
       var state = this.props.tags;
       var tags = state.tagsToShow.map(function (id) {
         return state.tags[id];
@@ -29583,7 +29642,7 @@ var Tags = (function (_React$Component) {
         _react2['default'].createElement(
           'div',
           { className: 'span9', id: 'tags-wrapper' },
-          tagDetails || _react2['default'].createElement(
+          _react2['default'].createElement(
             'ul',
             null,
             tags.map(function (t) {
@@ -29597,7 +29656,8 @@ var Tags = (function (_React$Component) {
           _react2['default'].createElement('i', { className: 'ion-plus-round' })
         ),
         _react2['default'].createElement(_CreateTag2['default'], null),
-        _react2['default'].createElement(_Welcome2['default'], null)
+        _react2['default'].createElement(_Welcome2['default'], null),
+        _react2['default'].createElement(_TagDetails2['default'], null)
       );
     }
   }], [{

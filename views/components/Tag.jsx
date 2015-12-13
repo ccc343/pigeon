@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import uiActions from '../actions/uiActions';
+import uiStore from '../stores/uiStore';
 
 class Tag extends React.Component {
 
