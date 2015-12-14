@@ -5,6 +5,7 @@ import connectToStores from 'alt/utils/connectToStores';
 import uiActions from '../actions/uiActions';
 import uiStore from '../stores/uiStore';
 import tagsActions from '../actions/tagsActions';
+import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';
 
 class CreateTag extends React.Component {
@@ -47,7 +48,7 @@ class CreateTag extends React.Component {
     const descriptionInput = ReactDOM.findDOMNode(this.refs.descriptionInput);
 
     if (this.validate(nameInput)) {
-      tagsActions.newTag(nameInput.value, descriptionInput.value, (err, id) => {
+      userActions.newTag(nameInput.value, descriptionInput.value, (err, id) => {
         if (err) {
           nameInput.focus();
           return this.setState({ error: err });
@@ -59,9 +60,6 @@ class CreateTag extends React.Component {
         this.setState({ error: '' });
         nameInput.value = '';
         descriptionInput.value = '';
-
-        // Show the new tag in the sidebar.
-        uiActions.showTag(this.props.user.tags[id]);
       });
     }
   }

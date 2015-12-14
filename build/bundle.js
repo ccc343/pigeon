@@ -28362,6 +28362,10 @@ var _actionsTagsActions = require('../actions/tagsActions');
 
 var _actionsTagsActions2 = _interopRequireDefault(_actionsTagsActions);
 
+var _actionsUserActions = require('../actions/userActions');
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
 var _storesUserStore = require('../stores/userStore');
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
@@ -28419,7 +28423,7 @@ var CreateTag = (function (_React$Component) {
       var descriptionInput = _reactDom2['default'].findDOMNode(this.refs.descriptionInput);
 
       if (this.validate(nameInput)) {
-        _actionsTagsActions2['default'].newTag(nameInput.value, descriptionInput.value, function (err, id) {
+        _actionsUserActions2['default'].newTag(nameInput.value, descriptionInput.value, function (err, id) {
           if (err) {
             nameInput.focus();
             return _this.setState({ error: err });
@@ -28431,9 +28435,6 @@ var CreateTag = (function (_React$Component) {
           _this.setState({ error: '' });
           nameInput.value = '';
           descriptionInput.value = '';
-
-          // Show the new tag in the sidebar.
-          _actionsUiActions2['default'].showTag(_this.props.user.tags[id]);
         });
       }
     }
@@ -28552,7 +28553,7 @@ var CreateTag = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(CreateTag);
 module.exports = exports['default'];
 
-},{"../actions/tagsActions":254,"../actions/uiActions":255,"../stores/uiStore":281,"../stores/userStore":282,"alt/utils/connectToStores":12,"classnames":14,"react":174,"react-dom":15}],261:[function(require,module,exports){
+},{"../actions/tagsActions":254,"../actions/uiActions":255,"../actions/userActions":256,"../stores/uiStore":281,"../stores/userStore":282,"alt/utils/connectToStores":12,"classnames":14,"react":174,"react-dom":15}],261:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -30349,6 +30350,8 @@ var TagsStore = (function () {
         description: tag.description,
         users: [] // Assume that new tag has no users.
       };
+
+      this.showAllTags();
     }
   }, {
     key: 'updateTag',

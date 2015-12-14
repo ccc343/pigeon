@@ -52,6 +52,8 @@ class TagsStore {
       description: tag.description,
       users: [] // Assume that new tag has no users.
     };
+
+    this.showAllTags();
   }
 
   updateTag(tag) {
