@@ -28467,7 +28467,7 @@ var Modal = (function (_React$Component) {
               type: 'text',
               name: 'tag-name',
               ref: 'nameInput',
-              placeholder: 'whitman',
+              placeholder: 'entrepreneurship',
               autoComplete: 'off'
             }),
             _react2['default'].createElement(
@@ -28480,7 +28480,7 @@ var Modal = (function (_React$Component) {
               name: 'tag-description',
               ref: 'descriptionInput',
               rows: '1',
-              placeholder: 'princetonians who have no soul.'
+              placeholder: 'startups, venture capital, business'
             })
           ),
           _react2['default'].createElement(
