@@ -54,7 +54,6 @@ class AutocompleteTextField extends React.Component {
 
   render() {
     const inputClass = cx({ invalid:this.props.invalid }, this.props.className);
-    const closeIconClass = cx('ion-close-circled', { hidden: !this.state.hasValue });
 
     return (
       <div className="autocomplete-container">
@@ -68,8 +67,8 @@ class AutocompleteTextField extends React.Component {
           type="text"
         />
 
-        <a>
-          <i className={closeIconClass} onClick={this.clear} />
+        <a className={cx({ hidden: !this.state.hasValue })}>
+          <i className="ion-close-circled" onClick={this.clear} />
         </a>
       </div>
     );

@@ -4,10 +4,11 @@ import cx from 'classnames';
 import connectToStores from 'alt/utils/connectToStores';
 import uiActions from '../actions/uiActions';
 import uiStore from '../stores/uiStore';
+import tagsActions from '../actions/tagsActions';
 import userActions from '../actions/userActions';
 import userStore from '../stores/userStore';
 
-class Modal extends React.Component {
+class CreateTag extends React.Component {
 
   static getStores() {
     return [userStore, uiStore];
@@ -59,9 +60,6 @@ class Modal extends React.Component {
         this.setState({ error: '' });
         nameInput.value = '';
         descriptionInput.value = '';
-
-        // Show the new tag in the sidebar.
-        uiActions.showTag(this.props.user.tags[id]);
       });
     }
   }
@@ -139,4 +137,4 @@ class Modal extends React.Component {
   }
 }
 
-export default connectToStores(Modal);
+export default connectToStores(CreateTag);
