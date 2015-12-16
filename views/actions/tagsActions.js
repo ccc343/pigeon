@@ -11,7 +11,7 @@ class TagsActions {
       'addTag',
       'updateTag',
       'setSort',
-      'setFilter',
+      'setFilter'
     );
   }
 }
