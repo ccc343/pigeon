@@ -2,18 +2,18 @@ import React from 'react';
 import AutocompleteTextField from './AutocompleteTextField';
 import cx from 'classnames';
 import connectToStores from 'alt/utils/connectToStores';
-import tagsStore from '../stores/tagsStore';
-import tagsActions from '../actions/tagsActions';
+import userStore from '../stores/userStore';
+import uiActions from '../actions/uiActions';
 
 class Search extends React.Component {
 
   static getStores() {
-    return [tagsStore];
+    return [userStore];
   }
 
   static getPropsFromStores() {
     return {
-      tags: tagsStore.getState().tags
+      tags: userStore.getState().tags
     };
   }
 
@@ -24,7 +24,7 @@ class Search extends React.Component {
   }
 
   onChange(results) {
-    const getTagId = name => {
+    const getTagId = (name) => {
       let tagId = -1;
       Object.keys(this.props.tags).forEach(id => {
         if (this.props.tags[id].name === name) {
@@ -35,22 +35,22 @@ class Search extends React.Component {
       return tagId;
     }
 
-    tagsActions.setTagsToShow(results.map(x => getTagId(x)));
+    const tags = results.map(x => this.props.tags[getTagId(x)]);
+
+    uiActions.setSearchResults(tags);
   }
 
   onClear() {
-    tagsActions.showAllTags();
+    uiActions.setSearchResults(null);
   }
 
   render() {
-    const allTags = this.props.tags;
-
     return (
       <div className="text-light-grey">
         <i className="ion-search text-grey" />
         <AutocompleteTextField
           className="bg-light-grey"
-          dictionary={ Object.keys(allTags).map(id => allTags[id].name) }
+          dictionary={ Object.keys(this.props.tags).map(id => this.props.tags[id].name) }
           placeholder="search all tags..."
           onClear={this.onClear}
           onChange = {this.onChange}
