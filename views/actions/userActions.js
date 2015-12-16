@@ -1,13 +1,12 @@
 import xr from 'xr';
 import alt from '../alt';
+import tagsActions from './tagsActions';
 
 const actions = alt.createActions(class UserActions {
 
   constructor() {
     this.generateActions(
-      'setCurrentUser',
-      'addTag',
-      'updateTag'
+      'setCurrentUser'
     );
   }
 
@@ -20,7 +19,7 @@ const actions = alt.createActions(class UserActions {
           return callback(res.error);
         }
 
-        actions.updateTag({
+        tagsActions.updateTag({
           id: id,
           subscribed: true,
           users: res.users
@@ -38,7 +37,7 @@ const actions = alt.createActions(class UserActions {
           return callback(res.error);
         }
 
-        actions.updateTag({
+        tagsActions.updateTag({
           id: id,
           subscribed: false,
           users: res.users
@@ -57,7 +56,7 @@ const actions = alt.createActions(class UserActions {
           return callback(res.error);
         }
 
-        actions.addTag(res.tag);
+        tagsActions.addTag(res.tag);
         actions.subscribe(res.tag.id, callback);
       });
   }

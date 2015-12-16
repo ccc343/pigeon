@@ -8,7 +8,6 @@ class UIStore {
 
     this.modalVisible = false;
     this.tagDetails = null;
-    this.searchResults = null;
     this.loginError = '';
     this.newUser = false;
   }
@@ -27,10 +26,6 @@ class UIStore {
 
   hideTag() {
     this.tagDetails = null;
-  }
-
-  setSearchResults(results) {
-    this.searchResults = results;
   }
 
   setLoginError(err) {
