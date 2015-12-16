@@ -6,7 +6,6 @@ import {go} from './router/router';
 import {routes} from './routes';
 import uiActions from './actions/uiActions';
 import userActions from './actions/userActions';
-import tagsActions from './actions/tagsActions';
 
 function getQueryStringValue (key) {
   return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -28,7 +27,6 @@ xr.post('/api/get_user_data')
     if (res.user) {
       go('/tags');
       userActions.setCurrentUser(res.user);
-      tagsActions.initTags(res.user);
     } else {
       go('/login');
     }

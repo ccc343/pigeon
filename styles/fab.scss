@@ -12,7 +12,6 @@ $icon-font-size: 1rem;
   height: $button-floating-size;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid $white;
 
   i {
     color: $white;
@@ -21,5 +20,9 @@ $icon-font-size: 1rem;
     text-align: center;
     font-size: $icon-font-size;
     line-height: $button-floating-size;
+  }
+
+  &:before {
+    border-radius: 0;
   }
 }
