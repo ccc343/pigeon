@@ -19,6 +19,25 @@ exports.config = function(app) {
     }
   });
 
+  // Check whether this is an existing organization
+  app.post('/domain-exists', function(request, response) {
+    var params = [request.body.orgDomain];
+    var sqlString = 'SELECT COUNT(*) FROM organizations WHERE domain=($1)';
+    db.query(sqlString, params, function(err, res) {
+      if (err) {
+        console.log("Error");
+        response.sendStatus(500);
+      } else {
+        console.log("Success");
+        var rows=res.rows;
+        console.log(rows);
+        response.writeHead(200, { 'Content-Type': 'application/json'});
+        response.end(JSON.stringify(rows));
+        response.end();
+      }
+    });
+  })
+
   // Get all users of a tag by tag ID
   app.post('/get-all-users-tag', function (request, response) {
     var params = [request.body.tagId];
