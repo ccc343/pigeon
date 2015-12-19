@@ -1,7 +1,7 @@
 import {maxWithIndex, minWithIndex} from './arrayUtils';
 
 const MAX_RESULTS = Infinity;
-const MAX_DISTANCE = 5;
+const MAX_DISTANCE = 0.7;
 
 function distanceTo(str1, str2) {
   let results = [];
@@ -27,7 +27,9 @@ function distanceTo(str1, str2) {
     }
   }
 
-  return results[str1.length][str2.length];
+  const total = results[str1.length][str2.length];
+  const normalized = total / (Math.max(str1.length, str2.length));
+  return normalized;
 }
 
 export function search(word, dictionary) {

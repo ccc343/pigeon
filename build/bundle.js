@@ -30558,7 +30558,7 @@ exports.search = search;
 var _arrayUtils = require('./arrayUtils');
 
 var MAX_RESULTS = Infinity;
-var MAX_DISTANCE = 5;
+var MAX_DISTANCE = 0.7;
 
 function distanceTo(str1, str2) {
   var results = [];
@@ -30580,7 +30580,9 @@ function distanceTo(str1, str2) {
     }
   }
 
-  return results[str1.length][str2.length];
+  var total = results[str1.length][str2.length];
+  var normalized = total / Math.max(str1.length, str2.length);
+  return normalized;
 }
 
 function search(word, dictionary) {
