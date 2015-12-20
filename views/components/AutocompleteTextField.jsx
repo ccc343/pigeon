@@ -1,18 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
-import {search} from '../utils/levenshtein';
+import difference from 'lodash.difference';
+
+import LevenshteinTrie from '../utils/levenshteinTrie';
+import {maxWithIndex} from '../utils/arrayUtils';
 
 class AutocompleteTextField extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { hasValue: false };
+    this.trie = new LevenshteinTrie(this.props.dictionary);
 
     // Bind event handlers.
     this.onChange = this.onChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.clear = this.clear.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const diff = difference(nextProps.dictionary, this.props.dictionary);
+    if (diff.length > 0) {
+      diff.forEach(word => {
+        this.trie.insert(word);
+      });
+    }
+
+    return true;
   }
 
   // Recompute autocomplete matches.
@@ -24,7 +39,7 @@ class AutocompleteTextField extends React.Component {
       return this.props.onClear();
     }
 
-    const results = search(value, this.props.dictionary);
+    const results = this.trie.search(value);
 
     // Send the results of the change to the parent component.
     this.props.onChange(results.words);
