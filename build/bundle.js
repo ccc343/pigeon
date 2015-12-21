@@ -29396,23 +29396,18 @@ var _actionsUserActions = require('../actions/userActions');
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
-var _storesUserStore = require('../stores/userStore');
-
-var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
-
 var CreateTag = (function (_React$Component) {
   _inherits(CreateTag, _React$Component);
 
   _createClass(CreateTag, null, [{
     key: 'getStores',
     value: function getStores() {
-      return [_storesUserStore2['default'], _storesUiStore2['default']];
+      return [_storesUiStore2['default']];
     }
   }, {
     key: 'getPropsFromStores',
     value: function getPropsFromStores() {
       return {
-        user: _storesUserStore2['default'].getState(),
         visible: _storesUiStore2['default'].getState().modalVisible
       };
     }
@@ -29583,7 +29578,7 @@ var CreateTag = (function (_React$Component) {
 exports['default'] = (0, _altUtilsConnectToStores2['default'])(CreateTag);
 module.exports = exports['default'];
 
-},{"../actions/tagsActions":264,"../actions/uiActions":265,"../actions/userActions":266,"../stores/uiStore":283,"../stores/userStore":284,"alt/utils/connectToStores":12,"classnames":14,"react":184,"react-dom":25}],271:[function(require,module,exports){
+},{"../actions/tagsActions":264,"../actions/uiActions":265,"../actions/userActions":266,"../stores/uiStore":283,"alt/utils/connectToStores":12,"classnames":14,"react":184,"react-dom":25}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
