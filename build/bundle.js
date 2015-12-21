@@ -30237,7 +30237,7 @@ var SubHeader = (function (_React$Component) {
             ),
             _react2['default'].createElement(
               'div',
-              { className: 'span4 tab' },
+              { className: 'span4 tab phone-hidden' },
               _react2['default'].createElement(_Dropdown2['default'], {
                 label: 'Sort by',
                 options: this.sortOptions,
@@ -30246,7 +30246,7 @@ var SubHeader = (function (_React$Component) {
             ),
             _react2['default'].createElement(
               'div',
-              { className: 'span4 tab', id: 'filter' },
+              { className: 'span4 tab phone-hidden', id: 'filter' },
               _react2['default'].createElement(_Dropdown2['default'], {
                 label: 'Filter by',
                 options: this.filterOptions,

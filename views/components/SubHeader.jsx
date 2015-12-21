@@ -44,14 +44,14 @@ class SubHeader extends React.Component {
             <div className="span4 tab text-center">
               <Search />
             </div>
-            <div className="span4 tab">
+            <div className="span4 tab phone-hidden">
               <Dropdown
                 label="Sort by"
                 options={this.sortOptions}
                 onSelect={this.handleSort}
               />
             </div>
-            <div className="span4 tab" id="filter">
+            <div className="span4 tab phone-hidden" id="filter">
               <Dropdown
                 label="Filter by"
                 options={this.filterOptions}
