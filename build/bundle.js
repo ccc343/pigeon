@@ -29554,7 +29554,7 @@ var CreateTag = (function (_React$Component) {
               className: 'space-2 material-caret',
               name: 'tag-description',
               ref: 'descriptionInput',
-              rows: '1',
+              rows: '2',
               placeholder: 'startups, venture capital, business'
             })
           ),
