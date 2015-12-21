@@ -104,14 +104,10 @@ const actions = alt.createActions(class UserActions {
       });
   }
 
-  logout(callback) {
+  logout() {
     xr.post('/api/log_out')
       .then(function(res) {
-        if (res.error) {
-          return callback(res.error);
-        }
-
-        callback();
+        actions.setCurrentUser(null);
       });
   }
 

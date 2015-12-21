@@ -4,7 +4,6 @@ import cx from 'classnames';
 import difference from 'lodash.difference';
 
 import LevenshteinTrie from '../utils/levenshteinTrie';
-import {maxWithIndex} from '../utils/arrayUtils';
 
 class AutocompleteTextField extends React.Component {
 

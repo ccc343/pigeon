@@ -13,6 +13,10 @@ class Organization extends React.Component {
   }
 
   render() {
+    if (!this.props.user) {
+      return null;
+    }
+
     const org = this.props.user.organization;
 
     return (

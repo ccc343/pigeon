@@ -1,22 +1,25 @@
 import React from 'react';
 import {render} from 'react-dom';
 import xr from 'xr';
-import Router from './router/components/Router';
-import {go} from './router/router';
-import {routes} from './routes';
+
+import App from './components/App';
+
 import uiActions from './actions/uiActions';
 import userActions from './actions/userActions';
 import tagsActions from './actions/tagsActions';
 
 function getQueryStringValue (key) {
-  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+  return unescape(window.location.search.replace(
+    new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") +
+      "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 }
 
 xr.post('/api/get_user_data')
   .then(function(res) {
     switch (getQueryStringValue("code")) {
       case '0':
-        uiActions.setLoginError('Oops! We’re currently only accepting @princeton.edu email addresses. Sorry!');
+        uiActions.setLoginError('Oops! We’re currently only accepting \
+          @princeton.edu email addresses. Sorry!');
         break;
       case '1':
         uiActions.openNewUser();
@@ -26,13 +29,9 @@ xr.post('/api/get_user_data')
     };
 
     if (res.user) {
-      go('/tags');
       userActions.setCurrentUser(res.user);
       tagsActions.initTags(res.user);
-    } else {
-      go('/login');
     }
 
-    const router = React.createElement(Router, { routes: routes });
-    render(router, document.getElementById('react-root'));
+    render(React.createElement(App), document.getElementById('react-root'));
   });

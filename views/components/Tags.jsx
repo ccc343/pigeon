@@ -1,4 +1,5 @@
 import React from 'react';
+import SubHeader from './SubHeader';
 import CreateTag from './CreateTag';
 import Welcome from './Welcome';
 import Tag from './Tag';
@@ -32,6 +33,8 @@ class Tags extends React.Component {
 
     return (
       <div className="row">
+        <SubHeader />
+
         <div className="span3">
           <Organization />
         </div>
