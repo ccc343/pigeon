@@ -145,6 +145,7 @@ exports.config = function(app) {
   // Suggest the tags to the user
   app.post('/suggest-tags', function (request, response) {
     var emailText = request.body.email;
+    var domain = request.body.domain;
     var tags = [];
     // Get list of concepts from Alchemy API
     alchemyapi.concepts("text", emailText, {maxRetrieve: 5}, function(res) {
@@ -161,9 +162,10 @@ exports.config = function(app) {
         }
         // Construct SQL query to find all relevant tags from these concepts using
         // fuzzy search based on lexeme matching
-        var params = [];
-        var sqlString = "SELECT name FROM tags WHERE to_tsvector(description) @@ " +
-                        "to_tsquery('";
+        var params = [domain];
+        var sqlString = "SELECT name FROM tags WHERE organization_id= " +
+                        "(SELECT id FROM organizations WHERE domain=($1)) AND (" +
+                        "to_tsvector(description) @@ to_tsquery('";
         // Search for Concepts in the description of tags
         for (var i = 0; i < concepts.length; i++) {
           // split multi-word concepts to look at 1 word at a time
@@ -178,6 +180,7 @@ exports.config = function(app) {
         for (var k = 0; k < keywords.length; k++) {
           sqlString += " OR similarity(name, '" + keywords[k]['text'] + "') > 0.4";
         }
+        sqlString += ")"
 
         // Query for all tags that are related to these concepts
         db.query(sqlString, params, function(err, res3) {
