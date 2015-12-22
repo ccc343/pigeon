@@ -152,9 +152,8 @@ exports.config = function(app) {
       alchemyapi.keywords("text", emailText, {maxRetrieve: 5}, function(res2) {
         var concepts = res['concepts'];
         var keywords = res2['keywords'];
-        // If no concepts and no keywords
-        if ((concepts.length == 0 || concepts == null) 
-          && (keywords.length == 0 || keywords == null)) {
+        // If no concepts or keywords
+        if (concepts == null || keywords == null) {
           response.writeHead(200, { 'Content-Type': 'application/json'});
           response.end(JSON.stringify(tags));
           response.end();
