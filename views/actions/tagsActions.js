@@ -1,5 +1,4 @@
 import alt from '../alt';
-import {sorts, filters} from '../utils/sort';
 
 class TagsActions {
 
@@ -11,7 +10,9 @@ class TagsActions {
       'addTag',
       'updateTag',
       'setSort',
-      'setFilter'
+      'setFilter',
+      'enableSortByRelevance',
+      'disableSortByRelevance'
     );
   }
 }

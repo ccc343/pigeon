@@ -55,7 +55,7 @@ class Welcome extends React.Component {
                 <i className="ion-close-round" />
               </a>
               <br />
-              <small className="text-grey">esc</small>
+              <small className="desktop-visible text-grey">esc</small>
             </div>
           </div>
 

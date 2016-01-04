@@ -1,6 +1,5 @@
 import alt from '../alt';
 import actions from '../actions/tagsActions';
-import {sorts, filters} from '../utils/sort';
 
 class TagsStore {
 
@@ -14,8 +13,19 @@ class TagsStore {
     this.tagsToShow = [];
 
     // Functions to apply to the tags to display.
-    this.sort = sorts['Newest'];
-    this.filter = filters['None'];
+    this.sorts = {
+      'Newest': tags => tags.sort((a, b) => b.id - a.id),
+      'Popularity': tags => tags.sort((a, b) => b.users.length - a.users.length),
+      'A-Z': tags => tags.sort((a, b) => a.name < b.name ? -1 : 1)
+    };
+    this.filters = {
+      'None': tags => tags,
+      'Subscribed': tags => tags.filter(x => x.subscribed),
+      'Not Subscribed': tags => tags.filter(x => !x.subscribed)
+    }
+
+    this.sort = this.sorts['Newest'];
+    this.filter = this.filters['None'];
   }
 
   showAllTags() {
@@ -60,12 +70,20 @@ class TagsStore {
     Object.assign(this.tags[tag.id], tag);
   }
 
+  enableSortByRelevance() {
+    this.sorts['Relevance'] = tags => tags;
+  }
+
+  disableSortByRelevance() {
+    delete this.sorts['Relevance'];
+  }
+
   setSort(type) {
-    this.sort = sorts[type];
+    this.sort = this.sorts[type];
   }
 
   setFilter(type) {
-    this.filter = filters[type];
+    this.filter = this.filters[type];
   }
 }
 

@@ -41,7 +41,7 @@ class AutocompleteTextField extends React.Component {
     const results = this.trie.search(value);
 
     // Send the results of the change to the parent component.
-    this.props.onChange(results.words);
+    this.props.onChange(results);
   }
 
   // Key commands for more natural flow through the menu.
@@ -67,13 +67,11 @@ class AutocompleteTextField extends React.Component {
   }
 
   render() {
-    const inputClass = cx({ invalid:this.props.invalid }, this.props.className);
-
     return (
       <div className="autocomplete-container">
         <input
           autoComplete="off"
-          className={inputClass}
+          className={this.props.className}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
           placeholder={this.props.placeholder}

@@ -5,19 +5,25 @@ import Dropdown from './Dropdown';
 
 import cx from 'classnames';
 
+import connectToStores from 'alt/utils/connectToStores';
 import tagsActions from '../actions/tagsActions';
-import {sorts, filters} from '../utils/sort';
+import tagsStore from '../stores/tagsStore';
 
 class SubHeader extends React.Component {
+
+  static getStores() {
+    return [tagsStore];
+  }
+
+  static getPropsFromStores() {
+    return tagsStore.getState();
+  }
 
   constructor(props) {
     super(props);
     this.state = {
       sticky: false
     };
-
-    this.sortOptions = Object.keys(sorts);
-    this.filterOptions = Object.keys(filters);
 
     this.handleStickyStateChange = this.handleStickyStateChange.bind(this);
     this.handleSort = this.handleSort.bind(this);
@@ -29,11 +35,11 @@ class SubHeader extends React.Component {
   }
 
   handleSort(i) {
-    tagsActions.setSort(this.sortOptions[i]);
+    tagsActions.setSort(i);
   }
 
   handleFilter(i) {
-    tagsActions.setFilter(this.filterOptions[i]);
+    tagsActions.setFilter(i);
   }
 
   render() {
@@ -47,14 +53,15 @@ class SubHeader extends React.Component {
             <div className="span4 tab phone-hidden">
               <Dropdown
                 label="Sort by"
-                options={this.sortOptions}
+                options={Object.keys(this.props.sorts)}
                 onSelect={this.handleSort}
+                selected={this.props.sorts['Relevance'] ? 3 : null}
               />
             </div>
             <div className="span4 tab phone-hidden" id="filter">
               <Dropdown
                 label="Filter by"
-                options={this.filterOptions}
+                options={Object.keys(this.props.filters)}
                 onSelect={this.handleFilter}
               />
             </div>
@@ -68,4 +75,4 @@ class SubHeader extends React.Component {
   }
 }
 
-export default SubHeader;
+export default connectToStores(SubHeader);

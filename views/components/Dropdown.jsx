@@ -20,11 +20,20 @@ class Dropdown extends React.Component {
       showOptions: false
     });
 
-    this.props.onSelect(index);
+    this.props.onSelect(this.props.options[index]);
   }
 
   toggle() {
     this.setState({ showOptions: !this.state.showOptions });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.selected === 3 && this.state.selected !== 3) {
+      this.setState({ selected: 3 });
+    } else if (!nextProps.selected && this.state.selected === 3) {
+      this.setState({ selected: 0 });
+    }
+    return true;
   }
 
   render() {

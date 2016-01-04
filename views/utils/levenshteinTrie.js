@@ -1,5 +1,4 @@
 import TrieNode from './trieNode';
-import {maxWithIndex, minWithIndex} from './arrayUtils';
 
 class LevenshteinTrie {
 
@@ -17,30 +16,45 @@ class LevenshteinTrie {
     this.root.insert(word);
   }
 
+  traverse(f, root) {
+    if (!root) {
+      return;
+    }
+
+    f(root);
+    for (const letter in root.children) {
+      this.traverse(f, root.children[letter]);
+    }
+  }
+
   // Returns an array of closest matches in the dictionary.
-  search(word) {
+  search(query) {
     // Instantiate a 1 x n matrix.
     let row = [];
-    for (let i = 0; i <= word.length; i++) {
+    for (let i = 0; i <= query.length; i++) {
       row[i] = i;
     }
 
-    let results = [];
+    let results = {};
     for (const letter in this.root.children) {
-      this.searchRecursive(this.root.children[letter], letter, word, row, results, 1);
+      this.searchRecursive(this.root.children[letter], letter, query, row, results, 1);
     }
 
-    if (this.opts.sort) {
-      results = results.sort((a, b) => a.distance - b.distance);
+    let finalResults = [];
+    for (const word in results) {
+      const val = results[word],
+            prefix = val.prefix ? 1 : 0,
+            lev = (val.distance !== 0 && !val.distance) ? 0 : 1 - val.distance;
+
+      finalResults.push({
+        word: word,
+        score: (prefix * (1 / query.length)) + (lev * (1 - 1 / query.length))
+      });
     }
 
-    return {
-      words: results.map(a => a.word),
-      min: minWithIndex(results, a => a.distance)
-    };
+    return finalResults.sort((a, b) => b.score - a.score).map(a => a.word);
   }
 
-  // Traverses the trie recursively.
   searchRecursive(node, letter, query, previousRow, results, depth) {
     if (!node) return;
 
@@ -63,8 +77,19 @@ class LevenshteinTrie {
     const norm = Math.max(depth, query.length);
     const distance = currentRow[currentRow.length - 1] / norm;
 
+    // Note any prefix matches.
+    if (distance === 0) {
+      this.traverse(n => {
+        if (n.word) {
+          results[n.word] = results[n.word] || {};
+          results[n.word].prefix = true;
+        }
+      }, node);
+    }
+
     if (node.word && distance < this.opts.maxDistance) {
-      results.push({ word: node.word, distance: distance });
+      results[node.word] = results[node.word] || {};
+      results[node.word].distance = distance;
     }
 
     // If any entries in the row are less than maxDistance, continue searching.
@@ -78,11 +103,7 @@ class LevenshteinTrie {
 }
 
 LevenshteinTrie.defaultOptions = {
-  maxDistance: 0.7,
-
-  // True if results should be returned sorted from closest
-  // to farthest match.
-  sortResults: false
+  maxDistance: 0.7
 }
 
 export default LevenshteinTrie;

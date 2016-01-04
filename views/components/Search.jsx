@@ -1,6 +1,8 @@
 import React from 'react';
 import AutocompleteTextField from './AutocompleteTextField';
+
 import cx from 'classnames';
+
 import connectToStores from 'alt/utils/connectToStores';
 import tagsStore from '../stores/tagsStore';
 import tagsActions from '../actions/tagsActions';
@@ -36,10 +38,14 @@ class Search extends React.Component {
     }
 
     tagsActions.setTagsToShow(results.map(x => getTagId(x)));
+    tagsActions.enableSortByRelevance();
+    tagsActions.setSort('Relevance');
   }
 
   onClear() {
     tagsActions.showAllTags();
+    tagsActions.setSort('Newest');
+    tagsActions.disableSortByRelevance();
   }
 
   render() {
